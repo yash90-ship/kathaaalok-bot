@@ -9,3 +9,5 @@ reels/*/reel.mp4
 reels/*/cover.jpg
 drawn/timeline.js
 drawn/scenes.js
+reels/*/timeline.js
+reels/*/timeline.json
