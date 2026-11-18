@@ -43,6 +43,12 @@ def recent_titles() -> list[str]:
 
 
 # ---------------------------------------------------------------- steps
+def _items(data, key):
+    """Models sometimes return a bare list instead of {key: [...]}."""
+    if isinstance(data, list):
+        return data
+    return data.get(key) or next((v for v in data.values() if isinstance(v, list)), [])
+
 def ideas(signals: dict) -> list[dict]:
     prompt = f"""You are the head of content for "{PAGE['handle']}", a {PAGE['language']} Instagram Reels page about
 {PAGE['niche']}. Today is {now().strftime('%A %d %B %Y')} (IST).
@@ -69,7 +75,7 @@ DO NOT repeat these recently posted stories: {json.dumps(recent_titles(), ensure
 Return JSON: {{"ideas": [{{"title": str, "hook_hi": str (Hindi hook question, <= 12 words),
 "story_summary": str, "scripture_source": str (exact text, e.g. "वाल्मीकि रामायण, उत्तरकाण्ड"),
 "trend_reason": str, "festival_date": str or null}}]}}"""
-    return llm.ask_json(prompt, temperature=0.9).get("ideas", [])
+    return _items(llm.ask_json(prompt, temperature=0.9), "ideas")
 
 
 def critique(ideas_list: list[dict]) -> list[dict]:
@@ -86,7 +92,7 @@ IDEAS:
 
 Return JSON: {{"scores": [{{"index": int, "hook": int, "curiosity": int, "timing": int, "shareability": int,
 "accuracy": int, "originality": int, "overall": float, "reason": str}}]}}"""
-    return llm.ask_json(prompt, temperature=0.2).get("scores", [])
+    return _items(llm.ask_json(prompt, temperature=0.2), "scores")
 
 
 def write_script(idea: dict) -> dict:
@@ -120,17 +126,27 @@ Return JSON: {{"title": str, "hook": str, "source_title": str, "source_sub": str
 "scenes": [{{"type": "hook"|"source"|"story"|"cta", "narration": str, "highlight": [str],
 "label": str or null, "image_prompt": str}}],
 "cta_text": str (e.g. "जय हनुमान"), "caption": str, "hashtags": [str]}}"""
-    return llm.ask_json(prompt, temperature=0.7)
+    out = llm.ask_json(prompt, temperature=0.7)
+    return out[0] if isinstance(out, list) else out
 
 
 def fact_check(script: dict) -> dict:
     narration = "\n".join(s["narration"] for s in script["scenes"])
-    report = llm.search(f"""Fact-check this Hindi mythology reel narration against the cited scripture
+    try:
+        report = llm.search(f"""Fact-check this Hindi mythology reel narration against the cited scripture
 ({script.get('source_title')} {script.get('source_sub')}). Search reliable sources.
 List every statement that is wrong, invented, or attributed to the wrong scripture, and give the correct
 version. If everything is accurate, reply exactly: ALL CORRECT.
 
 {narration}""")
+    except Exception as e:
+        log("fact-check search unavailable, doing a knowledge-only check:", str(e)[:120])
+        report = llm.ask_json(f"""You are a scholar of Hindu scriptures. Check this Hindi reel narration against
+{script.get('source_title')} {script.get('source_sub')}. Return JSON {{"report": "ALL CORRECT" or a list of
+problems with corrections}}.
+
+{narration}""", temperature=0.1).get("report", "ALL CORRECT")
+        report = report if isinstance(report, str) else json.dumps(report, ensure_ascii=False)
     if "ALL CORRECT" in report.upper():
         log("fact-check: all correct")
         return script
