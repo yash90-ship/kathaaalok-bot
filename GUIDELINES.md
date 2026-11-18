@@ -28,3 +28,20 @@
 ## Format
 - 9:16, 1080x1920. About 60 s; bigger stories up to 90 s, never longer.
 - Subtitles inside the Instagram safe area (not in the top ~250 px or bottom ~400 px).
+
+## Growth: reach and followers (goal: reach as many people as possible)
+- Topics: only what people are searching for right now (festivals in the next 1-5 days, trending
+  mythology questions, films/series in the news). Before writing, collect real search phrases
+  (Google/YouTube autocomplete + Google Trends) in Hindi, Hinglish and English.
+- Hook (first 1-2 s): a curiosity question or a surprising fact people relate to
+  ("साँझ को तुलसी क्यों नहीं तोड़ते?"). The hook is also the first line of the caption and the cover text.
+- Keywords everywhere Instagram reads them: spoken narration, on-screen subtitles, caption first lines.
+  Use the exact phrases people search ("तुलसी विवाह कथा", "tulsi vivah story", "shiv puran katha").
+- Caption: hook line -> 2-3 lines with search keywords (Hindi + Hinglish) -> a relatable question that
+  invites comments -> follow line ("ऐसी कथाओं के लिए follow करें").
+- Hashtags (3-5): 1 broad (#hindumythology), 1-2 niche (#shivpuran), 1 trending/festival (#devdeepawali),
+  1 brand (#kathaaalok). Never banned or unrelated tags.
+- Engagement: end with a devotional comment prompt ("हर हर महादेव लिखिए"), make reels people want to
+  share with family and save; use "Part 1 / Part 2" series for big stories.
+- Learn weekly from Insights (views, shares, saves, follows) and repeat what works.
+- Never use clickbait that the video doesn't deliver, fake claims, or misleading titles.
