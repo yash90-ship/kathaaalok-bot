@@ -18,17 +18,27 @@ def build_prompt(scene: dict, characters: dict) -> str:
     return p[:1900]
 
 
+CF_INPUTS = {  # request body per model (Cloudflare rejects unknown fields)
+    "@cf/leonardo/lucid-origin": lambda p, s: {"prompt": p, "width": 864, "height": 1536, "steps": 25, "seed": s},
+    "@cf/black-forest-labs/flux-1-schnell": lambda p, s: {"prompt": p, "steps": 8},
+}
+
+
 def _cloudflare(prompt: str, seed: int) -> bytes:
     acc, tok = env("CF_ACCOUNT_ID"), env("CF_API_TOKEN")
-    model = CFG["images"]["cloudflare_model"]
-    r = requests.post(f"https://api.cloudflare.com/client/v4/accounts/{acc}/ai/run/{model}",
-                      headers={"Authorization": f"Bearer {tok}"},
-                      json={"prompt": prompt, "steps": 8}, timeout=180)
-    if r.status_code != 200:
-        raise RuntimeError(f"Cloudflare {r.status_code}: {r.text[:400]}")
-    if r.headers.get("content-type", "").startswith("image/"):
-        return r.content
-    return base64.b64decode(r.json()["result"]["image"])
+    models = CFG["images"]["cloudflare_models"]
+    last = None
+    for model in models:
+        body = CF_INPUTS.get(model, lambda p, s: {"prompt": p})(prompt, seed)
+        r = requests.post(f"https://api.cloudflare.com/client/v4/accounts/{acc}/ai/run/{model}",
+                          headers={"Authorization": f"Bearer {tok}"}, json=body, timeout=180)
+        if r.status_code == 200:
+            if r.headers.get("content-type", "").startswith("image/"):
+                return r.content
+            return base64.b64decode(r.json()["result"]["image"])
+        last = RuntimeError(f"Cloudflare {model} {r.status_code}: {r.text[:300]}")
+        log(str(last))
+    raise last
 
 
 def _pollinations(prompt: str, seed: int) -> bytes:

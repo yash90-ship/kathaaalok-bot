@@ -31,7 +31,7 @@ models:
 
 images:
   provider: cloudflare          # cloudflare -> pollinations -> placeholder
-  cloudflare_model: "@cf/black-forest-labs/flux-1-schnell"
+  cloudflare_models: ["@cf/leonardo/lucid-origin", "@cf/black-forest-labs/flux-1-schnell"]
   style: >-
     Indian miniature painting in the Pahari and Rajasthani tradition, fine brushwork,
     gold leaf accents, deep indigo, saffron and emerald palette, textured handmade paper,
