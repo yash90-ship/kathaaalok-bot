@@ -21,7 +21,7 @@ def _retry(fn, tries=4):
         try:
             return fn()
         except Exception as e:  # rate limits / transient errors
-            if i == tries - 1:
+            if i == tries - 1 or "NOT_FOUND" in str(e) or "API key not valid" in str(e):
                 raise
             wait = 20 * (i + 1)
             log(f"Gemini error: {str(e)[:200]} -- retrying in {wait}s")

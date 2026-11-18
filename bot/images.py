@@ -24,7 +24,8 @@ def _cloudflare(prompt: str, seed: int) -> bytes:
     r = requests.post(f"https://api.cloudflare.com/client/v4/accounts/{acc}/ai/run/{model}",
                       headers={"Authorization": f"Bearer {tok}"},
                       json={"prompt": prompt, "steps": 8, "seed": seed}, timeout=180)
-    r.raise_for_status()
+    if r.status_code != 200:
+        raise RuntimeError(f"Cloudflare {r.status_code}: {r.text[:400]}")
     if r.headers.get("content-type", "").startswith("image/"):
         return r.content
     return base64.b64decode(r.json()["result"]["image"])

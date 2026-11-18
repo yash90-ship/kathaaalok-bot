@@ -192,6 +192,7 @@ def cmd_check(a):
             results[name] = "FAIL " + str(e)[:300]
 
     t("GEMINI_API_KEY", lambda: __import__("bot.llm", fromlist=["x"]).ask_json('Return JSON {"ok": true}')["ok"])
+    t("GEMINI_TTS", lambda: voice._gemini_tts("जय श्री राम", "/tmp/t.wav") or "audio received")
     t("CF (images)", lambda: images._cloudflare("a golden diya on a temple step, miniature painting", 1) and "image received")
 
     def ig():
@@ -212,6 +213,18 @@ def cmd_check(a):
     t("MEDIA_REPO_TOKEN", media)
     t("TELEGRAM", lambda: publish._tg("sendMessage", data={"chat_id": _env("TELEGRAM_CHAT_ID"),
         "text": "✅ kathaaalok bot connected. Reels will arrive here for approval."}) and "message sent")
+    try:
+        names = [m.name for m in __import__("bot.llm", fromlist=["x"]).client().models.list()]
+        print("GEMINI MODELS:", ", ".join(n for n in names if "flash" in n or "tts" in n))
+    except Exception as e:
+        print("GEMINI MODELS: list failed", str(e)[:200])
+    try:
+        r = requests.get(f"https://api.cloudflare.com/client/v4/accounts/{_env('CF_ACCOUNT_ID')}/ai/models/search",
+                         params={"task": "Text-to-Image"}, timeout=30,
+                         headers={"Authorization": f"Bearer {_env('CF_API_TOKEN')}"})
+        print("CF IMAGE MODELS:", ", ".join(m["name"] for m in r.json().get("result", [])) or r.text[:300])
+    except Exception as e:
+        print("CF IMAGE MODELS: failed", str(e)[:200])
     for k, v in results.items():
         print(f"{k:18} {v}")
     if any(v.startswith("FAIL") for v in results.values()):
