@@ -44,7 +44,7 @@ def _edge_tts(text: str, out_mp3: str):
     if ca:
         c._SSL_CTX = ssl.create_default_context(cafile=ca)
     asyncio.run(edge_tts.Communicate(text, CFG["models"]["fallback_voice"],
-                                     rate="-10%", pitch="-4Hz").save(out_mp3))
+                                     rate=CFG["models"].get("fallback_rate", "+0%"), pitch="-2Hz").save(out_mp3))
 
 
 def _silences(path) -> list[tuple[float, float]]:
@@ -83,7 +83,7 @@ def narrate(texts: list[str], workdir) -> tuple[str, list[float], str]:
     except Exception as e:
         log("Gemini TTS failed, using Edge voice:", str(e)[:300])
     parts, durs = [], []
-    gap = 0.35
+    gap = 0.25
     for i, t in enumerate(texts):
         mp3 = os.path.join(workdir, f"v{i:02d}.mp3")
         _edge_tts(t, mp3)

@@ -23,10 +23,11 @@ models:
   tts: gemini-2.5-flash-preview-tts
   tts_voice: Charon
   tts_style: >-
-    Read the following Hindi story aloud like a calm, deep-voiced, emotional devotional
-    storyteller. Speak slowly and clearly, add short dramatic pauses at key moments,
-    sound warm and full of wonder, and pause about one second between paragraphs.
+    Read the following Hindi story aloud like an engaging, deep-voiced devotional storyteller
+    on Instagram Reels. Keep a lively, natural pace (never slow or dragging), with energy and
+    emotion, brief dramatic pauses only at key moments, and a short pause between paragraphs.
   fallback_voice: hi-IN-MadhurNeural
+  fallback_rate: "+8%"
 
 images:
   provider: cloudflare          # cloudflare -> pollinations -> placeholder
