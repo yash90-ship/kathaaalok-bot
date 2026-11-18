@@ -243,7 +243,8 @@ function scroll(x, y, s, open = 1) {
 function flash(k) { return k > 0 ? `<rect x="-200" y="-200" width="${W + 400}" height="${H + 400}" fill="#fff6dc" opacity="${k.toFixed(3)}"/>` : ""; }
 
 /* ---------- frame composer ---------- */
-const XF = 0.4;
+const XF = 0.3;
+const SPEED = 1.4;   // animation speed multiplier (motion, not timing)
 function cam(svg, t, d, i) {                 // gentle camera move per scene
   const k = d ? t / d : 0;
   const z = 1.04 + (i % 2 ? .08 * k : .08 * (1 - k)), dx = (i % 3 - 1) * 30 * (k - .5);
@@ -252,7 +253,7 @@ function cam(svg, t, d, i) {                 // gentle camera move per scene
 function drawScene(i, T) {
   const sc = TIMELINE.scenes[i], lt = T - sc.start, d = sc.dur;
   _uid = i * 1000;
-  return cam(SCENES[i](lt, d, clamp(lt / d)), lt, d, i);
+  return cam(SCENES[i](lt * SPEED, d * SPEED, clamp(lt / d)), lt, d, i);
 }
 const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 function capHTML(c, lt) {

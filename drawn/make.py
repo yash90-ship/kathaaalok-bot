@@ -17,8 +17,8 @@ from bot.render import chunks
 from bot.voice import _edge_tts
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-GAP = 0.35
-HOLD_END = 1.4
+GAP = 0.12
+HOLD_END = 1.0
 
 
 def _norm(w):
@@ -50,7 +50,7 @@ def build(reel: str) -> str:
     # 2) timeline with caption timings
     tl_scenes, t = [], 0.0
     for i, (s, d) in enumerate(zip(scenes, durs)):
-        parts = chunks(s["narration"], max_words=4, max_chars=26)
+        parts = chunks(s["narration"], max_words=3, max_chars=20)
         w = [len(p) + 4 for p in parts]
         span, c0, caps = d - GAP, 0.0, []
         for p, wi in zip(parts, w):
