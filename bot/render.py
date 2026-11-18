@@ -181,10 +181,12 @@ def render_scene(i, scene, script, img_path, d, L, work, wm):
     """Render one scene clip of length L (scene narration lasts d seconds)."""
     overlays = []  # (png, start, end)
     kind = scene.get("type", "story")
+    t0 = XF if i > 0 else 0.0   # first XF seconds overlap the previous scene's fade
+    t_end = d                   # after d the clip fades into the next scene
     if kind == "hook":
         p = f"{work}/o{i:02d}_hook.png"
         hook_png(scene["narration"], scene.get("highlight", []), p)
-        overlays.append((p, 0, L))
+        overlays.append((p, 0, t_end))
     elif kind == "cta":
         p = f"{work}/o{i:02d}_cta.png"
         cta_png(script.get("cta_text") or "जय श्री राम", p)
@@ -193,21 +195,21 @@ def render_scene(i, scene, script, img_path, d, L, work, wm):
         if kind == "source":
             p = f"{work}/o{i:02d}_src.png"
             card_png(script.get("source_title", ""), script.get("source_sub", ""), p)
-            overlays.append((p, 0, L))
+            overlays.append((p, t0, t_end))
         parts = chunks(scene["narration"])
         weights = [len(c) + 4 for c in parts]
-        t = 0.0
+        span = max(t_end - t0, 0.5)
+        t = t0
         for j, (c, w) in enumerate(zip(parts, weights)):
-            dur = d * w / sum(weights)
+            dur = span * w / sum(weights)
             p = f"{work}/o{i:02d}_c{j:02d}.png"
             caption_png(c, scene.get("highlight", []), p)
-            end = t + dur if j < len(parts) - 1 else L
-            overlays.append((p, t, end))
+            overlays.append((p, t, t + dur))
             t += dur
         if scene.get("label"):
             p = f"{work}/o{i:02d}_lbl.png"
             label_png(scene["label"], p)
-            overlays.append((p, 0.3, L))
+            overlays.append((p, t0 + 0.2, t_end))
     overlays.append((wm, 0, L))
 
     motions = ["zoom_in", "pan_right", "zoom_out", "pan_left"]

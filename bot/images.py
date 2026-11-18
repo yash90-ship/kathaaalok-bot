@@ -69,7 +69,7 @@ def placeholder(path, text_seed: int = 0):
 
 def generate(scene: dict, characters: dict, path, seed: int):
     prompt = build_prompt(scene, characters)
-    providers = {"cloudflare": _cloudflare, "pollinations": _pollinations}
+    providers = {"cloudflare": _cloudflare}  # pollinations now requires payment
     order = [CFG["images"]["provider"]] + [p for p in providers if p != CFG["images"]["provider"]]
     for name in order:
         fn = providers.get(name)
