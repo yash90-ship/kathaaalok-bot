@@ -118,10 +118,25 @@ def tg_send_for_approval(video_path: str, item_id: str, text: str, need_approval
     markup = {"inline_keyboard": [[{"text": "✅ Post", "callback_data": f"ok:{item_id}"},
                                    {"text": "❌ Skip", "callback_data": f"no:{item_id}"}]]}
     data = {"chat_id": env("TELEGRAM_CHAT_ID"), "caption": text[:1000], "supports_streaming": "true"}
+    # tell Telegram the real size, otherwise it may show a 9:16 reel squashed into a square
+    try:
+        import subprocess
+        w, h, dur = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries",
+                                    "stream=width,height:format=duration", "-of", "default=nw=1:nk=1", video_path],
+                                   capture_output=True, text=True).stdout.split()[:3]
+        data.update(width=int(w), height=int(h), duration=int(float(dur)))
+    except Exception:
+        data.update(width=1080, height=1920)
     if need_approval:
         data["reply_markup"] = json.dumps(markup)
+    import os
+    cover = os.path.join(os.path.dirname(video_path), "cover.jpg")
     with open(video_path, "rb") as f:
-        _tg("sendVideo", data=data, files={"video": f})
+        files = {"video": f}
+        if os.path.exists(cover):
+            files["thumbnail"] = open(cover, "rb")
+            data["thumbnail"] = "attach://thumbnail"
+        _tg("sendVideo", data=data, files=files)
 
 
 def tg_decision(item_id: str) -> str | None:

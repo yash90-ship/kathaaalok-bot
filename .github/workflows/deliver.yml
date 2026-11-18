@@ -18,7 +18,9 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-      - run: pip install -q -r requirements.txt
+      - run: |
+          sudo apt-get install -y -qq ffmpeg >/dev/null
+          pip install -q -r requirements.txt
       - name: Deliver
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
