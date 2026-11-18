@@ -16,6 +16,23 @@ def client():
     return _client
 
 
+def text_models() -> list[str]:
+    m = CFG["models"]["text"]
+    return m if isinstance(m, list) else [m]
+
+
+def with_fallback(call):
+    """Try each configured text model in turn (free models are sometimes overloaded)."""
+    last = None
+    for model in text_models():
+        try:
+            return _retry(lambda: call(model), tries=2)
+        except Exception as e:
+            last = e
+            log(f"model {model} failed, trying next: {str(e)[:150]}")
+    raise last
+
+
 def _retry(fn, tries=4):
     for i in range(tries):
         try:
@@ -44,23 +61,23 @@ def search(prompt: str) -> str:
     """Ask Gemini with live Google Search grounding. Returns plain text."""
     from google.genai import types
 
-    def go():
+    def go(model):
         r = client().models.generate_content(
-            model=CFG["models"]["text"], contents=prompt,
+            model=model, contents=prompt,
             config=types.GenerateContentConfig(
                 tools=[types.Tool(google_search=types.GoogleSearch())], temperature=0.3))
         return r.text or ""
-    return _retry(go)
+    return with_fallback(go)
 
 
 def ask_json(prompt: str, temperature: float = 0.7):
     """Ask Gemini for a JSON answer."""
     from google.genai import types
 
-    def go():
+    def go(model):
         r = client().models.generate_content(
-            model=CFG["models"]["text"], contents=prompt,
+            model=model, contents=prompt,
             config=types.GenerateContentConfig(
                 response_mime_type="application/json", temperature=temperature))
         return parse_json(r.text)
-    return _retry(go)
+    return with_fallback(go)

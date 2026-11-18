@@ -214,8 +214,8 @@ def cmd_check(a):
     t("TELEGRAM", lambda: publish._tg("sendMessage", data={"chat_id": _env("TELEGRAM_CHAT_ID"),
         "text": "✅ kathaaalok bot connected. Reels will arrive here for approval."}) and "message sent")
     try:
-        names = [m.name for m in __import__("bot.llm", fromlist=["x"]).client().models.list()]
-        print("GEMINI MODELS:", ", ".join(n for n in names if "flash" in n or "tts" in n))
+        for m in __import__("bot.llm", fromlist=["x"]).client().models.list():
+            print("GEMINI MODEL:", m.name, getattr(m, "supported_actions", ""))
     except Exception as e:
         print("GEMINI MODELS: list failed", str(e)[:200])
     try:
@@ -223,6 +223,10 @@ def cmd_check(a):
                          params={"task": "Text-to-Image"}, timeout=30,
                          headers={"Authorization": f"Bearer {_env('CF_API_TOKEN')}"})
         print("CF IMAGE MODELS:", ", ".join(m["name"] for m in r.json().get("result", [])) or r.text[:300])
+        for mdl in ("@cf/black-forest-labs/flux-2-klein-9b", "@cf/leonardo/lucid-origin"):
+            sc = requests.get(f"https://api.cloudflare.com/client/v4/accounts/{_env('CF_ACCOUNT_ID')}/ai/models/schema",
+                              params={"model": mdl}, timeout=30, headers={"Authorization": f"Bearer {_env('CF_API_TOKEN')}"})
+            print("CF SCHEMA", mdl, sc.text[:1500].replace("\n", " "))
     except Exception as e:
         print("CF IMAGE MODELS: failed", str(e)[:200])
     for k, v in results.items():

@@ -19,7 +19,7 @@ quality:
   avoid_repeat_days: 30 # don't repeat a story posted in the last N days
 
 models:
-  text: gemini-3.8-flash
+  text: [gemini-3.8-flash, gemini-3.7-flash, gemini-3.5-flash, gemini-2.5-flash]
   tts: gemini-2.5-flash-preview-tts
   tts_voice: Charon
   tts_style: >-

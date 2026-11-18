@@ -23,7 +23,7 @@ def _cloudflare(prompt: str, seed: int) -> bytes:
     model = CFG["images"]["cloudflare_model"]
     r = requests.post(f"https://api.cloudflare.com/client/v4/accounts/{acc}/ai/run/{model}",
                       headers={"Authorization": f"Bearer {tok}"},
-                      json={"prompt": prompt, "steps": 8, "seed": seed}, timeout=180)
+                      json={"prompt": prompt, "steps": 8}, timeout=180)
     if r.status_code != 200:
         raise RuntimeError(f"Cloudflare {r.status_code}: {r.text[:400]}")
     if r.headers.get("content-type", "").startswith("image/"):
