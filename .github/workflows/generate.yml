@@ -1,0 +1,64 @@
+name: 1 - Generate reel
+# Runs ~50 min before each slot (13:00 and 20:00 IST): trends -> script -> reel -> Telegram
+on:
+  schedule:
+    - cron: "37 6 * * *"   # 12:07 IST (slot 13:00)
+    - cron: "37 13 * * *"  # 19:07 IST
+  workflow_dispatch:
+    inputs:
+      slot:
+        description: "Slot (13:00, 20:00 or auto)"
+        default: auto
+      dry_run:
+        description: "Preview only (no upload / Telegram / posting)"
+        type: boolean
+        default: false
+permissions:
+  contents: write
+concurrency: bot-state
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-noto-core
+          pip install -q -r requirements.txt
+      - name: Generate
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          MEDIA_REPO_TOKEN: ${{ secrets.MEDIA_REPO_TOKEN }}
+        run: python -m bot.cli generate --slot "${{ inputs.slot || 'auto' }}" ${{ inputs.dry_run && '--dry-run' || '' }}
+      - name: Keep the reel as a downloadable artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reel
+          path: |
+            out/*/reel.mp4
+            out/*/caption.txt
+            out/*/script.json
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Save state
+        if: always()
+        run: |
+          git config user.name "kathaaalok-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet && exit 0
+          git commit -m "bot: update state [skip ci]"
+          for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done

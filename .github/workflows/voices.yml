@@ -1,0 +1,38 @@
+name: Test - Voice samples
+on:
+  workflow_dispatch:
+    inputs:
+      names:
+        description: "Gemini voice names"
+        default: "Charon,Orus,Fenrir,Iapetus,Algenib,Sadaltager"
+jobs:
+  voices:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-noto-core
+          pip install -q -r requirements.txt
+      - name: Render voices
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          MEDIA_REPO_TOKEN: ${{ secrets.MEDIA_REPO_TOKEN }}
+        run: python -m bot.cli voices --names "${{ inputs.names }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: voices
+          path: out/voices/
+          retention-days: 7

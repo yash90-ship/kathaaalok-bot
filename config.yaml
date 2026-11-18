@@ -1,0 +1,53 @@
+# ---- kathaaalok reel bot settings (edit freely) ----
+page:
+  handle: kathaaalok
+  niche: "Hindu mythological stories (पौराणिक कथाएँ) from the Puranas, Ramayana and Mahabharata"
+  language: Hindi
+  timezone: Asia/Kolkata
+
+# Posting times (IST). The generate workflow runs ~75 min before each slot.
+slots: ["13:00", "20:00"]
+
+approval:
+  # Until this date every reel is sent to Telegram and only posts if you tap "Post".
+  # After it, reels post automatically (you still get a Telegram copy).
+  required_until: "2026-12-06"
+
+quality:
+  ideas_per_run: 10
+  min_score: 8          # ideas scoring below this are rejected
+  avoid_repeat_days: 30 # don't repeat a story posted in the last N days
+
+models:
+  text: gemini-2.5-flash
+  tts: gemini-2.5-flash-preview-tts
+  tts_voice: Charon
+  tts_style: >-
+    Read the following Hindi story aloud like a calm, deep-voiced, emotional devotional
+    storyteller. Speak slowly and clearly, add short dramatic pauses at key moments,
+    sound warm and full of wonder, and pause about one second between paragraphs.
+  fallback_voice: hi-IN-MadhurNeural
+
+images:
+  provider: cloudflare          # cloudflare -> pollinations -> placeholder
+  cloudflare_model: "@cf/black-forest-labs/flux-1-schnell"
+  style: >-
+    Indian miniature painting in the Pahari and Rajasthani tradition, fine brushwork,
+    gold leaf accents, deep indigo, saffron and emerald palette, textured handmade paper,
+    soft divine glow, cinematic lighting, dignified and respectful depiction of deities,
+    vertical composition with the main subject centered, no text, no letters, no watermark
+
+video:
+  width: 1080
+  height: 1920
+  fps: 30
+  crossfade: 0.4
+  music_volume: 0.12
+
+instagram:
+  graph_version: v27.0
+
+media:
+  repo: yash90-ship/kathaaalok-media
+  branch: main
+  pages_base: https://yash90-ship.github.io/kathaaalok-media

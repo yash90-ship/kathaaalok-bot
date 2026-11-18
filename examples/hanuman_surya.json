@@ -1,0 +1,19 @@
+{
+  "title": "हनुमान जी और सूर्य",
+  "hook": "हनुमान जी ने सूर्य को क्यों निगलना चाहा?",
+  "source_title": "वाल्मीकि रामायण",
+  "source_sub": "उत्तरकाण्ड",
+  "characters": {"Hanuman": "a small divine monkey child with golden fur, red loincloth, gold ornaments, glowing halo"},
+  "scenes": [
+    {"type": "hook", "narration": "हनुमान जी ने बचपन में सूर्य को क्यों निगलना चाहा?", "highlight": ["हनुमान", "सूर्य"], "label": null, "image_prompt": "Hanuman as a child looking up at a huge red rising sun"},
+    {"type": "source", "narration": "वाल्मीकि रामायण के उत्तरकाण्ड में यह कथा आती है।", "highlight": ["उत्तरकाण्ड"], "label": null, "image_prompt": "an ancient manuscript in a forest hermitage"},
+    {"type": "story", "narration": "एक सुबह, नन्हे हनुमान को बहुत भूख लगी।", "highlight": ["भूख"], "label": "हनुमान", "image_prompt": "Hanuman as a child sitting hungry on a hill at dawn"},
+    {"type": "story", "narration": "उगता हुआ लाल सूर्य उन्हें एक पका हुआ फल लगा, और वे उड़ चले!", "highlight": ["फल", "उड़"], "label": "सूर्यदेव", "image_prompt": "Hanuman as a child leaping into the sky toward the sun"},
+    {"type": "story", "narration": "उसी दिन राहु भी सूर्य को ग्रसने आया था, पर हनुमान को देखकर वह डरकर इंद्र के पास भागा।", "highlight": ["राहु", "इंद्र"], "label": "राहु", "image_prompt": "a frightened dark demon Rahu fleeing through clouds"},
+    {"type": "story", "narration": "इसीलिए हनुमान जी का यह रूप आज भी बल और साहस का प्रतीक है।", "highlight": ["बल", "साहस"], "label": null, "image_prompt": "Hanuman glowing in the sky with the sun behind"},
+    {"type": "cta", "narration": "जय हनुमान लिखिए, और ऐसी कथाओं के लिए फॉलो कीजिए।", "highlight": [], "label": null, "image_prompt": "Hanuman as a child smiling, blessing pose"}
+  ],
+  "cta_text": "जय हनुमान",
+  "caption": "हनुमान जी ने सूर्य को क्यों निगलना चाहा?\nवाल्मीकि रामायण उत्तरकाण्ड की कथा | hanuman surya katha\nआपको यह कथा पहले से पता थी? Comment करें",
+  "hashtags": ["हनुमान", "hanumanji", "ramayan", "sanatandharma", "kathaaalok"]
+}
