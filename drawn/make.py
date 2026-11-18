@@ -19,6 +19,7 @@ from bot.voice import _edge_tts
 HERE = os.path.dirname(os.path.abspath(__file__))
 GAP = 0.12
 HOLD_END = 1.0
+MAX_SECONDS = 90
 
 
 def _norm(w):
@@ -45,6 +46,15 @@ def build(reel: str) -> str:
                     log("tts retry", i, e)
         clips.append(mp3)
         durs.append(media_duration(mp3) + GAP)
+    # keep reels within the 90 s limit: re-voice faster once if the story runs long
+    if sum(durs) + HOLD_END > MAX_SECONDS:
+        rate = "+45%"
+        log(f"story is {sum(durs):.0f}s - re-voicing at {rate} to stay under {MAX_SECONDS}s")
+        for i, s in enumerate(scenes):
+            _edge_tts(s["narration"], clips[i], rate=rate)
+            durs[i] = media_duration(clips[i]) + GAP
+        if sum(durs) + HOLD_END > MAX_SECONDS:
+            raise SystemExit(f"Story too long ({sum(durs):.0f}s) - shorten the script to fit {MAX_SECONDS}s")
     durs[-1] += HOLD_END
 
     # 2) timeline with caption timings

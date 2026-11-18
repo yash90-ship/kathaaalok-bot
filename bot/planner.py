@@ -101,8 +101,8 @@ def write_script(idea: dict) -> dict:
 IDEA: {json.dumps(idea, ensure_ascii=False)}
 
 RULES
-- Total narration 120-160 Hindi words (about 45-60 seconds). Simple, punchy spoken Hindi - no filler.
-- 10-14 scenes. Each scene's narration is 1 short sentence (6-14 words).
+- Length: about 60 seconds (~150-170 Hindi words) for a short story; a bigger story may go up to 90 seconds\n  (~230 words) but NEVER longer. Simple, punchy spoken Hindi - no filler.
+- 12-20 scenes. Each scene's narration is 1 short sentence (6-14 words).
 - Scene 1 type "hook": only the hook question (<= 12 words). Must create instant curiosity.
 - Scene 2 type "source": names the scripture (e.g. "देवी भागवत पुराण में यह कथा आती है।").
 - Middle scenes type "story": tell the story with rising drama. Stay faithful to the cited scripture;

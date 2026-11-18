@@ -37,14 +37,14 @@ def _gemini_tts(text: str, out_wav: str, voice: str | None = None):
         w.writeframes(pcm)
 
 
-def _edge_tts(text: str, out_mp3: str):
+def _edge_tts(text: str, out_mp3: str, rate: str | None = None):
     import edge_tts
     import edge_tts.communicate as c
     ca = os.environ.get("SSL_CERT_FILE") or ("/root/.ccr/ca-bundle.crt" if os.path.exists("/root/.ccr/ca-bundle.crt") else None)
     if ca:
         c._SSL_CTX = ssl.create_default_context(cafile=ca)
     asyncio.run(edge_tts.Communicate(text, CFG["models"]["fallback_voice"],
-                                     rate=CFG["models"].get("fallback_rate", "+0%"), pitch="-2Hz").save(out_mp3))
+                                     rate=rate or CFG["models"].get("fallback_rate", "+0%"), pitch="-2Hz").save(out_mp3))
 
 
 def _silences(path) -> list[tuple[float, float]]:
