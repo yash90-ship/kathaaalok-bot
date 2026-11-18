@@ -230,10 +230,14 @@ def cmd_check(a):
                          params={"task": "Text-to-Image"}, timeout=30,
                          headers={"Authorization": f"Bearer {_env('CF_API_TOKEN')}"})
         print("CF IMAGE MODELS:", ", ".join(m["name"] for m in r.json().get("result", [])) or r.text[:300])
-        for mdl in ("@cf/black-forest-labs/flux-2-klein-9b", "@cf/leonardo/lucid-origin"):
+        r = requests.get(f"https://api.cloudflare.com/client/v4/accounts/{_env('CF_ACCOUNT_ID')}/ai/models/search",
+                         params={"task": "Text-to-Speech"}, timeout=30,
+                         headers={"Authorization": f"Bearer {_env('CF_API_TOKEN')}"})
+        for m in r.json().get("result", []):
+            print("CF TTS MODEL:", m["name"], "|", (m.get("description") or "")[:200].replace("\n", " "))
             sc = requests.get(f"https://api.cloudflare.com/client/v4/accounts/{_env('CF_ACCOUNT_ID')}/ai/models/schema",
-                              params={"model": mdl}, timeout=30, headers={"Authorization": f"Bearer {_env('CF_API_TOKEN')}"})
-            print("CF SCHEMA", mdl, sc.text[:1500].replace("\n", " "))
+                              params={"model": m["name"]}, timeout=30, headers={"Authorization": f"Bearer {_env('CF_API_TOKEN')}"})
+            print("CF TTS SCHEMA:", m["name"], sc.text[:700].replace("\n", " "))
     except Exception as e:
         print("CF IMAGE MODELS: failed", str(e)[:200])
     for k, v in results.items():
