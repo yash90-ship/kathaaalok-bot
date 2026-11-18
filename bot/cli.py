@@ -192,14 +192,6 @@ def cmd_check(a):
             results[name] = "FAIL " + str(e)[:300]
 
     t("GEMINI_API_KEY", lambda: __import__("bot.llm", fromlist=["x"]).ask_json('Return JSON {"ok": true}')["ok"])
-    def omni():
-        from google.genai import types
-        r = __import__("bot.llm", fromlist=["x"]).client().models.generate_content(
-            model="gemini-omni-flash-preview", contents="Read aloud in Hindi like a storyteller: जय श्री राम, यह कथा बहुत पुरानी है।",
-            config=types.GenerateContentConfig(response_modalities=["AUDIO"]))
-        part = r.candidates[0].content.parts[0]
-        return f"audio {part.inline_data.mime_type} {len(part.inline_data.data)} bytes"
-    t("OMNI_AUDIO", omni)
     t("CF (images)", lambda: images._cloudflare("a golden diya on a temple step, miniature painting", 1) and "image received")
 
     def ig():

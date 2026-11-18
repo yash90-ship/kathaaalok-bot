@@ -77,6 +77,8 @@ def narrate(texts: list[str], workdir) -> tuple[str, list[float], str]:
     """Return (audio_path, per-scene durations, engine)."""
     full = os.path.join(workdir, "voice.wav")
     try:
+        if CFG["models"].get("voice_engine", "edge") != "gemini":
+            raise RuntimeError("voice_engine is edge")
         _gemini_tts("\n\n".join(texts), full)
         durs = _split_by_pauses(full, texts)
         return full, durs, "gemini"

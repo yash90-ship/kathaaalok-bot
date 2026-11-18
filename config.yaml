@@ -20,6 +20,7 @@ quality:
 
 models:
   text: [gemini-3.8-flash, gemini-3.7-flash, gemini-3.5-flash, gemini-2.5-flash]
+  voice_engine: edge   # Gemini voice is not available on the free key; edge = free Microsoft Hindi voice
   tts: gemini-2.5-flash-preview-tts
   tts_voice: Charon
   tts_style: >-
