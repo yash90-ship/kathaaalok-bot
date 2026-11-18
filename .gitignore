@@ -2,3 +2,10 @@ out/
 __pycache__/
 *.pyc
 .env
+reels/*/vo/
+reels/*/silent.mp4
+reels/*/mix.wav
+reels/*/reel.mp4
+reels/*/cover.jpg
+drawn/timeline.js
+drawn/scenes.js

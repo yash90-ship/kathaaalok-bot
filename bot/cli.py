@@ -13,8 +13,11 @@ import os
 import time
 
 from . import images, planner, publish, render, trends, voice
-from .common import (CFG, OUT, PENDING, approval_required, history, load_json, log, now,
+from .common import (CFG, OUT, PENDING, ROOT, approval_required, history, load_json, log, now,
                      save_history, save_json)
+
+
+ROOT_Q = ROOT / "queue"
 
 
 def _slot_dt(slot: str, day: dt.date) -> dt.datetime:
@@ -188,6 +191,41 @@ def cmd_voices(a):
             log("voice failed", v, str(e)[:300])
 
 
+def cmd_deliver(a):
+    """Deliver reels that a Claude session drew and pushed to queue/<id>/ (reel.mp4, script.json, meta.json).
+    meta.mode = "preview" -> just send to Telegram;  "post" -> upload + Telegram approval + publish at its slot."""
+    import glob
+    for meta_path in sorted(glob.glob(str(ROOT_Q / "*" / "meta.json"))):
+        d = os.path.dirname(meta_path)
+        meta = load_json(meta_path, {})
+        if meta.get("delivered"):
+            continue
+        script = load_json(os.path.join(d, "script.json"), {})
+        video = os.path.join(d, "reel.mp4")
+        caption = full_caption(script)
+        item_id = meta.get("id") or os.path.basename(d)
+        if meta.get("mode", "preview") == "preview":
+            publish.tg_send_for_approval(video, item_id, f"👀 TEST VIDEO (not posted)\n🎬 {script.get('title')}\n"
+                                         f"{meta.get('note', '')}\n\n{caption}", False)
+        else:
+            day, slot = meta["date"], meta["slot"]
+            video_url = publish.upload_media(video, f"videos/{item_id}.mp4")
+            cover_url = publish.upload_media(os.path.join(d, "cover.jpg"), f"covers/{item_id}.jpg")
+            need = approval_required(dt.date.fromisoformat(day))
+            item = {"id": item_id, "date": day, "slot": slot, "status": "ready", "approval_required": need,
+                    "title": script.get("title"), "hook": script.get("hook"), "score": meta.get("score", {}),
+                    "trend_reason": meta.get("trend_reason"), "caption": caption, "video_url": video_url,
+                    "video_path": f"videos/{item_id}.mp4", "cover_url": cover_url, "created_at": now().isoformat()}
+            save_json(PENDING / f"{item_id}.json", item)
+            head = f"🎬 {script.get('title')}\n⏰ Posts {day} at {slot} IST\n"
+            if need:
+                head += "Tap ✅ Post to approve or ❌ Skip. No answer before the slot = skipped.\n\n"
+            publish.tg_send_for_approval(video, item_id, head + caption, need)
+        meta["delivered"] = now().isoformat()
+        save_json(meta_path, meta)
+        log("delivered", item_id)
+
+
 def cmd_check(a):
     """Verify every secret works, without posting anything."""
     import requests
@@ -260,11 +298,12 @@ def main():
     p = sp.add_parser("publish"); p.add_argument("--slot", default="auto")
     sp.add_parser("insights")
     sp.add_parser("check")
+    sp.add_parser("deliver")
     s = sp.add_parser("sample"); s.add_argument("--script", required=True)
     v = sp.add_parser("voices"); v.add_argument("--names", default="Charon,Orus,Fenrir,Iapetus,Algenib,Sadaltager")
     a = ap.parse_args()
     {"generate": cmd_generate, "publish": cmd_publish, "insights": cmd_insights,
-     "sample": cmd_sample, "voices": cmd_voices, "check": cmd_check}[a.cmd](a)
+     "sample": cmd_sample, "voices": cmd_voices, "check": cmd_check, "deliver": cmd_deliver}[a.cmd](a)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,38 @@
+name: 4 - Deliver drawn reel
+# Fires when a Claude session pushes a finished reel into queue/<id>/ . Sends it to Telegram
+# (test videos) or schedules it for posting with approval.
+on:
+  push:
+    paths: ["queue/**/meta.json"]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: bot-state
+jobs:
+  deliver:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -q -r requirements.txt
+      - name: Deliver
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          MEDIA_REPO_TOKEN: ${{ secrets.MEDIA_REPO_TOKEN }}
+        run: python -m bot.cli deliver
+      - name: Save state
+        if: always()
+        run: |
+          git config user.name "kathaaalok-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data queue
+          git diff --cached --quiet && exit 0
+          git commit -m "bot: delivered [skip ci]"
+          for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done
