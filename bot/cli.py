@@ -179,6 +179,45 @@ def cmd_voices(a):
             log("voice failed", v, str(e)[:300])
 
 
+def cmd_check(a):
+    """Verify every secret works, without posting anything."""
+    import requests
+    from .common import env as _env
+    results = {}
+
+    def t(name, fn):
+        try:
+            results[name] = "OK " + str(fn() or "")
+        except Exception as e:
+            results[name] = "FAIL " + str(e)[:300]
+
+    t("GEMINI_API_KEY", lambda: __import__("bot.llm", fromlist=["x"]).ask_json('Return JSON {"ok": true}')["ok"])
+    t("CF (images)", lambda: images._cloudflare("a golden diya on a temple step, miniature painting", 1) and "image received")
+
+    def ig():
+        base, tok = publish._graph()
+        r = requests.get(f"{base}/{_env('IG_USER_ID')}", params={"fields": "username", "access_token": tok}, timeout=30)
+        r.raise_for_status()
+        return "@" + r.json().get("username", "?")
+    t("INSTAGRAM", ig)
+
+    def media():
+        repo = CFG["media"]["repo"]
+        r = requests.get(f"https://api.github.com/repos/{repo}", timeout=30,
+                         headers={"Authorization": f"Bearer {_env('MEDIA_REPO_TOKEN')}"})
+        r.raise_for_status()
+        if not r.json().get("permissions", {}).get("push"):
+            raise RuntimeError("token has no write access to " + repo)
+        return repo
+    t("MEDIA_REPO_TOKEN", media)
+    t("TELEGRAM", lambda: publish._tg("sendMessage", data={"chat_id": _env("TELEGRAM_CHAT_ID"),
+        "text": "✅ kathaaalok bot connected. Reels will arrive here for approval."}) and "message sent")
+    for k, v in results.items():
+        print(f"{k:18} {v}")
+    if any(v.startswith("FAIL") for v in results.values()):
+        raise SystemExit(1)
+
+
 def main():
     ap = argparse.ArgumentParser()
     sp = ap.add_subparsers(dest="cmd", required=True)
@@ -186,11 +225,12 @@ def main():
     g.add_argument("--dry-run", action="store_true", help="make the reel only: no upload, Telegram or posting")
     p = sp.add_parser("publish"); p.add_argument("--slot", default="auto")
     sp.add_parser("insights")
+    sp.add_parser("check")
     s = sp.add_parser("sample"); s.add_argument("--script", required=True)
     v = sp.add_parser("voices"); v.add_argument("--names", default="Charon,Orus,Fenrir,Iapetus,Algenib,Sadaltager")
     a = ap.parse_args()
     {"generate": cmd_generate, "publish": cmd_publish, "insights": cmd_insights,
-     "sample": cmd_sample, "voices": cmd_voices}[a.cmd](a)
+     "sample": cmd_sample, "voices": cmd_voices, "check": cmd_check}[a.cmd](a)
 
 
 if __name__ == "__main__":
