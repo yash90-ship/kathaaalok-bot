@@ -86,6 +86,15 @@ def cmd_generate(a):
         with open(f"{work}/caption.txt", "w", encoding="utf-8") as f:
             f.write(caption)
         log("dry run done:", video)
+        try:  # share the preview: Telegram (to your phone) + a copy in the media repo
+            pid = f"previews/{item_id}_{now():%H%M}"
+            publish.upload_media(video, pid + ".mp4")
+            publish.upload_media(f"{work}/script.json", pid + ".json")
+            sc = script["idea"].get("score", {})
+            publish.tg_send_for_approval(video, item_id, f"👀 PREVIEW ONLY (not posted)\n🎬 {script.get('title')}\n"
+                                         f"⭐ {sc.get('overall')}/10 — {sc.get('reason', '')[:200]}\n\n{caption}", False)
+        except Exception as e:
+            log("preview sharing failed:", e)
         return
     video_url = publish.upload_media(video, f"videos/{item_id}.mp4")
     cover_url = publish.upload_media(f"{work}/cover.jpg", f"covers/{item_id}.jpg")
