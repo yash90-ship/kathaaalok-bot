@@ -201,6 +201,11 @@ def cmd_check(a):
             results[name] = "FAIL " + str(e)[:300]
 
     t("GEMINI_API_KEY", lambda: __import__("bot.llm", fromlist=["x"]).ask_json('Return JSON {"ok": true}')["ok"])
+    def gimg():
+        data = images._gemini("a golden diya on a temple step, Indian miniature painting", 1)
+        open("/tmp/g.png", "wb").write(data)
+        return f"image {len(data)} bytes"
+    t("GEMINI IMAGES", gimg)
     t("CF (images)", lambda: images._cloudflare("a golden diya on a temple step, miniature painting", 1) and "image received")
 
     def ig():

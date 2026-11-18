@@ -51,6 +51,26 @@ def _pollinations(prompt: str, seed: int) -> bytes:
     return r.content
 
 
+def _gemini(prompt: str, seed: int) -> bytes:
+    """Google image model via the free Gemini key (backup when Cloudflare's daily quota is used)."""
+    from google.genai import types
+    from .llm import client
+    last = None
+    for model in CFG["images"].get("gemini_models", []):
+        try:
+            r = client().models.generate_content(
+                model=model, contents=prompt + " Vertical 9:16 portrait image.",
+                config=types.GenerateContentConfig(response_modalities=["IMAGE"]))
+            for part in r.candidates[0].content.parts:
+                if getattr(part, "inline_data", None) and part.inline_data.data:
+                    return part.inline_data.data
+            raise RuntimeError("no image in response")
+        except Exception as e:
+            last = e
+            log(f"gemini image {model} failed: {str(e)[:160]}")
+    raise last or RuntimeError("no gemini image models configured")
+
+
 def placeholder(path, text_seed: int = 0):
     rnd = random.Random(text_seed)
     w, h = 1080, 1920
@@ -69,13 +89,13 @@ def placeholder(path, text_seed: int = 0):
 
 def generate(scene: dict, characters: dict, path, seed: int):
     prompt = build_prompt(scene, characters)
-    providers = {"cloudflare": _cloudflare}  # pollinations now requires payment
+    providers = {"cloudflare": _cloudflare, "gemini": _gemini}  # pollinations now requires payment
     order = [CFG["images"]["provider"]] + [p for p in providers if p != CFG["images"]["provider"]]
     for name in order:
         fn = providers.get(name)
         if not fn:
             continue
-        for attempt in range(2):
+        for attempt in range(1 if name == "gemini" else 2):
             try:
                 data = fn(prompt, seed + attempt)
                 with open(path, "wb") as f:

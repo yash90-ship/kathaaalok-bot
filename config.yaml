@@ -34,6 +34,7 @@ images:
   provider: cloudflare          # cloudflare -> placeholder
   # flux-1-schnell costs ~60 of the 10,000 free daily "neurons" per image; lucid-origin is far pricier
   cloudflare_models: ["@cf/black-forest-labs/flux-1-schnell"]
+  gemini_models: ["gemini-3.1-flash-image", "gemini-2.5-flash-image", "gemini-3.1-flash-lite-image", "gemini-nano-banana-2.1"]
   style: >-
     Indian miniature painting in the Pahari and Rajasthani tradition, fine brushwork,
     gold leaf accents, deep indigo, saffron and emerald palette, textured handmade paper,
