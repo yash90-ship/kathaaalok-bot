@@ -28,7 +28,7 @@ models:
     on Instagram Reels. Keep a lively, natural pace (never slow or dragging), with energy and
     emotion, brief dramatic pauses only at key moments, and a short pause between paragraphs.
   fallback_voice: hi-IN-MadhurNeural
-  fallback_rate: "+8%"
+  fallback_rate: "+20%"
 
 images:
   provider: cloudflare          # cloudflare -> placeholder
