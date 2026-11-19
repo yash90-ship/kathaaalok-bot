@@ -55,7 +55,22 @@ def describe(speaker: str, emotion: str) -> tuple[str, float]:
     return desc, shift
 
 
+def fix_pronunciation(text: str) -> str:
+    """Respell words the voice gets wrong (data/pronunciation.json: {"written": "spoken"}). Subtitles keep the original."""
+    import json
+    from .common import DATA
+    try:
+        fixes = json.load(open(DATA / "pronunciation.json", encoding="utf-8"))
+    except FileNotFoundError:
+        return text
+    for w, spoken in sorted(fixes.items(), key=lambda kv: -len(kv[0])):
+        if not w.startswith("_"):
+            text = text.replace(w, spoken)
+    return text
+
+
 def speak(text: str, out_path: str, speaker: str = "narrator", emotion: str = "calm", seed: int = 7):
+    text = fix_pronunciation(text)
     import soundfile as sf
     import torch
     model, tok, dtok = _load()

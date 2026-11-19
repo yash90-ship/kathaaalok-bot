@@ -6,7 +6,7 @@ page:
   timezone: Asia/Kolkata
 
 # Posting times (IST). The generate workflow runs ~75 min before each slot.
-slots: ["13:00", "20:00"]
+slots: ["09:00", "18:20"]
 
 approval:
   # Until this date every reel is sent to Telegram and only posts if you tap "Post".
@@ -61,6 +61,6 @@ media:
 # 2 "family conversation" reels a week, on different days (one per duo); every other slot is a mythology story.
 weekly_plan:
   conversation:
-    - {day: Wednesday, slot: "20:00", duo: "dadi+chintu"}
-    - {day: Saturday,  slot: "20:00", duo: "dadaji+chinki"}
+    - {day: Wednesday, slot: "18:20", duo: "dadi+chintu"}
+    - {day: Saturday,  slot: "18:20", duo: "dadaji+chinki"}
   default: mythology_story

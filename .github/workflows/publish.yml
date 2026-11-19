@@ -1,8 +1,8 @@
 name: 2 - Publish reel
 on:
   schedule:
-    - cron: "27 7 * * *"   # 12:57 IST -> live by ~13:00
-    - cron: "27 14 * * *"  # 19:57 IST -> live by ~20:00
+    - cron: "27 3 * * *"   # 08:57 IST -> live by ~09:00
+    - cron: "47 12 * * *"  # 18:17 IST -> live by ~18:20
   workflow_dispatch:
     inputs:
       slot:

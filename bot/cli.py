@@ -117,15 +117,57 @@ def cmd_generate(a):
     log("generated", item_id)
 
 
+def cmd_decide(a):
+    """Check Telegram buttons for today's reels. Skip -> immediately start the pre-written replacement."""
+    import shutil
+    import subprocess
+    started = False
+    for pf in sorted(PENDING.glob(f"{now().date().isoformat()}_*.json")):
+        item = load_json(pf, {})
+        if item.get("status") != "ready" or not item.get("approval_required") or item.get("approved"):
+            continue
+        d = publish.tg_decision(item["id"])
+        if d == "ok":
+            item["approved"] = True
+            save_json(pf, item)
+            log("approved", item["id"])
+        elif d == "no":
+            item["status"] = "skipped"
+            save_json(pf, item)
+            base = item["id"].removesuffix("_b")
+            backup = ROOT / "backups" / base
+            if not item["id"].endswith("_b") and backup.exists() and not (ROOT / "jobs" / f"{base}_b").exists():
+                dst = ROOT / "jobs" / f"{base}_b"
+                shutil.copytree(backup, dst)
+                meta = load_json(dst / "meta.json", {})
+                meta.update(id=f"{base}_b", mode="post", date=item["date"], slot=item["slot"], replacement=True)
+                save_json(dst / "meta.json", meta)
+                publish.tg_message(f"🔁 Skipped. A replacement reel for {item['slot']} is being made — it will arrive in ~30 min.")
+                started = True
+            else:
+                publish.tg_message(f"⏭ Skipped: {item.get('title')}. No more replacements for this slot.")
+    if started:
+        subprocess.run(["git", "add", "-A", "jobs", "data"], check=True)
+        subprocess.run(["git", "-c", "user.name=kathaaalok-bot", "-c", "user.email=actions@users.noreply.github.com",
+                        "commit", "-qm", "bot: start replacement [skip ci]"], check=True)
+        subprocess.run(["git", "pull", "--rebase", "-q"], check=True)
+        subprocess.run(["git", "push", "-q"], check=True)
+        subprocess.run(["gh", "workflow", "run", "render.yml"], check=True)
+
+
 def cmd_publish(a):
     day, slot = resolve_slot(a.slot, "publish")
-    item_id = f"{day}_{slot.replace(':', '')}"
-    pfile = PENDING / f"{item_id}.json"
-    item = load_json(pfile, None)
-    if not item or item.get("status") != "ready":
-        log("nothing ready to publish for", item_id, (item or {}).get("status"))
+    base = f"{day}_{slot.replace(':', '')}"
+    item_id, pfile, item = base, PENDING / f"{base}.json", None
+    for cid in (base, f"{base}_b"):           # the original, or its replacement if the original was skipped
+        cand = load_json(PENDING / f"{cid}.json", None)
+        if cand and cand.get("status") == "ready":
+            item_id, pfile, item = cid, PENDING / f"{cid}.json", cand
+            break
+    if not item:
+        log("nothing ready to publish for", base)
         return
-    if item.get("approval_required"):
+    if item.get("approval_required") and not item.get("approved"):
         d = publish.tg_decision(item_id)
         if d != "ok":
             item["status"] = "skipped" if d == "no" else "skipped_no_answer"
@@ -219,7 +261,7 @@ def cmd_deliver(a):
             save_json(PENDING / f"{item_id}.json", item)
             head = f"🎬 {script.get('title')}\n⏰ Posts {day} at {slot} IST\n"
             if need:
-                head += "Tap ✅ Post to approve or ❌ Skip. No answer before the slot = skipped.\n\n"
+                head += "Tap ✅ Post to approve, or ❌ Skip to get a replacement for the same slot. No answer before the slot = not posted.\n\n"
             publish.tg_send_for_approval(video, item_id, head + caption, need)
         meta["delivered"] = now().isoformat()
         save_json(meta_path, meta)
@@ -304,12 +346,13 @@ def main():
     sp.add_parser("insights")
     sp.add_parser("check")
     sp.add_parser("deliver")
+    sp.add_parser("decide")
     sd = sp.add_parser("study"); sd.add_argument("--pages", required=True)
     s = sp.add_parser("sample"); s.add_argument("--script", required=True)
     v = sp.add_parser("voices"); v.add_argument("--names", default="Charon,Orus,Fenrir,Iapetus,Algenib,Sadaltager")
     a = ap.parse_args()
     {"generate": cmd_generate, "publish": cmd_publish, "insights": cmd_insights,
-     "sample": cmd_sample, "voices": cmd_voices, "check": cmd_check, "deliver": cmd_deliver, "study": cmd_study}[a.cmd](a)
+     "sample": cmd_sample, "voices": cmd_voices, "check": cmd_check, "deliver": cmd_deliver, "decide": cmd_decide, "study": cmd_study}[a.cmd](a)
 
 
 if __name__ == "__main__":
