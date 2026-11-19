@@ -22,6 +22,8 @@ jobs:
           pip install -q --force-reinstall --no-deps "torch==$TV" ${AV:+"torchaudio==$AV"} --index-url https://download.pytorch.org/whl/cpu
           python -c "import torch, parler_tts; print('torch', torch.__version__)"
       - name: Generate clips
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: python tools/parler_test.py voice-tests/parler
       - name: Save clips
         if: always()
