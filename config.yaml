@@ -55,3 +55,11 @@ media:
   repo: yash90-ship/kathaaalok-media
   branch: main
   pages_base: https://yash90-ship.github.io/kathaaalok-media
+
+# Weekly content plan: 2 posts a day = 14 per week.
+# 2 "family conversation" reels a week, on different days (one per duo); every other slot is a mythology story.
+weekly_plan:
+  conversation:
+    - {day: Wednesday, slot: "20:00", duo: "dadi+chintu"}
+    - {day: Saturday,  slot: "20:00", duo: "dadaji+chinki"}
+  default: mythology_story
