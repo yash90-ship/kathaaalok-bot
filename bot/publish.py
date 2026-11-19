@@ -90,6 +90,23 @@ def ig_publish_reel(video_url: str, caption: str, cover_url: str | None = None) 
     return {"media_id": mid, "permalink": info.get("permalink")}
 
 
+def ig_already_posted(caption: str, hours: int = 6) -> dict | None:
+    """Return the recent Instagram post whose caption starts like this one (duplicate guard)."""
+    import datetime as _dt
+    base, tok = _graph()
+    r = requests.get(f"{base}/{env('IG_USER_ID')}/media", timeout=60,
+                     params={"fields": "id,caption,timestamp,permalink", "limit": 10, "access_token": tok})
+    if r.status_code != 200:
+        return None
+    first = (caption or "").strip().split("\n")[0][:60]
+    for m in r.json().get("data", []):
+        ts = _dt.datetime.fromisoformat(m["timestamp"].replace("+0000", "+00:00"))
+        if (_dt.datetime.now(_dt.timezone.utc) - ts).total_seconds() < hours * 3600 and \
+                (m.get("caption") or "").strip().startswith(first):
+            return {"media_id": m["id"], "permalink": m.get("permalink")}
+    return None
+
+
 METRICS = ["views", "reach", "likes", "comments", "shares", "saved", "total_interactions",
            "ig_reels_avg_watch_time", "ig_reels_video_view_total_time"]
 

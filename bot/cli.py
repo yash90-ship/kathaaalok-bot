@@ -155,8 +155,53 @@ def cmd_decide(a):
         subprocess.run(["gh", "workflow", "run", "render.yml"], check=True)
 
 
+def _git_sync(msg):
+    import subprocess
+    subprocess.run(["git", "add", "-A", "data", "jobs"], check=False)
+    if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode != 0:
+        subprocess.run(["git", "-c", "user.name=kathaaalok-bot", "-c", "user.email=actions@users.noreply.github.com",
+                        "commit", "-qm", msg + " [skip ci]"], check=False)
+    for _ in range(3):
+        if subprocess.run(["git", "pull", "--rebase", "-q"]).returncode != 0:
+            subprocess.run(["git", "rebase", "--abort"], check=False)
+            subprocess.run(["git", "pull", "--no-rebase", "-q", "-X", "ours"], check=False)
+        if subprocess.run(["git", "push", "-q"]).returncode == 0:
+            break
+        time.sleep(5)
+
+
+def cmd_wait(a):
+    """Stay awake until a slot: check Skip taps every minute, post exactly at the slot time.
+    Doesn't depend on GitHub's (unreliable) cron. Re-launches itself before the 6 h job limit."""
+    import subprocess
+    day, hhmm = a.id.split("_")[:2]
+    slot = f"{hhmm[:2]}:{hhmm[2:]}"
+    when = _slot_dt(slot, dt.date.fromisoformat(day))
+    started = time.time()
+    log(f"waiting for {a.id} at {when:%Y-%m-%d %H:%M} IST")
+    while True:
+        subprocess.run(["git", "pull", "--rebase", "-q"], check=False)
+        items = [load_json(PENDING / f"{x}.json", {}) for x in (a.id, f"{a.id}_b")]
+        if any(i.get("status") == "posted" for i in items):
+            log("already posted"); return
+        if now() >= when - dt.timedelta(seconds=30):
+            cmd_publish(argparse.Namespace(slot=slot, day=day))
+            _git_sync("bot: posted"); return
+        try:
+            cmd_decide(argparse.Namespace())
+            _git_sync("bot: approvals")
+        except Exception as e:
+            log("decide check failed (will retry):", e)
+        if time.time() - started > 5.4 * 3600:   # hand over to a fresh job before GitHub's 6 h limit
+            subprocess.run(["gh", "workflow", "run", "waiter.yml", "-f", f"id={a.id}"], check=False)
+            log("handed over to a new waiter"); return
+        time.sleep(max(20, min(60, (when - now()).total_seconds() - 30)))
+
+
 def cmd_publish(a):
     day, slot = resolve_slot(a.slot, "publish")
+    if getattr(a, "day", None):
+        day = a.day
     base = f"{day}_{slot.replace(':', '')}"
     item_id, pfile, item = base, PENDING / f"{base}.json", None
     for cid in (base, f"{base}_b"):           # the original, or its replacement if the original was skipped
@@ -177,6 +222,12 @@ def cmd_publish(a):
             publish.tg_message(f"⏭ Not posted ({'you tapped Skip' if d == 'no' else 'no approval received'}): {item['title']}")
             return
     url = publish.raw_url(item["video_path"])
+    dup = publish.ig_already_posted(item["caption"])
+    if dup:  # another attempt already posted it (e.g. git state not synced yet) - never post twice
+        log("already on Instagram:", dup.get("permalink"))
+        item.update(dup, status="posted", posted_at=item.get("posted_at") or now().isoformat())
+        save_json(pfile, item)
+        return
     try:
         res = publish.ig_publish_reel(url, item["caption"], item.get("cover_url"))
     except Exception as e:
@@ -268,6 +319,10 @@ def cmd_deliver(a):
                          if CFG["approval"].get("mode", "auto") == "auto" else
                          "Tap ✅ Post to approve, or ❌ Skip to get a replacement. No answer before the slot = not posted.\n\n")
             publish.tg_send_for_approval(video, item_id, head + caption, need)
+            if not item_id.endswith("_b"):
+                import subprocess
+                r = subprocess.run(["gh", "workflow", "run", "waiter.yml", "-f", f"id={item_id}"])
+                log("waiter started" if r.returncode == 0 else "could not start waiter (cron backups will post)")
         meta["delivered"] = now().isoformat()
         save_json(meta_path, meta)
         log("delivered", item_id)
@@ -389,12 +444,13 @@ def main():
     sp.add_parser("deliver")
     sp.add_parser("decide")
     sp.add_parser("check-publish")
+    w = sp.add_parser("wait"); w.add_argument("--id", required=True)
     sd = sp.add_parser("study"); sd.add_argument("--pages", required=True)
     s = sp.add_parser("sample"); s.add_argument("--script", required=True)
     v = sp.add_parser("voices"); v.add_argument("--names", default="Charon,Orus,Fenrir,Iapetus,Algenib,Sadaltager")
     a = ap.parse_args()
     {"generate": cmd_generate, "publish": cmd_publish, "insights": cmd_insights,
-     "sample": cmd_sample, "voices": cmd_voices, "check": cmd_check, "deliver": cmd_deliver, "decide": cmd_decide, "check-publish": cmd_check_publish, "study": cmd_study}[a.cmd](a)
+     "sample": cmd_sample, "voices": cmd_voices, "check": cmd_check, "deliver": cmd_deliver, "decide": cmd_decide, "check-publish": cmd_check_publish, "wait": cmd_wait, "study": cmd_study}[a.cmd](a)
 
 
 if __name__ == "__main__":
