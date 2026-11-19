@@ -25,7 +25,7 @@ jobs:
       - name: Generate clips
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: python tools/parler_test.py voice-tests/parler
+        run: python tools/parler_aman.py voice-tests/aman_v2
       - name: Save clips
         if: always()
         run: |
