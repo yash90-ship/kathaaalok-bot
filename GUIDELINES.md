@@ -37,8 +37,8 @@
   ("साँझ को तुलसी क्यों नहीं तोड़ते?"). The hook is also the first line of the caption and the cover text.
 - Keywords everywhere Instagram reads them: spoken narration, on-screen subtitles, caption first lines.
   Use the exact phrases people search ("तुलसी विवाह कथा", "tulsi vivah story", "shiv puran katha").
-- Caption: hook line -> 2-3 lines with search keywords (Hindi + Hinglish) -> a relatable question that
-  invites comments -> follow line ("ऐसी कथाओं के लिए follow करें").
+- Caption: hook line -> a line of Hindi keywords -> a line of HINGLISH keywords (Roman-script Hindi as people
+  type it: "shiv ji ki katha", "tulsi vivah kyu hota hai") -> a relatable question -> follow line.
 - Hashtags (3-5): 1 broad (#hindumythology), 1-2 niche (#shivpuran), 1 trending/festival (#devdeepawali),
   1 brand (#kathaaalok). Never banned or unrelated tags.
 - Engagement: end with a devotional comment prompt ("हर हर महादेव लिखिए"), make reels people want to
