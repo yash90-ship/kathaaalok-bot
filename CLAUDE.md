@@ -12,13 +12,27 @@ Read and obey `GUIDELINES.md` (account safety, originality, music, religious con
   Skip any id whose `jobs/<id>/` already exists.
 
 ## USAGE BUDGET (important — the owner's Claude plan is shared)
-- Research once for both reels: at most ~8 WebSearch calls in total.
+- Research once for both reels: at most ~10 WebSearch calls in total — spend them on research, not on re-checking.
 - Reuse helpers and patterns from existing `jobs/*/scenes.js`; keep each scenes.js compact.
 - At most 2 stills checks per reel. Don't re-read large files you already know.
 - Backups are LIGHT: a new script.json that reuses the main reel's scene functions/backgrounds
   (only change what the new story needs). Never spend more on the backup than on the main reel.
 - If you are running out of budget, finish and push the main reels first; skip backups.
 - If nothing can be made, push nothing — the free fallback maker covers the slot.
+
+
+## VIRAL CHECKLIST (score every idea and script against this — reject weak ones)
+1. Timing: festival/vrat in the next 1–5 days, or a topic people are searching THIS week.
+2. Hook (first 2 s, also caption line 1 and first frame): a question people actually ask, a surprising
+   twist, or a rule they follow without knowing why ("साँझ को तुलसी क्यों नहीं तोड़ते?"). No slow intros.
+3. Curiosity gap: the answer is revealed only near the end ("इसीलिए…") so people watch to the end.
+4. Emotion: at least one dramatic turn (curse, boon, sacrifice, secret, miracle) — use the emotion director.
+5. Shareable: something families forward on WhatsApp — a practice they follow, a festival meaning, a lesson.
+6. Comment trigger: end with a devotional phrase to write ("जय श्री राम लिखिए") or a question about their home.
+7. Lesser-known but authentic angle on a famous story beats a generic retelling.
+8. Pacing: a new visual every 2–4 s, something moving in every scene, 55–75 s is the sweet spot.
+9. Series: big stories → "Part 1" with a cliffhanger, Part 2 the next day.
+10. Learn: favour the topics/hooks that did best in data/history.json; avoid what flopped.
 
 ## 1. What kind of reel
 `config.yaml > weekly_plan`: Wednesday 18:20 = Dadi ji + Chintu conversation, Saturday 18:20 =
