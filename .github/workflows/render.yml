@@ -27,13 +27,17 @@ jobs:
           key: hf-indic-parler-tts-v1
       - name: Install
         run: |
+          # free ~10 GB of runner disk (unused SDKs) for the voice model
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL || true
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-core >/dev/null
+          export PIP_NO_CACHE_DIR=1
+          # CPU-only torch first, so parler-tts doesn't pull the multi-GB GPU build
+          pip install -q torch torchaudio --index-url https://download.pytorch.org/whl/cpu
           pip install -q -r requirements.txt
-          pip install -q git+https://github.com/huggingface/parler-tts.git soundfile
-          TV=$(pip show torch | awk '/^Version/{print $2}' | cut -d+ -f1)
-          AV=$(pip show torchaudio 2>/dev/null | awk '/^Version/{print $2}' | cut -d+ -f1)
-          pip install -q --force-reinstall --no-deps "torch==$TV" ${AV:+"torchaudio==$AV"} --index-url https://download.pytorch.org/whl/cpu
+          pip install -q git+https://github.com/huggingface/parler-tts.git soundfile --extra-index-url https://download.pytorch.org/whl/cpu
           pip install -q -U protobuf sentencepiece
+          python -c "import torch; print('torch', torch.__version__)"
+          df -h / | tail -1
           npm install --silent && npx playwright install --with-deps chromium >/dev/null
       - name: Voice + render + deliver
         env:
