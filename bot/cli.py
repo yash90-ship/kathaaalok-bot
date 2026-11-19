@@ -174,10 +174,7 @@ def cmd_publish(a):
             save_json(pfile, item)
             publish.tg_message(f"⏭ Not posted ({'you tapped Skip' if d == 'no' else 'no approval received'}): {item['title']}")
             return
-    url = item["video_url"]
-    if not publish.wait_public(url, timeout=300):
-        url = publish.raw_url(item["video_path"])
-        log("Pages URL not live, using raw URL")
+    url = publish.raw_url(item["video_path"])
     try:
         res = publish.ig_publish_reel(url, item["caption"], item.get("cover_url"))
     except Exception as e:

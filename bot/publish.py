@@ -21,7 +21,7 @@ def upload_media(local_path: str, remote_path: str) -> str:
         body["sha"] = existing.json()["sha"]
     r = requests.put(api, headers=h, json=body, timeout=300)
     r.raise_for_status()
-    return f"{CFG['media']['pages_base'].rstrip('/')}/{remote_path}"
+    return raw_url(remote_path)  # tested: Instagram accepts raw.githubusercontent.com video URLs
 
 
 def delete_media(remote_path: str):

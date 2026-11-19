@@ -1,15 +1,24 @@
 # kathaaalok reel maker — instructions for the scheduled Claude runs
 
-You make ONE Instagram reel (+ one backup) for the next posting slot of @kathaaalok, a Hindi
-mythology page. You write and draw it; GitHub Actions voices, renders, sends it to the owner's
+Once a day (early morning IST) you make BOTH of today's reels — 09:00 and 18:20 — plus a light
+backup for each, for @kathaaalok, a Hindi mythology page. You write and draw it; GitHub Actions voices, renders, sends it to the owner's
 Telegram for approval and posts it. **Never post to Instagram or message anyone yourself.**
 Read and obey `GUIDELINES.md` (account safety, originality, music, religious content, growth).
 
 ## 0. Setup (each run starts fresh)
 - Repo: `yash90-ship/kathaaalok-bot` (attach with add_repo if missing, clone to /home/user/kathaaalok-bot).
 - `npm install` (playwright) and `apt-get install -y fonts-noto-core` if Devanagari fonts are missing.
-- Slots (IST): 09:00 and 18:20 (`config.yaml`). Work out the NEXT slot from the current IST time.
-- Job id: `<YYYY-MM-DD>_<HHMM>` e.g. `2026-11-20_0900`. If `jobs/<id>/` already exists, stop.
+- Slots (IST): 09:00 and 18:20 (`config.yaml`). Make today's two: ids `<YYYY-MM-DD>_0900` and `<YYYY-MM-DD>_1820`.
+  Skip any id whose `jobs/<id>/` already exists.
+
+## USAGE BUDGET (important — the owner's Claude plan is shared)
+- Research once for both reels: at most ~8 WebSearch calls in total.
+- Reuse helpers and patterns from existing `jobs/*/scenes.js`; keep each scenes.js compact.
+- At most 2 stills checks per reel. Don't re-read large files you already know.
+- Backups are LIGHT: a new script.json that reuses the main reel's scene functions/backgrounds
+  (only change what the new story needs). Never spend more on the backup than on the main reel.
+- If you are running out of budget, finish and push the main reels first; skip backups.
+- If nothing can be made, push nothing — the free fallback maker covers the slot.
 
 ## 1. What kind of reel
 `config.yaml > weekly_plan`: Wednesday 18:20 = Dadi ji + Chintu conversation, Saturday 18:20 =
