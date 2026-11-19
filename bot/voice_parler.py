@@ -21,13 +21,15 @@ EMOTIONS = {  # emotion -> how the line is performed
 }
 # speaker -> (Parler voice, gender, extra description, pitch shift in semitones)
 SPEAKERS = {
-    "narrator": ("Aman", "he", "", 0),
-    "dadaji":   ("Aman", "he", "He sounds like an elderly grandfather with a deep, slightly husky voice. ", -1),
-    "dadi":     ("Divya", "she", "She sounds like a warm elderly grandmother with a low pitch. ", -1.5),
-    "chintu":   ("Divya", "she", "She has a high-pitched, playful young voice. ", 3.5),
-    "chinki":   ("Divya", "she", "She has a high-pitched, sweet young voice. ", 4),
-    "god":      ("Aman", "he", "He has a deep, powerful and majestic voice. ", -1),
-    "female":   ("Divya", "she", "", 0),
+    "narrator": ("Aman", "he", "", 0, 1.0),
+    # elders: aged, slower, lower voices
+    "dadaji":   ("Aman", "he", "He sounds like an old grandfather in his seventies, deep, slightly husky and slow. ", -2, 0.93),
+    "dadi":     ("Divya", "she", "She sounds like an old grandmother in her seventies, soft, warm and slow. ", -2.5, 0.92),
+    # kids: young, bright, quick voices
+    "chintu":   ("Divya", "she", "She has a high-pitched, playful young child's voice, fast and lively. ", 4.5, 1.05),
+    "chinki":   ("Divya", "she", "She has a high-pitched, sweet young child's voice, bright and lively. ", 5, 1.05),
+    "god":      ("Aman", "he", "He has a deep, powerful and majestic voice. ", -1, 0.97),
+    "female":   ("Divya", "she", "", 0, 1.0),
 }
 
 _model = None
@@ -46,7 +48,7 @@ def _load():
 
 
 def describe(speaker: str, emotion: str) -> tuple[str, float]:
-    name, pron, extra, shift = SPEAKERS.get(speaker, SPEAKERS["narrator"])
+    name, pron, extra, shift, _ = SPEAKERS.get(speaker, SPEAKERS["narrator"])
     style = EMOTIONS.get(emotion, EMOTIONS["calm"])
     desc = (f"{name}'s voice is clear and expressive; {pron} {style}. {extra}"
             "The recording is of very high quality, very close-sounding, with no background noise.")
@@ -66,10 +68,13 @@ def speak(text: str, out_path: str, speaker: str = "narrator", emotion: str = "c
     sr = model.config.sampling_rate
     raw = out_path + ".raw.wav"
     sf.write(raw, g.cpu().numpy().squeeze(), sr)
+    tempo = SPEAKERS.get(speaker, SPEAKERS["narrator"])[4]
     af = "silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse"
     if shift:
         f = 2 ** (shift / 12)
-        af = f"asetrate={int(sr * f)},aresample={sr},atempo={1 / f:.4f}," + af
+        af = f"asetrate={int(sr * f)},aresample={sr},atempo={tempo / f:.4f}," + af
+    elif tempo != 1.0:
+        af = f"atempo={tempo:.3f}," + af
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", raw, "-af", af + ",loudnorm=I=-16:TP=-1.5",
                     "-ar", "44100", "-b:a", "160k", out_path], check=True)
     os.remove(raw)
