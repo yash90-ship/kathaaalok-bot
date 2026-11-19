@@ -20,7 +20,8 @@ jobs:
           TV=$(pip show torch | awk '/^Version/{print $2}' | cut -d+ -f1)
           AV=$(pip show torchaudio 2>/dev/null | awk '/^Version/{print $2}' | cut -d+ -f1)
           pip install -q --force-reinstall --no-deps "torch==$TV" ${AV:+"torchaudio==$AV"} --index-url https://download.pytorch.org/whl/cpu
-          python -c "import torch, parler_tts; print('torch', torch.__version__)"
+          pip install -q -U protobuf sentencepiece
+          python -c "import torch, parler_tts, google.protobuf; from google.protobuf import runtime_version; print('torch', torch.__version__)"
       - name: Generate clips
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
