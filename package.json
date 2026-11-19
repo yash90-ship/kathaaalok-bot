@@ -1,0 +1,1 @@
+{ "name": "kathaaalok-bot", "private": true, "dependencies": { "playwright": "1.49.1" } }

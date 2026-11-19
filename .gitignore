@@ -11,3 +11,11 @@ drawn/timeline.js
 drawn/scenes.js
 reels/*/timeline.js
 reels/*/timeline.json
+node_modules/
+jobs/*/vo/
+jobs/*/silent.mp4
+jobs/*/mix.wav
+jobs/*/reel.mp4
+jobs/*/cover.jpg
+jobs/*/timeline.js
+jobs/*/timeline.json

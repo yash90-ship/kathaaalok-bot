@@ -38,16 +38,21 @@ def build(reel: str) -> str:
     for i, s in enumerate(scenes):
         mp3 = os.path.join(vdir, f"{i:02d}.mp3")
         if not os.path.exists(mp3):
-            for attempt in range(5):
-                try:
-                    _edge_tts(s["narration"], mp3)
-                    break
-                except Exception as e:
-                    log("tts retry", i, e)
+            if CFG["models"].get("voice_engine") == "parler":
+                from bot.voice_parler import speak
+                speak(s["narration"], mp3, s.get("speaker", "narrator"), s.get("emotion", "calm"), seed=7 + i)
+                log(f"voice {i + 1}/{len(scenes)} [{s.get('speaker', 'narrator')}/{s.get('emotion', 'calm')}]")
+            else:
+                for attempt in range(5):
+                    try:
+                        _edge_tts(s["narration"], mp3)
+                        break
+                    except Exception as e:
+                        log("tts retry", i, e)
         clips.append(mp3)
         durs.append(media_duration(mp3) + GAP)
     # keep reels within the 90 s limit: re-voice faster once if the story runs long
-    if sum(durs) + HOLD_END > MAX_SECONDS:
+    if sum(durs) + HOLD_END > MAX_SECONDS and CFG["models"].get("voice_engine") != "parler":
         rate = "+45%"
         log(f"story is {sum(durs):.0f}s - re-voicing at {rate} to stay under {MAX_SECONDS}s")
         for i, s in enumerate(scenes):
@@ -55,6 +60,8 @@ def build(reel: str) -> str:
             durs[i] = media_duration(clips[i]) + GAP
         if sum(durs) + HOLD_END > MAX_SECONDS:
             raise SystemExit(f"Story too long ({sum(durs):.0f}s) - shorten the script to fit {MAX_SECONDS}s")
+    if sum(durs) + HOLD_END > MAX_SECONDS:
+        raise SystemExit(f"Story too long ({sum(durs):.0f}s) - shorten the script to fit {MAX_SECONDS}s")
     durs[-1] += HOLD_END
 
     # 2) timeline with caption timings
