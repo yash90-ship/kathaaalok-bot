@@ -1,0 +1,29 @@
+[
+ {
+  "id": "2026-11-19_1820",
+  "settings": [
+   "Vishnu on Sheshnag in Kshir Sagar",
+   "King Bali's throne",
+   "yajna with temple",
+   "Patala palace",
+   "giant Trivikrama in starry sky"
+  ],
+  "palette": [
+   "sky blue + Patala purple",
+   "festive sunset orange"
+  ],
+  "new_elements": [
+   "Vamana (child brahmin, umbrella, kamandal)",
+   "fire altar",
+   "3-step footprints"
+  ],
+  "characters": [
+   "vishnu",
+   "bali (deva crown, purple)",
+   "vamana",
+   "lakshmi",
+   "deva"
+  ],
+  "hook_style": "question over split frame: sleeping Vishnu above, Bali below"
+ }
+]

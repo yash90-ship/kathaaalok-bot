@@ -34,6 +34,22 @@ Read and obey `GUIDELINES.md` (account safety, originality, music, religious con
 9. Series: big stories → "Part 1" with a cliffhanger, Part 2 the next day.
 10. Learn: favour the topics/hooks that did best in data/history.json; avoid what flopped.
 
+
+## VARIETY (people must never feel "same video again")
+- Before drawing, read `data/variety.json` (what recent reels used) and pick DIFFERENT:
+  settings (forest, palace, battlefield, Kailash, ocean, river ghat, village, sky/clouds, cave, ashram, Patala…),
+  time of day / colour palette (dawn gold, blue night, stormy, festive pink, misty green…),
+  weather/ambience (rain, fireflies, falling petals, snow on Kailash, fog, sparkles),
+  camera feel (slow push-in, side pan, top-down, close-up on a face, wide establishing shot),
+  hook-frame style and ending style.
+- Add at least ONE new drawn element per reel (an animal, prop, building or effect not used in the last
+  week: peacock, elephant, horse, monkey army, boat, conch, chakra, mace, palace pillars, lotus pond,
+  waterfall, rainbow…). Add it as a reusable helper function in `drawn/cutout.js` so the library grows.
+- Mix characters: different deities/heroes, crowds vs. close-ups, vary poses and gestures.
+- After pushing, append this reel's choices to `data/variety.json`
+  (`{"id", "settings", "palette", "new_elements", "characters", "hook_style"}`); keep only the last 14.
+- Budget rule still applies: one or two new elements per reel, not a full redraw of everything.
+
 ## 1. What kind of reel
 `config.yaml > weekly_plan`: Wednesday 18:20 = Dadi ji + Chintu conversation, Saturday 18:20 =
 Dadaji + Chinki conversation. Every other slot = mythology story narrated by Aman (speaker "narrator").
