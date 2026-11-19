@@ -24,6 +24,17 @@ def upload_media(local_path: str, remote_path: str) -> str:
     return f"{CFG['media']['pages_base'].rstrip('/')}/{remote_path}"
 
 
+def delete_media(remote_path: str):
+    """Remove a posted video from the media repo so GitHub Pages stays small (<1 GB)."""
+    repo, branch = CFG["media"]["repo"], CFG["media"]["branch"]
+    h = {"Authorization": f"Bearer {env('MEDIA_REPO_TOKEN')}", "Accept": "application/vnd.github+json"}
+    api = f"https://api.github.com/repos/{repo}/contents/{remote_path}"
+    r = requests.get(api, headers=h, params={"ref": branch}, timeout=60)
+    if r.status_code == 200:
+        requests.delete(api, headers=h, json={"message": f"cleanup {remote_path}", "sha": r.json()["sha"],
+                                              "branch": branch}, timeout=60)
+
+
 def raw_url(remote_path: str) -> str:
     repo, branch = CFG["media"]["repo"], CFG["media"]["branch"]
     return f"https://raw.githubusercontent.com/{repo}/{branch}/{remote_path}"

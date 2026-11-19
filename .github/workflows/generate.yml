@@ -1,9 +1,9 @@
-name: 1 - Generate reel
+name: 1 - Fallback reel (only if main run failed)
 # Runs ~50 min before each slot (13:00 and 20:00 IST): trends -> script -> reel -> Telegram
 on:
   schedule:
-    - cron: "37 6 * * *"   # 12:07 IST (slot 13:00)
-    - cron: "37 13 * * *"  # 19:07 IST
+    - cron: "50 1 * * *"   # 07:20 IST: backup maker for the 09:00 slot (only if the main run made nothing)
+    - cron: "50 10 * * *"  # 16:20 IST: backup maker for the 18:20 slot
   workflow_dispatch:
     inputs:
       slot:
@@ -53,6 +53,14 @@ jobs:
             out/*/script.json
           if-no-files-found: ignore
           retention-days: 7
+      - name: Alert owner on failure
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          curl -s "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" -d chat_id="${TELEGRAM_CHAT_ID}" \
+            --data-urlencode text="⚠️ '${{ github.workflow }}' failed. Nothing was posted by this run. The system keeps going; next runs retry automatically." >/dev/null
       - name: Save state
         if: always()
         run: |

@@ -21,3 +21,5 @@ jobs/*/timeline.js
 jobs/*/timeline.json
 jobs/*/music.wav
 reels/*/music.wav
+queue/*/reel.mp4
+queue/*/cover.jpg

@@ -13,7 +13,7 @@ import os
 import time
 
 from . import images, planner, publish, render, trends, voice
-from .common import (CFG, OUT, PENDING, ROOT, approval_required, history, load_json, log, now,
+from .common import (CFG, env, OUT, PENDING, ROOT, approval_required, history, load_json, log, now,
                      save_history, save_json)
 
 
@@ -70,8 +70,8 @@ def cmd_generate(a):
     day, slot = resolve_slot(a.slot, "generate")
     item_id = f"{day}_{slot.replace(':', '')}"
     pfile = PENDING / f"{item_id}.json"
-    if pfile.exists() and not (a.force or a.dry_run):
-        log("already generated:", item_id)
+    if (pfile.exists() or (ROOT / "jobs" / item_id).exists()) and not (a.force or a.dry_run):
+        log("already made (or being made) by the main pipeline:", item_id)
         return
     script = planner.plan(trends.collect())
     if not script and a.dry_run:
@@ -188,6 +188,10 @@ def cmd_publish(a):
         raise
     item.update(res, status="posted", posted_at=now().isoformat())
     save_json(pfile, item)
+    try:
+        publish.delete_media(item["video_path"])
+    except Exception as e:
+        log("media cleanup failed (harmless):", e)
     h = history()
     h.append({k: item.get(k) for k in ("id", "date", "slot", "title", "hook", "score", "trend_reason",
                                        "media_id", "permalink", "status", "posted_at")})
@@ -273,6 +277,42 @@ def cmd_study(a):
     research.run([u.strip().lstrip("@") for u in a.pages.split(",") if u.strip()])
 
 
+def cmd_check_publish(a):
+    """Upload a reel, let Instagram download + process it, but do NOT publish (container is discarded)."""
+    import glob
+    import requests
+    vids = sorted(glob.glob(str(ROOT / "queue" / "*" / "reel.mp4")) + glob.glob(str(ROOT / "jobs" / "*" / "reel.mp4")))
+    if not vids:  # make a 6 s 9:16 test clip
+        import subprocess
+        test = str(ROOT / "out" / "posting_test.mp4"); os.makedirs(ROOT / "out", exist_ok=True)
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", "testsrc2=s=1080x1920:r=30:d=6", "-f", "lavfi",
+                        "-i", "sine=f=440:d=6", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest",
+                        "-movflags", "+faststart", test], check=True)
+        vids = [test]
+    url = publish.upload_media(vids[0], "videos/_posting_test.mp4")
+    live = publish.wait_public(url, 300)
+    log("GitHub Pages URL live:", live, url)
+    if not live:
+        url = publish.raw_url("videos/_posting_test.mp4")
+    base, tok = publish._graph()
+    r = requests.post(f"{base}/{env('IG_USER_ID')}/media", timeout=120, data={
+        "media_type": "REELS", "video_url": url, "caption": "test - not published", "access_token": tok})
+    log("create container:", r.status_code, r.text[:300])
+    r.raise_for_status()
+    cid = r.json()["id"]
+    for _ in range(40):
+        time.sleep(10)
+        s = requests.get(f"{base}/{cid}", params={"fields": "status_code,status", "access_token": tok}, timeout=60).json()
+        if s.get("status_code") in ("FINISHED", "ERROR", "EXPIRED"):
+            break
+    log("Instagram processing result:", s)
+    publish.delete_media("videos/_posting_test.mp4")
+    ok = s.get("status_code") == "FINISHED"
+    publish.tg_message(("✅" if ok else "❌") + f" Posting test (nothing was published): Instagram processing = {s.get('status_code')}")
+    if not ok:
+        raise SystemExit(1)
+
+
 def cmd_check(a):
     """Verify every secret works, without posting anything."""
     import requests
@@ -347,12 +387,13 @@ def main():
     sp.add_parser("check")
     sp.add_parser("deliver")
     sp.add_parser("decide")
+    sp.add_parser("check-publish")
     sd = sp.add_parser("study"); sd.add_argument("--pages", required=True)
     s = sp.add_parser("sample"); s.add_argument("--script", required=True)
     v = sp.add_parser("voices"); v.add_argument("--names", default="Charon,Orus,Fenrir,Iapetus,Algenib,Sadaltager")
     a = ap.parse_args()
     {"generate": cmd_generate, "publish": cmd_publish, "insights": cmd_insights,
-     "sample": cmd_sample, "voices": cmd_voices, "check": cmd_check, "deliver": cmd_deliver, "decide": cmd_decide, "study": cmd_study}[a.cmd](a)
+     "sample": cmd_sample, "voices": cmd_voices, "check": cmd_check, "deliver": cmd_deliver, "decide": cmd_decide, "check-publish": cmd_check_publish, "study": cmd_study}[a.cmd](a)
 
 
 if __name__ == "__main__":

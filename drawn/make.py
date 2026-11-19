@@ -120,7 +120,7 @@ def build(reel: str) -> str:
 
     out = os.path.join(reel, "reel.mp4")
     run(["ffmpeg", "-y", "-v", "error", "-i", silent, "-i", mix, "-map", "0:v", "-map", "1:a",
-         "-c:v", "libx264", "-preset", "medium", "-crf", "22", "-pix_fmt", "yuv420p", "-r", str(CFG["video"]["fps"]),
+         "-c:v", "libx264", "-preset", "medium", "-crf", "24", "-maxrate", "4M", "-bufsize", "8M", "-pix_fmt", "yuv420p", "-r", str(CFG["video"]["fps"]),
          "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", "-t", f"{t:.3f}", out])
     run(["ffmpeg", "-y", "-v", "error", "-ss", "1.0", "-i", out, "-frames:v", "1", "-q:v", "2",
          os.path.join(reel, "cover.jpg")])

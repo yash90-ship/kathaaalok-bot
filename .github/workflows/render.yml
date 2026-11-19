@@ -20,6 +20,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+      - name: Cache pip downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-render-v1
       - name: Cache AI voice model
         uses: actions/cache@v4
         with:
@@ -30,7 +35,6 @@ jobs:
           # free ~10 GB of runner disk (unused SDKs) for the voice model
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL || true
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-core >/dev/null
-          export PIP_NO_CACHE_DIR=1
           # CPU-only torch first, so parler-tts doesn't pull the multi-GB GPU build
           pip install -q torch torchaudio --index-url https://download.pytorch.org/whl/cpu
           pip install -q -r requirements.txt
@@ -55,6 +59,14 @@ jobs:
             mkdir -p "queue/$id" && cp "$d"/reel.mp4 "$d"/cover.jpg "$d"/script.json "$d"/meta.json "queue/$id/"
           done
           python -m bot.cli deliver
+      - name: Alert owner on failure
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          curl -s "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" -d chat_id="${TELEGRAM_CHAT_ID}" \
+            --data-urlencode text="⚠️ '${{ github.workflow }}' failed. Nothing was posted by this run. The system keeps going; next runs retry automatically." >/dev/null
       - name: Save state
         if: always()
         run: |
