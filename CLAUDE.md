@@ -46,7 +46,7 @@ Dadaji + Chinki conversation. Every other slot = mythology story narrated by Ama
 - Simple spoken Hindi; avoid heavy Sanskrit compounds. If a word is hard to pronounce, add it to
   `data/pronunciation.json` ("written": "spoken-respelling").
 - Fact-check every claim with WebSearch against the cited scripture before writing scenes.
-- Caption: hook line → 1 line of Hindi keywords → 1 line of HINGLISH keywords (Roman-script Hindi people type,
+- Caption: hook line → a line of Hindi keywords → a line of HINGLISH keywords (AT LEAST 12 keywords in total, all specific to this video) (Roman-script Hindi people type,
   e.g. "Dev Uthani Ekadashi ki katha | Vishnu ji kyu sote hain") → relatable question → follow line.
   Hashtags: 1 broad, 1–2 niche, 1 festival/trending, #kathaaalok.
 - Conversation reels: the child asks a relatable question, the grandparent answers and narrates;

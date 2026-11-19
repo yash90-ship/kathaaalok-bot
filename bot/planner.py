@@ -117,7 +117,7 @@ RULES
 - "characters": consistent English visual descriptions for every recurring character
   (age, skin tone, clothing colours, crown/ornaments, weapon/vehicle).
 - Instagram caption (Hindi): line 1 = the hook; then 2-3 short lines with search keywords people actually type
-  (one line in Hindi, one line in Hinglish - Roman-script Hindi as people type it, e.g. "तुलसी विवाह कथा" and "tulsi vivah kyu hota hai"); then a question to drive comments.
+  (AT LEAST 12 keywords specific to this video: one line in Hindi, one line in Hinglish - Roman-script Hindi as people type it, e.g. "तुलसी विवाह कथा" and "tulsi vivah kyu hota hai"); then a question to drive comments.
   No hashtags inside caption text.
 - 3 to 5 hashtags only, highly relevant (mix Hindi and English), always include #{PAGE['handle']}.
 
