@@ -226,6 +226,11 @@ def cmd_deliver(a):
         log("delivered", item_id)
 
 
+def cmd_study(a):
+    from . import research
+    research.run([u.strip().lstrip("@") for u in a.pages.split(",") if u.strip()])
+
+
 def cmd_check(a):
     """Verify every secret works, without posting anything."""
     import requests
@@ -299,11 +304,12 @@ def main():
     sp.add_parser("insights")
     sp.add_parser("check")
     sp.add_parser("deliver")
+    sd = sp.add_parser("study"); sd.add_argument("--pages", required=True)
     s = sp.add_parser("sample"); s.add_argument("--script", required=True)
     v = sp.add_parser("voices"); v.add_argument("--names", default="Charon,Orus,Fenrir,Iapetus,Algenib,Sadaltager")
     a = ap.parse_args()
     {"generate": cmd_generate, "publish": cmd_publish, "insights": cmd_insights,
-     "sample": cmd_sample, "voices": cmd_voices, "check": cmd_check, "deliver": cmd_deliver}[a.cmd](a)
+     "sample": cmd_sample, "voices": cmd_voices, "check": cmd_check, "deliver": cmd_deliver, "study": cmd_study}[a.cmd](a)
 
 
 if __name__ == "__main__":
