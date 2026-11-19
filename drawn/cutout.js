@@ -102,9 +102,9 @@ function cChariot(x, y, s, t) {
  * talk (0/1), item {l|r: "bow"|"trishul"|"diya"|"lotus"}, aim (deg for bow), pull (0..1) */
 function puppet(x, y, s, t, o = {}) {
   const kind = o.kind || "man", ph = o.ph || 0;
-  const skin = o.skin || { shiva: K.blue, asura: K.asura, brahma: "#e7a35c", dadi: "#d99a6c", dadaji: "#c98a5c", vishnu: K.blue, lakshmi: "#f0b07a" }[kind] || K.skin;
-  const outfit = o.outfit || { shiva: "#c9a26b", asura: K.asura2, sage: K.saffron, brahma: K.red, deva: K.gold, dadi: "#f6efe0", chintu: K.white, chinki: "#e0457b", dadaji: "#f7f3ea", vishnu: K.gold, lakshmi: K.red }[kind] || K.white;
-  const sash = o.sash || (kind === "asura" ? "#3c2a4d" : (kind === "shiva" || kind === "chintu" || kind === "chinki") ? null : kind === "dadi" ? "#f6efe0" : kind === "dadaji" ? "#e8d9b5" : K.saffron);
+  const skin = o.skin || { shiva: K.blue, asura: K.asura, brahma: "#e7a35c", dadi: "#d99a6c", dadaji: "#c98a5c", vishnu: K.blue, lakshmi: "#f0b07a", vamana: "#e8a878" }[kind] || K.skin;
+  const outfit = o.outfit || { shiva: "#c9a26b", asura: K.asura2, sage: K.saffron, brahma: K.red, deva: K.gold, dadi: "#f6efe0", chintu: K.white, chinki: "#e0457b", dadaji: "#f7f3ea", vishnu: K.gold, lakshmi: K.red, vamana: K.gold }[kind] || K.white;
+  const sash = o.sash || (kind === "asura" ? "#3c2a4d" : (kind === "shiva" || kind === "chintu" || kind === "chinki" || kind === "vamana") ? null : kind === "dadi" ? "#f6efe0" : kind === "dadaji" ? "#e8d9b5" : K.saffron);
   const bob = wob(t, .5, 4, ph), tilt = (o.tilt ?? 0) + wob(t, .23, 3, ph);
   const blink = ((t + ph * 1.7) % 3.4) < .13;
   const talk = o.talk ? Math.max(0, Math.sin(t * 13 + ph)) * Math.abs(Math.sin(t * 3.1 + ph)) : 0;
@@ -128,6 +128,8 @@ function puppet(x, y, s, t, o = {}) {
     if (item === "trishul") it = `<g transform="rotate(${a + b})">${cut("M-9 -330 L9 -330 L9 160 L-9 160Z", "#c9c9c9", { sw: 5 })}
         ${cut("M-60 -330 Q-62 -400 -30 -430 Q-40 -380 -12 -350 L0 -470 L12 -350 Q40 -380 30 -430 Q62 -400 60 -330Z", "#d9d9d9", { sw: 5 })}
         ${cut(rrect(-26, -300, 52, 40, 10), K.red, { sw: 4, noStitch: 1 })}</g>`;
+    if (item === "umbrella") it = `<g transform="rotate(${a + b})">${cut("M-6 -420 L6 -420 L6 40 L-6 40Z", "#8a5a2b", { sw: 4 })}${cut("M-200 -380 Q0 -560 200 -380 Q100 -410 0 -390 Q-100 -410 -200 -380Z", "#f3d9a0")}<path d="M-200 -380 Q0 -560 200 -380" fill="none" stroke="${K.red}" stroke-width="8"/></g>`;
+    if (item === "kamandal") it = `<g transform="rotate(${a + b})">${cut("M-40 0 Q-50 60 0 70 Q50 60 40 0Z", "#c96a3a", { sw: 5 })}${cut("M-12 -10 L12 -10 L10 5 L-10 5Z", "#c96a3a", { sw: 4 })}</g>`;
     if (item === "stick") it = `<g transform="rotate(${a + b})">${cut("M-9 -60 L9 -60 L9 560 L-9 560Z", "#8a5a2b", { sw: 5 })}${cut("M-9 -60 Q-10 -110 40 -110 Q70 -108 70 -80 L52 -80 Q50 -92 38 -92 Q10 -92 9 -60Z", "#8a5a2b", { sw: 5 })}</g>`;
     if (item === "diya") it = `<g transform="rotate(${a + b})">${cDiya(0, -10, 1, t, ph)}</g>`;
     if (item === "lotus") it = `<g transform="rotate(${a + b}) translate(0 -20)">${[-40, 0, 40].map(r => cut("M0 0 Q-24 -55 0 -100 Q24 -55 0 0Z", K.pink, { sw: 5, noStitch: 1 }).replace("<path", `<path transform="rotate(${r})"`)).join("")}</g>`;
@@ -155,7 +157,7 @@ function puppet(x, y, s, t, o = {}) {
         `<path d="M-160 -352 L-135 -560 Q-150 -735 0 -740 Q150 -735 135 -560 L160 -352" fill="none" stroke="${K.red}" stroke-width="12"/>`;
     else if (kind === "chinki") h += [-1, 1].map(sd => cut(`M${sd * 95} -520 Q${sd * 150} -420 ${sd * 120} -300 L${sd * 92} -300 Q${sd * 118} -420 ${sd * 70} -510Z`, K.hair) +
         cut(circ(sd * 106, -290, 18), K.red, { sw: 4, noStitch: 1 })).join("");
-    else if (kind !== "sage" && kind !== "asura" && kind !== "chintu" && kind !== "dadaji") h += cut("M-112 -560 L-130 -350 L-60 -360 L-60 -480 L60 -480 L60 -360 L130 -350 L112 -560Z", K.hair, { noStitch: 1 });
+    else if (!["sage", "asura", "chintu", "dadaji", "vamana"].includes(kind)) h += cut("M-112 -560 L-130 -350 L-60 -360 L-60 -480 L60 -480 L60 -360 L130 -350 L112 -560Z", K.hair, { noStitch: 1 });
     if (kind === "sage") h += cut("M-110 -560 Q-140 -420 -80 -380 L80 -380 Q140 -420 110 -560Z", "#e9e4dc");
     h += cut(rrect(-36, -440, 72, 80, 20), skin, { noStitch: 1 });                 // neck
     h += cut(circ(0, -545, 110), skin);                                            // face
@@ -166,6 +168,7 @@ function puppet(x, y, s, t, o = {}) {
     else if (kind === "man" || kind === "sage") h += cut(circ(0, -680, 58), kind === "sage" ? "#e9e4dc" : K.hair) + cut("M-42 -650 L42 -650", K.gold, { sw: 10, noStitch: 1 });
     else if (kind === "dadi") h += cut("M-108 -585 Q0 -700 108 -585 Q60 -640 0 -638 Q-60 -640 -108 -585Z", "#d6d3cf") +
         cut("M-118 -590 Q0 -715 118 -590 Q0 -668 -118 -590Z", outfit, { sw: 6 }) + `<path d="M-118 -590 Q0 -668 118 -590" fill="none" stroke="${K.red}" stroke-width="9"/>`;
+    else if (kind === "vamana") h += cut("M-10 -652 Q-30 -720 10 -740 Q0 -700 18 -652Z", K.hair, { sw: 4 });
     else if (kind === "chintu") h += cut("M-114 -540 Q-130 -650 -80 -680 L-60 -720 L-30 -688 L0 -735 L30 -690 L65 -722 L80 -680 Q130 -650 114 -540 Q100 -600 50 -615 Q0 -592 -50 -615 Q-100 -600 -114 -540Z", K.hair);
     else if (kind === "chinki") h += cut("M-116 -545 Q-130 -690 0 -690 Q130 -690 116 -545 Q105 -610 60 -602 Q20 -640 0 -650 Q-20 -640 -60 -602 Q-105 -610 -116 -545Z", K.hair) +
         `<path d="M0 -690 L0 -650" stroke="#4a3a3a" stroke-width="4"/>` + cut("M-60 -688 l-40 -30 l10 45Z M-60 -688 l-45 20 l40 15Z", K.red, { sw: 4, noStitch: 1 });
@@ -177,7 +180,7 @@ function puppet(x, y, s, t, o = {}) {
         cut("M-105 -600 L-80 -680 L-40 -630 L0 -700 L40 -630 L80 -680 L105 -600Z", "#3c2a4d");
     else h += cut("M-100 -610 L-100 -690 L-60 -660 L-30 -730 L0 -680 L30 -730 L60 -660 L100 -690 L100 -610Z", K.gold) + cut(circ(0, -650, 18), K.red, { sw: 4, noStitch: 1 });
     // face details
-    const ey = -555, kid = kind === "chintu" || kind === "chinki", open = blink ? 2 : (kind === "asura" ? 15 : kid ? 17 : 11);
+    const ey = -555, kid = kind === "chintu" || kind === "chinki" || kind === "vamana", open = blink ? 2 : (kind === "asura" ? 15 : kid ? 17 : 11);
     for (const ex of [-42, 42]) {
       h += `<ellipse cx="${ex}" cy="${ey}" rx="${kid ? 27 : 24}" ry="${open}" fill="#fff" stroke="${K.line}" stroke-width="4"/>`;
       if (!blink) h += `<circle cx="${ex + 4}" cy="${ey + (kid ? 2 : 0)}" r="${kid ? 11 : 8}" fill="${kind === "asura" ? K.red : "#2b2240"}"/>` +
@@ -199,19 +202,21 @@ function puppet(x, y, s, t, o = {}) {
     if (kind === "asura") h += `<path d="M-22 ${my - 2} l6 18 l6 -16 M10 ${my - 2} l6 18 l6 -16" fill="#fff" stroke="${K.line}" stroke-width="3"/>`;
     if (kind === "shiva") h += `<path d="M-45 -615 h90 M-45 -603 h90 M-45 -591 h90" stroke="#fff" stroke-width="5"/>` + `<ellipse cx="0" cy="-625" rx="7" ry="13" fill="${K.red}" stroke="${K.line}" stroke-width="3"/>`;
     else if (kind === "dadi" || kind === "chinki" || kind === "lakshmi") h += `<circle cx="0" cy="-612" r="${kind === "chinki" ? 7 : 9}" fill="${K.red}"/>`;
+    else if (kind === "vamana") h += `<path d="M-14 -600 L-20 -650 M14 -600 L20 -650" stroke="#fff" stroke-width="6"/><path d="M0 -603 L0 -640" stroke="${K.red}" stroke-width="6"/>`;
     else if (kind === "vishnu") h += `<path d="M-14 -600 L-20 -660 M14 -600 L20 -660" stroke="#fff" stroke-width="7"/><path d="M0 -605 L0 -650" stroke="${K.red}" stroke-width="7"/>`;
     else if (kind !== "asura") h += `<path d="M0 -625 l0 -38" stroke="${K.red}" stroke-width="9" stroke-linecap="round"/>`;
     if (kind === "sage" || kind === "brahma") h += cut(`M-80 ${my - 20} Q-90 ${my + 140} 0 ${my + 190} Q90 ${my + 140} 80 ${my - 20} Q0 ${my + 30} -80 ${my - 20}Z`, "#f3efe8");
     // earrings
     if (kind === "chinki") h += cut(circ(-110, -515, 11), K.gold, { sw: 4, noStitch: 1 }) + cut(circ(110, -515, 11), K.gold, { sw: 4, noStitch: 1 });
     else if (kind !== "chintu" && kind !== "dadaji") h += cut(circ(-110, -520, 20), K.gold, { sw: 5, noStitch: 1 }) + cut(circ(110, -520, 20), K.gold, { sw: 5, noStitch: 1 });
-    const hs = (kind === "chintu" || kind === "chinki") ? 1.2 : 1;
+    const hs = (kind === "chintu" || kind === "chinki" || kind === "vamana") ? 1.2 : 1;
     return `<g transform="rotate(${tilt} 0 -430) translate(0 -430) scale(${hs}) translate(0 430)">${h}</g>`;
   };
 
   // torso
   const top = kind === "chintu" ? (o.kurta || "#2f8fd8") : kind === "chinki" ? (o.kurta || "#f5c242") : kind === "dadaji" ? "#f7f3ea" : kind === "dadi" ? "#b8463a" : (kind === "deva" || kind === "brahma") ? K.gold : skin;
   let torso = cut("M-130 -380 Q-140 -200 -118 0 L118 0 Q140 -200 130 -380 Q0 -410 -130 -380Z", top);
+  if (kind === "vamana") torso += `<path d="M-110 -380 L110 -20" stroke="#fff" stroke-width="8"/><path d="M-110 -380 L110 -20" stroke="${K.line}" stroke-width="2" stroke-dasharray="6 6"/>`;
   if (kind === "chinki") torso += [-300, -220, -140].map(y => `<circle cx="${y % 2 ? -50 : 50}" cy="${y}" r="10" fill="${K.red}"/>`).join("");
   if (kind === "chintu" || kind === "dadaji") torso += `<path d="M0 -380 L0 -220" stroke="${K.line}" stroke-width="5"/>` + [-330, -290, -250].map(y => `<circle cx="14" cy="${y}" r="7" fill="${K.gold}" stroke="${K.line}" stroke-width="3"/>`).join("");
   if (sash && kind !== "deva" && kind !== "brahma") torso += cut("M-130 -330 L-80 -380 L130 -60 L120 0 L80 0Z", sash, { sw: 5 }) +
@@ -220,8 +225,8 @@ function puppet(x, y, s, t, o = {}) {
   if (kind === "shiva") torso += `<path d="M-90 -370 Q-110 -260 -20 -250 Q60 -245 70 -330" fill="none" stroke="${K.line}" stroke-width="22" stroke-linecap="round"/>
       <path d="M-90 -370 Q-110 -260 -20 -250 Q60 -245 70 -330" fill="none" stroke="#5c8f3a" stroke-width="14" stroke-linecap="round"/>
       <circle cx="74" cy="-340" r="16" fill="#5c8f3a" stroke="${K.line}" stroke-width="4"/>`;
-  else if (!["chintu", "dadi", "chinki"].includes(kind)) { let beads = ""; for (let i = 0; i < 11; i++) { const a = Math.PI * (.12 + i * .076); beads += `<circle cx="${Math.cos(a) * 95}" cy="${-370 + Math.sin(a) * 110}" r="13" fill="#6b3d22" stroke="${K.line}" stroke-width="3"/>`; } torso += beads; }
-  if (!["chintu", "dadi", "chinki", "dadaji"].includes(kind)) torso += cut(rrect(-122, -40, 244, 46, 8), K.gold, { sw: 5 });
+  else if (!["chintu", "dadi", "chinki", "vamana"].includes(kind)) { let beads = ""; for (let i = 0; i < 11; i++) { const a = Math.PI * (.12 + i * .076); beads += `<circle cx="${Math.cos(a) * 95}" cy="${-370 + Math.sin(a) * 110}" r="13" fill="#6b3d22" stroke="${K.line}" stroke-width="3"/>`; } torso += beads; }
+  if (!["chintu", "dadi", "chinki", "dadaji", "vamana"].includes(kind)) torso += cut(rrect(-122, -40, 244, 46, 8), K.gold, { sw: 5 });
 
   const items = o.item || {};
   return `<g transform="translate(${x} ${y + bob}) scale(${s})">${arm(-1, la, items.l)}${s1}${torso}${head()}${arm(1, ra, items.r)}</g>`;
