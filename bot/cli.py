@@ -169,6 +169,8 @@ def cmd_publish(a):
         return
     if item.get("approval_required") and not item.get("approved"):
         d = publish.tg_decision(item_id)
+        if CFG["approval"].get("mode", "auto") == "auto" and d != "no":
+            d = "ok"   # auto mode: post unless the owner tapped Skip
         if d != "ok":
             item["status"] = "skipped" if d == "no" else "skipped_no_answer"
             save_json(pfile, item)
@@ -262,7 +264,9 @@ def cmd_deliver(a):
             save_json(PENDING / f"{item_id}.json", item)
             head = f"🎬 {script.get('title')}\n⏰ Posts {day} at {slot} IST\n"
             if need:
-                head += "Tap ✅ Post to approve, or ❌ Skip to get a replacement for the same slot. No answer before the slot = not posted.\n\n"
+                head += ("Posts automatically at the slot time. Tap ❌ Skip to get a replacement instead (✅ Post just confirms).\n\n"
+                         if CFG["approval"].get("mode", "auto") == "auto" else
+                         "Tap ✅ Post to approve, or ❌ Skip to get a replacement. No answer before the slot = not posted.\n\n")
             publish.tg_send_for_approval(video, item_id, head + caption, need)
         meta["delivered"] = now().isoformat()
         save_json(meta_path, meta)

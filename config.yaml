@@ -9,9 +9,10 @@ page:
 slots: ["09:00", "18:20"]
 
 approval:
-  # Until this date every reel is sent to Telegram and only posts if you tap "Post".
-  # After it, reels post automatically (you still get a Telegram copy).
-  required_until: "2026-12-06"
+  # Every reel is sent to Telegram with Post / Skip buttons until this date.
+  required_until: "2027-12-31"
+  # auto = posts on time unless you tap Skip (Skip -> replacement). strict = posts only if you tap Post.
+  mode: auto
 
 quality:
   ideas_per_run: 10
