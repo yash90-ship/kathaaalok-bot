@@ -1,0 +1,139 @@
+{
+ "title": "देवउठनी एकादशी: भगवान विष्णु क्यों सोते हैं?",
+ "hook": "दादी जी, सब कह रहे हैं कल भगवान विष्णु जागेंगे! भगवान भी सोते हैं क्या?",
+ "source_title": "पौराणिक मान्यता",
+ "source_sub": "चातुर्मास और देवउठनी एकादशी",
+ "cta_text": "जय श्री हरि",
+ "caption": "भगवान भी सोते हैं क्या? 🙏\nदेवउठनी एकादशी कथा | Dev Uthani Ekadashi Story | चातुर्मास का रहस्य\nचिंटू ने पूछा, दादी जी ने बताया।\n\nआपके घर में देवउठनी एकादशी कैसे मनाते हैं? कमेंट में बताइए 👇",
+ "hashtags": [
+  "#devuthaniekadashi",
+  "#देवउठनीएकादशी",
+  "#vishnu",
+  "#hindumythology",
+  "#kathaaalok"
+ ],
+ "scenes": [
+  {
+   "type": "hook",
+   "speaker": "chintu",
+   "emotion": "curious",
+   "narration": "दादी जी, सब कह रहे हैं कल भगवान विष्णु जागेंगे! भगवान भी सोते हैं क्या?",
+   "highlight": [
+    "विष्णु",
+    "सोते"
+   ],
+   "label": "चिंटू"
+  },
+  {
+   "type": "source",
+   "speaker": "dadi",
+   "emotion": "wise",
+   "narration": "हाँ बेटा! कल देवउठनी एकादशी है। सुनो इसकी कथा।",
+   "highlight": [
+    "देवउठनी एकादशी"
+   ],
+   "label": "दादी जी"
+  },
+  {
+   "type": "story",
+   "speaker": "narrator",
+   "emotion": "calm",
+   "narration": "आषाढ़ की देवशयनी एकादशी पर, भगवान विष्णु क्षीर सागर में, शेषनाग पर योगनिद्रा में चले जाते हैं।",
+   "highlight": [
+    "क्षीर सागर",
+    "योगनिद्रा"
+   ],
+   "label": "भगवान विष्णु"
+  },
+  {
+   "type": "story",
+   "speaker": "narrator",
+   "emotion": "calm",
+   "narration": "चार महीने वे विश्राम करते हैं। इसे चातुर्मास कहते हैं।",
+   "highlight": [
+    "चार महीने",
+    "चातुर्मास"
+   ],
+   "label": null
+  },
+  {
+   "type": "story",
+   "speaker": "chintu",
+   "emotion": "surprised",
+   "narration": "चार महीने! तो इतने दिन दुनिया कौन संभालता है?",
+   "highlight": [
+    "चार महीने"
+   ],
+   "label": null
+  },
+  {
+   "type": "story",
+   "speaker": "dadi",
+   "emotion": "wise",
+   "narration": "मान्यता है कि उस समय सृष्टि का भार भगवान शिव संभालते हैं।",
+   "highlight": [
+    "भगवान शिव"
+   ],
+   "label": "भगवान शिव"
+  },
+  {
+   "type": "story",
+   "speaker": "narrator",
+   "emotion": "calm",
+   "narration": "इन चार महीनों में शादी-ब्याह जैसे शुभ काम नहीं होते।",
+   "highlight": [
+    "शुभ काम"
+   ],
+   "label": null
+  },
+  {
+   "type": "story",
+   "speaker": "narrator",
+   "emotion": "excited",
+   "narration": "और कार्तिक शुक्ल एकादशी को, भगवान विष्णु जाग उठते हैं!",
+   "highlight": [
+    "जाग उठते"
+   ],
+   "label": null
+  },
+  {
+   "type": "story",
+   "speaker": "narrator",
+   "emotion": "happy",
+   "narration": "इसीलिए इसे देवउठनी एकादशी कहते हैं। घर-घर दीप जलते हैं, और शुभ काम फिर शुरू होते हैं।",
+   "highlight": [
+    "देवउठनी एकादशी",
+    "दीप"
+   ],
+   "label": null
+  },
+  {
+   "type": "story",
+   "speaker": "chintu",
+   "emotion": "excited",
+   "narration": "तो कल से शादियाँ शुरू! और मिठाई भी!",
+   "highlight": [
+    "मिठाई"
+   ],
+   "label": null
+  },
+  {
+   "type": "story",
+   "speaker": "dadi",
+   "emotion": "happy",
+   "narration": "हाँ बेटा! और उसके अगले दिन तुलसी विवाह भी होता है।",
+   "highlight": [
+    "तुलसी विवाह"
+   ],
+   "label": "तुलसी विवाह"
+  },
+  {
+   "type": "cta",
+   "speaker": "dadi",
+   "emotion": "devotional",
+   "narration": "आप भी कमेंट में लिखिए, जय श्री हरि! और ऐसी कथाओं के लिए फॉलो कीजिए।",
+   "highlight": [],
+   "label": null
+  }
+ ]
+}

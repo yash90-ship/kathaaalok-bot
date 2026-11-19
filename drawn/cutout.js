@@ -102,8 +102,8 @@ function cChariot(x, y, s, t) {
  * talk (0/1), item {l|r: "bow"|"trishul"|"diya"|"lotus"}, aim (deg for bow), pull (0..1) */
 function puppet(x, y, s, t, o = {}) {
   const kind = o.kind || "man", ph = o.ph || 0;
-  const skin = o.skin || { shiva: K.blue, asura: K.asura, brahma: "#e7a35c", dadi: "#d99a6c", dadaji: "#c98a5c" }[kind] || K.skin;
-  const outfit = o.outfit || { shiva: "#c9a26b", asura: K.asura2, sage: K.saffron, brahma: K.red, deva: K.gold, dadi: "#f6efe0", chintu: K.white, chinki: "#e0457b", dadaji: "#f7f3ea" }[kind] || K.white;
+  const skin = o.skin || { shiva: K.blue, asura: K.asura, brahma: "#e7a35c", dadi: "#d99a6c", dadaji: "#c98a5c", vishnu: K.blue, lakshmi: "#f0b07a" }[kind] || K.skin;
+  const outfit = o.outfit || { shiva: "#c9a26b", asura: K.asura2, sage: K.saffron, brahma: K.red, deva: K.gold, dadi: "#f6efe0", chintu: K.white, chinki: "#e0457b", dadaji: "#f7f3ea", vishnu: K.gold, lakshmi: K.red }[kind] || K.white;
   const sash = o.sash || (kind === "asura" ? "#3c2a4d" : (kind === "shiva" || kind === "chintu" || kind === "chinki") ? null : kind === "dadi" ? "#f6efe0" : kind === "dadaji" ? "#e8d9b5" : K.saffron);
   const bob = wob(t, .5, 4, ph), tilt = (o.tilt ?? 0) + wob(t, .23, 3, ph);
   const blink = ((t + ph * 1.7) % 3.4) < .13;
@@ -198,7 +198,8 @@ function puppet(x, y, s, t, o = {}) {
     else h += `<path d="M-26 ${my - 4} Q0 ${my + (kind === "asura" ? -8 : 14)} 26 ${my - 4}" stroke="${kind === "asura" ? K.line : "#b43a3a"}" stroke-width="7" fill="none" stroke-linecap="round"/>`;
     if (kind === "asura") h += `<path d="M-22 ${my - 2} l6 18 l6 -16 M10 ${my - 2} l6 18 l6 -16" fill="#fff" stroke="${K.line}" stroke-width="3"/>`;
     if (kind === "shiva") h += `<path d="M-45 -615 h90 M-45 -603 h90 M-45 -591 h90" stroke="#fff" stroke-width="5"/>` + `<ellipse cx="0" cy="-625" rx="7" ry="13" fill="${K.red}" stroke="${K.line}" stroke-width="3"/>`;
-    else if (kind === "dadi" || kind === "chinki") h += `<circle cx="0" cy="-612" r="${kind === "chinki" ? 7 : 9}" fill="${K.red}"/>`;
+    else if (kind === "dadi" || kind === "chinki" || kind === "lakshmi") h += `<circle cx="0" cy="-612" r="${kind === "chinki" ? 7 : 9}" fill="${K.red}"/>`;
+    else if (kind === "vishnu") h += `<path d="M-14 -600 L-20 -660 M14 -600 L20 -660" stroke="#fff" stroke-width="7"/><path d="M0 -605 L0 -650" stroke="${K.red}" stroke-width="7"/>`;
     else if (kind !== "asura") h += `<path d="M0 -625 l0 -38" stroke="${K.red}" stroke-width="9" stroke-linecap="round"/>`;
     if (kind === "sage" || kind === "brahma") h += cut(`M-80 ${my - 20} Q-90 ${my + 140} 0 ${my + 190} Q90 ${my + 140} 80 ${my - 20} Q0 ${my + 30} -80 ${my - 20}Z`, "#f3efe8");
     // earrings
@@ -286,4 +287,36 @@ function cVillage(t, mood = "evening") {
     cBird(560, 715, .9, t, 1, false) + cBird(720, 712, .9, t, 2.5, false, "#5a4a3a") +
     cHaystack(990, 1180, .9) + cut(`M-60 1170 L1140 1170 L1140 1950 L-60 1950Z`, "#d9a96a") +
     [...Array(6)].map((_, i) => `<path d="M${-40 + i * 210} ${1260 + (i % 2) * 60} q40 -14 80 0" stroke="#b98a4a" stroke-width="5" fill="none"/>`).join("");
+}
+
+function cShesha(x, y, s, t) {
+  const sw = wob(t, .3, 3);
+  let heads = "";
+  for (let i = -2; i <= 2; i++) {
+    const a = i * 24 + sw;
+    heads += `<g transform="rotate(${a} 0 0)">${cut("M-20 0 Q-30 -180 0 -260 Q30 -180 20 0Z", "#3f8f6a")}
+      ${cut("M-55 -250 Q-60 -330 0 -345 Q60 -330 55 -250 Q0 -275 -55 -250Z", "#3f8f6a")}
+      <path d="M-30 -300 q30 -14 60 0" stroke="#f5d76e" stroke-width="6" fill="none"/><circle cx="-16" cy="-318" r="5" fill="${K.line}"/><circle cx="16" cy="-318" r="5" fill="${K.line}"/></g>`;
+  }
+  return `<g transform="${tr(x, y, s)}"><g transform="translate(-330 -40)">${heads}</g>
+    ${[0, 1, 2].map(i => cut(ell(0, -i * 60, 420 - i * 60, 70), i % 2 ? "#4f9f78" : "#3f8f6a")).join("")}
+    ${[0, 1, 2].map(i => `<path d="M${-380 + i * 60} ${-i * 60} q40 -20 80 0 q40 20 80 0 q40 -20 80 0 q40 20 80 0" stroke="#f5d76e" stroke-width="5" fill="none"/>`).join("")}</g>`;
+}
+function cMilkOcean(y, t) {
+  let s = `<rect x="-60" y="${y}" width="${W + 120}" height="${H - y + 60}" fill="#dfeeff"/>`;
+  for (let i = 0; i < 12; i++) {
+    const yy = y + 40 + i * 70, ph = t * 1.2 + i; let d = `M-40 ${yy}`;
+    for (let x = -40; x <= W + 40; x += 60) d += ` Q${x + 15} ${yy - 9 + Math.sin(ph) * 3} ${x + 30} ${yy} T${x + 60} ${yy}`;
+    s += `<path d="${d}" fill="none" stroke="#a9c9f0" stroke-width="4"/>`;
+  }
+  return s;
+}
+function cTulsi(x, y, s, t) {
+  let leaves = "";
+  const R = rnd(4);
+  for (let i = 0; i < 26; i++) { const lx = (R() - .5) * 220, ly = -260 - R() * 260, a = (R() - .5) * 120 + wob(t, .3, 6, i);
+    leaves += cut("M0 0 Q-16 -22 0 -44 Q16 -22 0 0Z", i % 3 ? K.green2 : K.leaf, { sw: 3, noStitch: 1 }).replace("<path", `<path transform="translate(${lx.toFixed(0)} ${ly.toFixed(0)}) rotate(${a.toFixed(0)})"`); }
+  return `<g transform="${tr(x, y, s)}"><path d="M0 -230 L0 -480 M0 -330 L-80 -430 M0 -360 L90 -460" stroke="#5f7a3a" stroke-width="10"/>${leaves}
+    ${cut("M-150 0 L-130 -230 L130 -230 L150 0Z", "#f3e6cf")}${cut(rrect(-170, -260, 340, 40, 8), "#e2c9a0")}
+    ${cut("M-40 -40 L-40 -130 Q0 -175 40 -130 L40 -40Z", "#c96a3a", { sw: 5 })}${cut(circ(-90, -150, 22), K.red, { sw: 4, noStitch: 1 })}${cut(circ(90, -150, 22), K.red, { sw: 4, noStitch: 1 })}</g>`;
 }
