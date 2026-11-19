@@ -19,3 +19,5 @@ jobs/*/reel.mp4
 jobs/*/cover.jpg
 jobs/*/timeline.js
 jobs/*/timeline.json
+jobs/*/music.wav
+reels/*/music.wav

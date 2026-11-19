@@ -102,12 +102,16 @@ def build(reel: str) -> str:
         filt.append(f"[{i}:a]aresample=48000,adelay={ms}|{ms}[a{i}]")
     n = len(clips)
     filt.append("".join(f"[a{i}]" for i in range(n)) + f"amix=inputs={n}:normalize=0,loudnorm=I=-14:TP=-1.5[vo]")
-    music_dir = ROOT / "assets" / "music"
-    tracks = [p for p in music_dir.glob("*") if p.suffix.lower() in (".mp3", ".m4a", ".wav", ".ogg")]
-    if tracks:
-        inputs += ["-stream_loop", "-1", "-i", str(random.choice(tracks))]
-        filt.append(f"[{n}:a]aresample=48000,volume={CFG['video']['music_volume']},afade=t=out:st={t - 2:.2f}:d=2[mu]")
-        filt.append("[vo][mu]amix=inputs=2:duration=first:normalize=0[a]")
+    # original background music that follows the story's emotions (generated, copyright-free)
+    music_wav = os.path.join(reel, "music.wav")
+    if CFG["video"].get("music", True):
+        from drawn.music import score
+        score(scenes, durs, music_wav)
+        inputs += ["-i", music_wav]
+        filt.append(f"[{n}:a]aresample=48000,volume={CFG['video']['music_volume']}[mu0]")
+        filt.append("[vo]asplit=2[vo1][vo2]")
+        filt.append("[mu0][vo2]sidechaincompress=threshold=0.04:ratio=6:attack=30:release=400[mu]")  # dip music under speech
+        filt.append("[vo1][mu]amix=inputs=2:duration=first:normalize=0[a]")
     else:
         filt.append("[vo]anull[a]")
     mix = os.path.join(reel, "mix.wav")

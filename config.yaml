@@ -46,7 +46,8 @@ video:
   height: 1920
   fps: 30
   crossfade: 0.4
-  music_volume: 0.12
+  music: true          # original generated music under the narration
+  music_volume: 0.35
 
 instagram:
   graph_version: v27.0
