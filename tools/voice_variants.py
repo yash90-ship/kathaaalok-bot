@@ -4,7 +4,7 @@ import soundfile as sf, torch
 from parler_tts import ParlerTTSForConditionalGeneration
 from transformers import AutoTokenizer
 
-OUT = "voice-tests/variants"; os.makedirs(OUT, exist_ok=True)
+OUT = "voice-tests/chintu"; os.makedirs(OUT, exist_ok=True)
 M = "ai4bharat/indic-parler-tts"
 model = ParlerTTSForConditionalGeneration.from_pretrained(M)
 tok = AutoTokenizer.from_pretrained(M); dtok = AutoTokenizer.from_pretrained(model.config.text_encoder._name_or_path)
@@ -14,17 +14,13 @@ Q = " The recording is of very high quality, very close-sounding, with no backgr
 KID_LINES = ["दादी जी, सब कह रहे हैं कल भगवान विष्णु जागेंगे!", "भगवान भी सोते हैं क्या?"]
 DADI_LINES = ["हाँ बेटा! कल देवउठनी एकादशी है।", "सुनो, इसकी बड़ी सुंदर कथा है।"]
 # name, lines, parler speaker+description, post-processing ffmpeg filter
+BOY = ["दादी जी, सब कह रहे हैं कल भगवान विष्णु जागेंगे!", "तो कल से शादियाँ शुरू! और मिठाई भी!"]
 V = [
- ("kid_A_divya_child_prompt", KID_LINES, "Divya's voice is high-pitched and childlike; she speaks like a curious young girl, fast and lively.", ""),
- ("kid_B_divya_pitch+3", KID_LINES, "Divya's voice is high-pitched; she speaks with curiosity, fast and lively.", "rubberband=pitch=1.19:formant=shifted"),
- ("kid_C_divya_pitch+3_tempo", KID_LINES, "Divya's voice is high-pitched; she speaks with curiosity, fast and lively.", "rubberband=pitch=1.19:formant=shifted:tempo=1.06"),
- ("kid_D_rani_pitch+4", KID_LINES, "Rani's voice is high-pitched; she speaks with curiosity, fast and lively.", "rubberband=pitch=1.26:formant=shifted"),
- ("kid_E_rohit_boy_pitch+6", KID_LINES, "Rohit's voice is light; he speaks with curiosity, fast and lively.", "rubberband=pitch=1.41:formant=shifted"),
- ("kid_F_aman_boy_pitch+7", KID_LINES, "Aman's voice is light; he speaks with curiosity, fast and lively.", "rubberband=pitch=1.5:formant=shifted"),
- ("dadi_A_rani_elderly", DADI_LINES, "Rani's voice is soft, warm and low-pitched; she speaks slowly and kindly like an old grandmother.", "atempo=0.94"),
- ("dadi_B_rani_older", DADI_LINES, "Rani's voice is soft, warm and low-pitched; she speaks slowly and kindly like an old grandmother.", "rubberband=pitch=0.9:formant=shifted:tempo=0.94"),
- ("dadi_C_divya_elderly", DADI_LINES, "Divya's voice is soft, warm and low-pitched; she speaks slowly and kindly like an old grandmother.", "atempo=0.93"),
- ("dadi_D_divya_older", DADI_LINES, "Divya's voice is soft, warm and low-pitched; she speaks slowly and kindly like an old grandmother.", "rubberband=pitch=0.89:formant=shifted:tempo=0.93"),
+ ("chintu_G_divya_kidC_lower", BOY, "Divya's voice is high-pitched; she speaks with curiosity, fast and lively.", "rubberband=pitch=1.1:formant=shifted:tempo=1.06"),
+ ("chintu_H_divya_young_boy", BOY, "Divya's voice is youthful and energetic; she speaks like a mischievous young boy, fast and playful.", "rubberband=pitch=1.06:formant=shifted:tempo=1.05"),
+ ("chintu_I_aman_light_boy", BOY, "Aman's voice is light and youthful; he speaks like an excited young boy, fast and playful.", "rubberband=pitch=1.22:formant=shifted:tempo=1.05"),
+ ("chintu_J_rohit_light_boy", BOY, "Rohit's voice is light and youthful; he speaks like an excited young boy, fast and playful.", "rubberband=pitch=1.2:formant=shifted:tempo=1.05"),
+ ("chintu_K_aman_teen", BOY, "Aman's voice is light, bright and youthful; he speaks like a cheerful teenage boy, lively.", "rubberband=pitch=1.15:formant=shifted:tempo=1.04"),
 ]
 for name, lines, desc, post in V:
     parts = []
