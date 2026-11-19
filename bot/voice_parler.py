@@ -24,13 +24,13 @@ SPEAKERS = {  # speaker -> (Parler voice, pronoun, extra description, ffmpeg pos
     "narrator": ("Aman", "he", "", ""),
     "dadaji":   ("Aman", "he", "He sounds like an old grandfather in his seventies, deep, slightly husky and slow. ",
                  "rubberband=pitch=0.89:formant=shifted:tempo=0.93"),
-    # owner picked: Dadi = "dadi_C_divya_elderly", Chinki = "kid_C_divya_pitch+3_tempo"
+    # owner picked: Dadi = "dadi_C_divya_elderly"
     "dadi":     ("Divya", "she", "Her voice is soft, warm and low-pitched; she speaks slowly and kindly like an old grandmother. ",
                  "atempo=0.93"),
-    "chinki":   ("Divya", "she", "Her voice is high-pitched; she speaks with curiosity, fast and lively. ",
-                 "rubberband=pitch=1.19:formant=shifted:tempo=1.06"),
-    "chintu":   ("Divya", "she", "Her voice is high-pitched; she speaks with curiosity, fast and lively. ",
-                 "rubberband=pitch=1.12:formant=shifted:tempo=1.06"),   # TODO: replace with the owner's pick
+    # owner picked kid voice "kid_A_divya_child_prompt" for the children
+    "chinki":   ("Divya", "she", "Her voice is high-pitched and childlike; she speaks like a curious young child, fast and lively. ", ""),
+    "chintu":   ("Divya", "she", "Her voice is high-pitched and childlike; she speaks like a curious young child, fast and lively. ",
+                 "rubberband=pitch=0.97:formant=preserved"),
     "god":      ("Aman", "he", "He has a deep, powerful and majestic voice. ", "rubberband=pitch=0.94:formant=shifted"),
     "female":   ("Divya", "she", "", ""),
 }
