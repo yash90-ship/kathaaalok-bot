@@ -29,8 +29,9 @@ SPEAKERS = {  # speaker -> (Parler voice, pronoun, extra description, ffmpeg pos
                  "atempo=0.93"),
     # owner picked kid voice "kid_A_divya_child_prompt" for the children
     "chinki":   ("Divya", "she", "Her voice is high-pitched and childlike; she speaks like a curious young child, fast and lively. ", ""),
-    "chintu":   ("Divya", "she", "Her voice is high-pitched and childlike; she speaks like a curious young child, fast and lively. ",
-                 "rubberband=pitch=0.97:formant=preserved"),
+    # owner picked "chintu_I_aman_light_boy"
+    "chintu":   ("Aman", "he", "His voice is light and youthful; he speaks like an excited young boy, fast and playful. ",
+                 "rubberband=pitch=1.22:formant=shifted:tempo=1.05"),
     "god":      ("Aman", "he", "He has a deep, powerful and majestic voice. ", "rubberband=pitch=0.94:formant=shifted"),
     "female":   ("Divya", "she", "", ""),
 }
