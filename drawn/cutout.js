@@ -325,3 +325,54 @@ function cTulsi(x, y, s, t) {
     ${cut("M-150 0 L-130 -230 L130 -230 L150 0Z", "#f3e6cf")}${cut(rrect(-170, -260, 340, 40, 8), "#e2c9a0")}
     ${cut("M-40 -40 L-40 -130 Q0 -175 40 -130 L40 -40Z", "#c96a3a", { sw: 5 })}${cut(circ(-90, -150, 22), K.red, { sw: 4, noStitch: 1 })}${cut(circ(90, -150, 22), K.red, { sw: 4, noStitch: 1 })}</g>`;
 }
+
+/* ---------- added 2026-11-21: lotus, Sudarshan chakra, Shivling, snow, boat, horned fish, stormy sea, rain ---------- */
+function cLotus(x, y, s, t, ph = 0, col = K.pink) {               // open lotus flower
+  const p = (a, l, c) => cut(`M0 0 Q${-l * .32} ${-l * .5} 0 ${-l} Q${l * .32} ${-l * .5} 0 0Z`, c, { sw: 5, noStitch: 1 }).replace("<path", `<path transform="rotate(${a})"`);
+  return `<g transform="${tr(x, y + wob(t, .25, 4, ph), s, wob(t, .2, 3, ph))}">${[-75, 75, -50, 50].map(a => p(a, 80, "#f7b3cc")).join("")}${[-25, 25, 0].map(a => p(a, 105, col)).join("")}
+    ${cut(ell(0, -8, 26, 12), K.gold, { sw: 4, noStitch: 1 })}</g>`;
+}
+function cChakra(x, y, s, t, spin = 1) {                          // spinning Sudarshan chakra with flames
+  let teeth = "";
+  for (let i = 0; i < 16; i++) teeth += cut("M-16 -150 L0 -205 L16 -150Z", i % 2 ? K.saffron : K.gold, { sw: 4, noStitch: 1 }).replace("<path", `<path transform="rotate(${i * 22.5})"`);
+  return glow(x, y, 260 * s, "#fff1b8", .7) + `<g transform="${tr(x, y, s, t * 220 * spin)}">${teeth}${cut(circ(0, 0, 150), K.gold2)}${cut(circ(0, 0, 105), "#fff1a8")}
+    ${[0, 30, 60, 90, 120, 150].map(a => `<path d="M-100 0 L100 0" stroke="${K.line}" stroke-width="7" transform="rotate(${a})"/>`).join("")}${cut(circ(0, 0, 32), K.red, { sw: 5 })}</g>`;
+}
+function cShivling(x, y, s, t, wet = 1) {                         // Shivling on a base, with tripundra
+  return `<g transform="${tr(x, y, s)}">${cut("M-190 0 L-170 -70 L170 -70 L190 0Z", "#6d6a72")}${cut("M-230 -70 Q-230 -120 -150 -125 L190 -125 Q260 -120 270 -95 L300 -90 L300 -70Z", "#7c7983")}
+    ${cut("M-90 -125 L-90 -300 Q0 -380 90 -300 L90 -125Z", "#4c4a55")}<path d="M-60 -250 h120 M-60 -232 h120 M-60 -214 h120" stroke="#fff" stroke-width="7"/>
+    ${cut(circ(0, -232, 10), K.red, { sw: 3, noStitch: 1 })}${wet ? `<path d="M0 -360 L0 ${-330 + (t * 140) % 30}" stroke="#bfe3ff" stroke-width="6" stroke-dasharray="10 12"/>` : ""}</g>`;
+}
+function cSnow(t, n = 60, seed = 3) {                             // gently falling snow / petals
+  const R = rnd(seed); let s = "";
+  for (let i = 0; i < n; i++) { const x = R() * W, sp = 40 + R() * 70, r = 3 + R() * 6, y = (R() * H + t * sp) % H;
+    s += `<circle cx="${(x + wob(t, .2, 20, i)).toFixed(0)}" cy="${y.toFixed(0)}" r="${r.toFixed(1)}" fill="#fff" opacity=".85"/>`; }
+  return s;
+}
+function cRain(t, n = 70, seed = 9) {
+  const R = rnd(seed); let s = "";
+  for (let i = 0; i < n; i++) { const x = R() * (W + 300), y = (R() * H + t * 900) % (H + 100) - 50;
+    s += `<path d="M${x.toFixed(0)} ${y.toFixed(0)} l-22 60" stroke="#cfe3ff" stroke-width="4" opacity=".7"/>`; }
+  return s;
+}
+function cSea(y, t, dark = 0) {                                   // ocean with rolling crested waves (dark=1 → storm)
+  const c1 = dark ? "#23406e" : K.water, c2 = dark ? "#1a3058" : K.water2;
+  let s = `<rect x="-60" y="${y}" width="${W + 120}" height="${H - y + 60}" fill="${c1}"/>`;
+  for (let i = 0; i < 6; i++) { const yy = y + i * 120 + 20, A = (dark ? 40 : 18) * (1 + i * .2), ph = t * (dark ? 2.2 : 1.2) + i;
+    let d = `M-60 ${yy}`; for (let x = -60; x <= W + 60; x += 120) d += ` Q${x + 30} ${(yy - A + Math.sin(ph + x / 200) * A * .5).toFixed(0)} ${x + 60} ${yy} T${x + 120} ${yy}`;
+    s += cut(d + ` L${W + 60} ${yy + 160} L-60 ${yy + 160}Z`, i % 2 ? c2 : c1, { sw: 5, noStitch: 1 }) + `<path d="${d}" fill="none" stroke="#e8f4ff" stroke-width="5" opacity=".8"/>`; }
+  return s;
+}
+function cBoat(x, y, s, t, rock = 6) {                            // big wooden boat with a sail
+  return `<g transform="${tr(x, y + wob(t, .5, 10), s, wob(t, .35, rock))}">${cut("M-6 -40 L-6 -420 L6 -420 L6 -40Z", K.brown, { sw: 5 })}
+    ${cut("M14 -400 Q170 -260 14 -90Z", K.cream)}<path d="M14 -330 Q90 -250 14 -170" stroke="${K.saffron}" stroke-width="10" fill="none"/>
+    ${cut("M-330 -60 L330 -60 Q300 40 220 70 L-220 70 Q-300 40 -330 -60Z", "#a0612f")}<path d="M-310 -20 L310 -20 M-270 30 L270 30" stroke="${K.line}" stroke-width="5"/></g>`;
+}
+function cFish(x, y, s, t, horn = 1, col = K.gold) {              // golden fish (Matsya), optional horn
+  const tail = wob(t, 1.2, 14);
+  return `<g transform="${tr(x, y + wob(t, .4, 8), s)}"><g transform="rotate(${tail} 230 0)">${cut("M220 0 L330 -90 L300 0 L330 90Z", K.saffron)}</g>
+    ${cut("M-260 0 Q-120 -150 120 -110 Q230 -60 240 0 Q230 60 120 110 Q-120 150 -260 0Z", col)}
+    ${[-60, 20, 100].map(cx => `<path d="M${cx} -80 q-40 80 0 160" stroke="${K.gold2}" stroke-width="6" fill="none"/>`).join("")}
+    ${cut("M-20 -120 Q40 -210 110 -110Z", K.saffron, { sw: 5 })}${horn ? cut("M-150 -85 Q-170 -230 -110 -300 Q-140 -200 -110 -95Z", "#fff3d6", { sw: 5 }) : ""}
+    ${cut(circ(-170, -25, 22), "#fff", { sw: 4, noStitch: 1 })}<circle cx="-174" cy="-25" r="10" fill="${K.line}"/><path d="M-240 20 q20 10 40 0" stroke="${K.line}" stroke-width="5" fill="none"/></g>`;
+}

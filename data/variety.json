@@ -25,5 +25,32 @@
    "deva"
   ],
   "hook_style": "question over split frame: sleeping Vishnu above, Bali below"
+ },
+ {
+  "id": "2026-11-21_0900",
+  "settings": [
+   "Himalayan snow peaks at dawn",
+   "Shivling puja platform",
+   "lotus pond",
+   "Kashi ghat temples",
+   "village evening"
+  ],
+  "palette": [
+   "dawn pink + gold",
+   "violet night with chakra glow"
+  ],
+  "new_elements": [
+   "cLotus",
+   "cChakra (Sudarshan)",
+   "cShivling",
+   "cSnow"
+  ],
+  "characters": [
+   "vishnu",
+   "shiva",
+   "asura",
+   "deva"
+  ],
+  "hook_style": "Vishnu seated before Shivling, hand near glowing eye, question caption"
  }
 ]
