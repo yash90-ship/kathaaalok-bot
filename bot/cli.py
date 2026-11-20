@@ -157,12 +157,12 @@ def cmd_decide(a):
 
 def _git_sync(msg):
     import subprocess
-    subprocess.run(["git", "add", "-A", "data", "jobs"], check=False)
+    subprocess.run(["git", "add", "-A", "data", "jobs", "queue"], check=False)
     if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode != 0:
         subprocess.run(["git", "-c", "user.name=kathaaalok-bot", "-c", "user.email=actions@users.noreply.github.com",
                         "commit", "-qm", msg + " [skip ci]"], check=False)
     for _ in range(3):
-        if subprocess.run(["git", "pull", "--rebase", "-q"]).returncode != 0:
+        if subprocess.run(["git", "pull", "--rebase", "--autostash", "-q"]).returncode != 0:
             subprocess.run(["git", "rebase", "--abort"], check=False)
             subprocess.run(["git", "pull", "--no-rebase", "-q", "-X", "ours"], check=False)
         if subprocess.run(["git", "push", "-q"]).returncode == 0:
@@ -184,9 +184,12 @@ def cmd_wait(a):
         items = [load_json(PENDING / f"{x}.json", {}) for x in (a.id, f"{a.id}_b")]
         if any(i.get("status") == "posted" for i in items):
             log("already posted"); return
-        if now() >= when - dt.timedelta(seconds=30):
+        ready = any(i.get("status") == "ready" for i in items)
+        if now() >= when - dt.timedelta(seconds=30) and ready:
             cmd_publish(argparse.Namespace(slot=slot, day=day))
             _git_sync("bot: posted"); return
+        if now() > when + dt.timedelta(minutes=45):
+            log("nothing ready 45 min after the slot - giving up"); return
         try:
             cmd_decide(argparse.Namespace())
             _git_sync("bot: approvals")
@@ -195,7 +198,7 @@ def cmd_wait(a):
         if time.time() - started > 5.4 * 3600:   # hand over to a fresh job before GitHub's 6 h limit
             subprocess.run(["gh", "workflow", "run", "waiter.yml", "-f", f"id={a.id}"], check=False)
             log("handed over to a new waiter"); return
-        time.sleep(max(20, min(60, (when - now()).total_seconds() - 30)))
+        time.sleep(max(20, min(60, (when - now()).total_seconds() - 30)) if now() < when else 30)
 
 
 def cmd_publish(a):
@@ -325,6 +328,7 @@ def cmd_deliver(a):
                 log("waiter started" if r.returncode == 0 else "could not start waiter (cron backups will post)")
         meta["delivered"] = now().isoformat()
         save_json(meta_path, meta)
+        _git_sync(f"bot: delivered {item_id}")   # waiter + publish read this from git right away
         log("delivered", item_id)
 
 
