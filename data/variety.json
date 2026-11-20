@@ -52,5 +52,34 @@
    "deva"
   ],
   "hook_style": "Vishnu seated before Shivling, hand near glowing eye, question caption"
+ },
+ {
+  "id": "2026-11-21_1820",
+  "settings": [
+   "river ghat at dusk with floating diyas",
+   "Kritamala river morning",
+   "home at night",
+   "open ocean",
+   "pralaya storm at sea"
+  ],
+  "palette": [
+   "dusk purple-coral",
+   "stormy navy",
+   "sky blue day"
+  ],
+  "new_elements": [
+   "cFish (golden horned Matsya)",
+   "cBoat",
+   "cSea (storm waves)",
+   "cRain"
+  ],
+  "characters": [
+   "dadaji",
+   "chinki",
+   "king Satyavrata (deva, white)",
+   "vishnu",
+   "sages"
+  ],
+  "hook_style": "close-up of Chinki at ghat asking, diyas floating behind"
  }
 ]
