@@ -80,4 +80,4 @@ jobs:
           git add queue data
           git diff --cached --quiet && exit 0
           git commit -m "bot: rendered + delivered [skip ci]"
-          for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done
+          for i in 1 2 3; do (git pull --rebase -X theirs -q || (git rebase --abort; git pull --no-rebase -X ours -q)) && git push -q && break; sleep 5; done
