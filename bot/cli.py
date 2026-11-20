@@ -221,7 +221,7 @@ def cmd_publish(a):
             save_json(pfile, item)
             publish.tg_message(f"⏭ Not posted ({'you tapped Skip' if d == 'no' else 'no approval received'}): {item['title']}")
             return
-    url = publish.raw_url(item["video_path"])
+    url = item.get("video_url") or publish.raw_url(item["video_path"])
     dup = publish.ig_already_posted(item["caption"])
     if dup:  # another attempt already posted it (e.g. git state not synced yet) - never post twice
         log("already on Instagram:", dup.get("permalink"))

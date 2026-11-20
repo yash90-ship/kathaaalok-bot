@@ -8,7 +8,34 @@ from .common import CFG, env, log
 
 # ------------------------------------------------------------------ media hosting
 def upload_media(local_path: str, remote_path: str) -> str:
-    """Upload a file to the public media repo; returns its public URL (GitHub Pages)."""
+    """Upload to the media repo; if that is refused, store it in this (public) repo instead."""
+    try:
+        return _upload_media_repo(local_path, remote_path)
+    except Exception as e:
+        log("media repo upload failed, using this repo instead:", str(e)[:300])
+        return _upload_self(local_path, remote_path)
+
+
+def _upload_self(local_path: str, remote_path: str) -> str:
+    import os
+    import shutil
+    import subprocess
+    dst = os.path.join("media", remote_path)
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    shutil.copy(local_path, dst)
+    subprocess.run(["git", "add", "-f", dst], check=True)
+    subprocess.run(["git", "-c", "user.name=kathaaalok-bot", "-c", "user.email=actions@users.noreply.github.com",
+                    "commit", "-qm", f"media: {remote_path} [skip ci]"], check=True)
+    for _ in range(4):
+        subprocess.run(["git", "pull", "--rebase", "-q"], check=False)
+        if subprocess.run(["git", "push", "-q"]).returncode == 0:
+            break
+    repo = os.environ.get("GITHUB_REPOSITORY", "yash90-ship/kathaaalok-bot")
+    return f"https://raw.githubusercontent.com/{repo}/main/{dst}"
+
+
+def _upload_media_repo(local_path: str, remote_path: str) -> str:
+    """Upload a file to the public media repo; returns its public URL."""
     repo, branch = CFG["media"]["repo"], CFG["media"]["branch"]
     tok = env("MEDIA_REPO_TOKEN")
     api = f"https://api.github.com/repos/{repo}/contents/{remote_path}"
@@ -20,7 +47,8 @@ def upload_media(local_path: str, remote_path: str) -> str:
     if existing.status_code == 200:
         body["sha"] = existing.json()["sha"]
     r = requests.put(api, headers=h, json=body, timeout=300)
-    r.raise_for_status()
+    if r.status_code >= 300:
+        raise RuntimeError(f"{r.status_code}: {r.text[:300]}")
     return raw_url(remote_path)  # tested: Instagram accepts raw.githubusercontent.com video URLs
 
 
