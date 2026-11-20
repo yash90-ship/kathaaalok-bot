@@ -27,7 +27,7 @@ def _upload_self(local_path: str, remote_path: str) -> str:
     subprocess.run(["git", "-c", "user.name=kathaaalok-bot", "-c", "user.email=actions@users.noreply.github.com",
                     "commit", "-qm", f"media: {remote_path} [skip ci]"], check=True)
     for _ in range(4):
-        subprocess.run(["git", "pull", "--rebase", "-q"], check=False)
+        subprocess.run(["git", "pull", "--rebase", "--autostash", "-q"], check=False)
         if subprocess.run(["git", "push", "-q"]).returncode == 0:
             break
     repo = os.environ.get("GITHUB_REPOSITORY", "yash90-ship/kathaaalok-bot")
