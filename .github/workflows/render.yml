@@ -57,7 +57,7 @@ jobs:
           git config user.name "kathaaalok-bot"
           git config user.email "actions@users.noreply.github.com"
           for d in jobs/*/; do
-            id=$(basename "$d"); [ -f "queue/$id/meta.json" ] && continue
+            id=$(basename "$d"); grep -qs '"delivered"' "queue/$id/meta.json" && continue
             echo "=== $id"
             python -m drawn.make "$d"
             mkdir -p "queue/$id" && cp "$d"/reel.mp4 "$d"/cover.jpg "$d"/script.json "$d"/meta.json "queue/$id/"
