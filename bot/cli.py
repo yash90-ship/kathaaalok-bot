@@ -99,6 +99,10 @@ def cmd_generate(a):
         except Exception as e:
             log("preview sharing failed:", e)
         return
+    if not CFG.get("posting", True):
+        publish.tg_send_reel_only(video, script.get("title", ""), caption, slot)
+        save_json(pfile, {"id": item_id, "date": day, "slot": slot, "status": "sent_to_telegram", "title": script.get("title")})
+        return
     video_url = publish.upload_media(video, f"videos/{item_id}.mp4")
     cover_url = publish.upload_media(f"{work}/cover.jpg", f"covers/{item_id}.jpg")
     need = approval_required(dt.date.fromisoformat(day))
@@ -202,6 +206,8 @@ def cmd_wait(a):
 
 
 def cmd_publish(a):
+    if not CFG.get("posting", True):
+        log("posting is off (config.yaml) - nothing will be posted"); return
     day, slot = resolve_slot(a.slot, "publish")
     if getattr(a, "day", None):
         day = a.day
@@ -303,7 +309,9 @@ def cmd_deliver(a):
         video = os.path.join(d, "reel.mp4")
         caption = full_caption(script)
         item_id = meta.get("id") or os.path.basename(d)
-        if meta.get("mode", "preview") == "preview":
+        if meta.get("mode") == "post" and not CFG.get("posting", True):
+            publish.tg_send_reel_only(video, script.get("title", ""), caption, meta.get("slot", ""))
+        elif meta.get("mode", "preview") == "preview":
             publish.tg_send_for_approval(video, item_id, f"👀 TEST VIDEO (not posted)\n🎬 {script.get('title')}\n"
                                          f"{meta.get('note', '')}\n\n{caption}", False)
         else:

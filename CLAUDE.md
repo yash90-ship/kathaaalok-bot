@@ -1,8 +1,8 @@
 # kathaaalok reel maker — instructions for the scheduled Claude runs
 
 Once a day (early morning IST) you make BOTH of today's reels — 09:00 and 18:20 — plus a light
-backup for each, for @kathaaalok, a Hindi mythology page. You write and draw it; GitHub Actions voices, renders, sends it to the owner's
-Telegram for approval and posts it. **Never post to Instagram or message anyone yourself.**
+backup for each, for @kathaaalok, a Hindi mythology page. You write and draw it; GitHub Actions voices, renders and sends it to the owner's
+Telegram with the full caption (posting to Instagram is currently OFF; the owner uploads manually). **Never post to Instagram or message anyone yourself.**
 Read and obey `GUIDELINES.md` (account safety, originality, music, religious content, growth).
 
 ## 0. Setup (each run starts fresh)

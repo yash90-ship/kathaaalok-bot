@@ -8,6 +8,10 @@ page:
 # Posting times (IST). The generate workflow runs ~75 min before each slot.
 slots: ["09:00", "18:20"]
 
+# posting: false = make the reels and send them to Telegram (video + caption + keywords + hashtags) only.
+#          The owner uploads them manually. Nothing is posted to Instagram.
+posting: false
+
 approval:
   # Every reel is sent to Telegram with Post / Skip buttons until this date.
   required_until: "2027-12-31"

@@ -195,6 +195,13 @@ def tg_send_for_approval(video_path: str, item_id: str, text: str, need_approval
         _tg("sendVideo", data=data, files=files)
 
 
+def tg_send_reel_only(video_path: str, title: str, caption: str, slot: str = ""):
+    """Posting is off: send the finished reel + a ready-to-copy caption (keywords + hashtags) to Telegram."""
+    head = f"🎬 {title}\n⏰ Suggested upload: {slot} IST\nNot posted — upload it yourself. Caption is in the next message 👇"
+    tg_send_for_approval(video_path, "-", head, False)
+    _tg("sendMessage", data={"chat_id": env("TELEGRAM_CHAT_ID"), "text": caption[:4000]})
+
+
 def tg_decision(item_id: str) -> str | None:
     """Return 'ok', 'no' or None (no answer yet) by reading button presses."""
     chat = str(env("TELEGRAM_CHAT_ID"))
