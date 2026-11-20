@@ -2,8 +2,13 @@ name: 1 - Fallback reel (only if main run failed)
 # Runs ~50 min before each slot (13:00 and 20:00 IST): trends -> script -> reel -> Telegram
 on:
   schedule:
-    - cron: "50 1 * * *"   # 07:20 IST: backup maker for the 09:00 slot (only if the main run made nothing)
-    - cron: "50 10 * * *"  # 16:20 IST: backup maker for the 18:20 slot
+    # backup maker, only if the main Claude run made nothing; several times because GitHub may skip a schedule
+    - cron: "40 1 * * *"   # 07:10 IST (09:00 slot)
+    - cron: "57 1 * * *"   # 07:27 IST
+    - cron: "17 2 * * *"   # 07:47 IST
+    - cron: "40 10 * * *"  # 16:10 IST (18:20 slot)
+    - cron: "57 10 * * *"  # 16:27 IST
+    - cron: "17 11 * * *"  # 16:47 IST
   workflow_dispatch:
     inputs:
       slot:
