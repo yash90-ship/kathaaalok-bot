@@ -106,5 +106,31 @@
    "devas"
   ],
   "hook_style": "Brahma on giant lotus above a lone temple, camel walking in"
+ },
+ {
+  "id": "2026-11-22_1820",
+  "settings": [
+   "Kurukshetra battlefield at dusk",
+   "palace pillars",
+   "night sky counting days",
+   "village tulsi at evening"
+  ],
+  "palette": [
+   "dusty sunset orange-violet",
+   "palace cream",
+   "night purple"
+  ],
+  "new_elements": [
+   "cArrow",
+   "cArrowBed (sharashayya)"
+  ],
+  "characters": [
+   "bhishma (sage, white)",
+   "arjuna (man, bow)",
+   "shantanu",
+   "krishna (vishnu)",
+   "yudhishthira"
+  ],
+  "hook_style": "wide side shot of Bhishma lying on bed of arrows under setting sun"
  }
 ]
