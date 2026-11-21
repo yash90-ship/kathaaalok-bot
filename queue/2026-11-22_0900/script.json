@@ -1,0 +1,26 @@
+{
+ "title": "ब्रह्मा जी के मंदिर इतने कम क्यों हैं? पुष्कर और सावित्री के श्राप की कथा",
+ "hook": "सृष्टि रचने वाले ब्रह्मा जी के मंदिर इतने कम क्यों हैं?",
+ "source_title": "पद्म पुराण",
+ "source_sub": "सृष्टि खंड • पुष्कर की पौराणिक मान्यता",
+ "cta_text": "जय ब्रह्मदेव",
+ "caption": "सृष्टि रचने वाले ब्रह्मा जी के मंदिर इतने कम क्यों हैं? 🪷 पुष्कर मेला चल रहा है, 24 नवंबर को कार्तिक पूर्णिमा स्नान!\n🔎 ब्रह्मा जी का मंदिर, पुष्कर ब्रह्मा मंदिर की कथा, सावित्री का श्राप, पुष्कर मेला 2026, ब्रह्मा जी की पूजा क्यों नहीं होती, गायत्री और सावित्री की कथा, पुष्कर सरोवर,\n🔎 brahma ji ka mandir kyu nahi hota, pushkar brahma temple story, savitri ka shrap, pushkar mela 2026, brahma ji ki puja kyu nahi hoti, pushkar kartik purnima snan, brahma temple pushkar history,\n\nक्या आप कभी पुष्कर गए हैं? कमेंट में बताइए 👇\nऐसी कथाओं के लिए @kathaaalok को फॉलो करें",
+ "hashtags": ["#hindumythology", "#pushkar", "#pushkarmela", "#kartikpurnima", "#kathaaalok"],
+ "scenes": [
+  {"type": "hook", "speaker": "narrator", "emotion": "curious", "narration": "सृष्टि रचने वाले ब्रह्मा जी के मंदिर इतने कम क्यों हैं?", "highlight": ["ब्रह्मा", "मंदिर"], "label": ""},
+  {"type": "source", "speaker": "narrator", "emotion": "calm", "narration": "इसकी कथा पद्म पुराण और पुष्कर की मान्यता में है, जहाँ इन दिनों पुष्कर मेला लगा है।", "highlight": ["पुष्कर"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "calm", "narration": "एक बार ब्रह्मा जी के हाथ से, एक कमल धरती पर गिरा।", "highlight": ["कमल"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "happy", "narration": "जहाँ उसकी पंखुड़ियाँ गिरीं, वहाँ पवित्र सरोवर बन गए। यही है पुष्कर!", "highlight": ["पुष्कर"], "label": "पुष्कर सरोवर"},
+  {"type": "story", "speaker": "narrator", "emotion": "devotional", "narration": "ब्रह्मा जी ने वहाँ एक महान यज्ञ करने का निश्चय किया।", "highlight": ["यज्ञ"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "curious", "narration": "पर यज्ञ पत्नी के बिना पूरा नहीं होता, और देवी सावित्री को आने में देर हो गई।", "highlight": ["सावित्री", "देर"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "dramatic", "narration": "मुहूर्त न निकल जाए, इसलिए ब्रह्मा जी ने गायत्री को यज्ञ में साथ बिठा लिया।", "highlight": ["गायत्री"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "angry", "narration": "तभी देवी सावित्री पहुँचीं, और यह देखकर क्रोध से भर उठीं!", "highlight": ["क्रोध"], "label": ""},
+  {"type": "story", "speaker": "female", "emotion": "angry", "narration": "जिस संसार को आपने रचा, उसमें आपकी पूजा कहीं नहीं होगी!", "highlight": ["पूजा"], "label": "सावित्री का श्राप"},
+  {"type": "story", "speaker": "narrator", "emotion": "fear", "narration": "यह श्राप सुनकर, सारे देवता काँप उठे।", "highlight": ["श्राप"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "devotional", "narration": "तब गायत्री जी ने श्राप को शांत किया, और वरदान दिया।", "highlight": ["वरदान"], "label": ""},
+  {"type": "story", "speaker": "female", "emotion": "calm", "narration": "पुष्कर में आपकी पूजा सदा होती रहेगी।", "highlight": ["पुष्कर"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "wise", "narration": "इसीलिए ब्रह्मा जी का सबसे प्रसिद्ध मंदिर पुष्कर में है।", "highlight": ["पुष्कर"], "label": "ब्रह्मा मंदिर"},
+  {"type": "story", "speaker": "narrator", "emotion": "calm", "narration": "और सावित्री माता का मंदिर, आज भी पास की ऊँची पहाड़ी पर है।", "highlight": ["सावित्री"], "label": ""},
+  {"type": "cta", "speaker": "narrator", "emotion": "devotional", "narration": "आप भी कमेंट में लिखिए, जय ब्रह्मदेव! और फॉलो कीजिए।", "highlight": [], "label": ""}
+ ]
+}
