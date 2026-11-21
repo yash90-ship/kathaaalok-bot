@@ -1,0 +1,26 @@
+{
+ "title": "कार्तिक पूर्णिमा पर नदी में दीये क्यों बहाते हैं? मत्स्य अवतार की कथा (दादाजी और चिंकी)",
+ "hook": "दादाजी, कार्तिक पूर्णिमा पर लोग नदी में दीये क्यों बहाते हैं?",
+ "source_title": "श्रीमद्भागवत पुराण",
+ "source_sub": "स्कंध 8, अध्याय 24 • मत्स्य अवतार",
+ "cta_text": "जय श्री हरि",
+ "caption": "कार्तिक पूर्णिमा पर नदी में दीये क्यों बहाते हैं? 🪔🐟 मंगलवार को है कार्तिक पूर्णिमा!\n🔎 कार्तिक पूर्णिमा की कथा, कार्तिक पूर्णिमा 2026, मत्स्य अवतार की कहानी, दीपदान क्यों करते हैं, राजा सत्यव्रत और मछली, विष्णु के दस अवतार, देव दीपावली,\n🔎 kartik purnima ki katha, kartik purnima 2026, matsya avatar story in hindi, deepdaan kyu karte hain, nadi me diya kyu bahate hain, vishnu ke avatar, dev deepawali 2026,\n\nक्या आप भी कार्तिक पूर्णिमा पर दीपदान करते हैं? कमेंट में बताइए 👇\nऐसी कथाओं के लिए @kathaaalok को फॉलो करें",
+ "hashtags": ["#hindumythology", "#matsyaavatar", "#kartikpurnima", "#devdeepawali", "#kathaaalok"],
+ "scenes": [
+  {"type": "hook", "speaker": "chinki", "emotion": "curious", "narration": "दादाजी, कार्तिक पूर्णिमा पर लोग नदी में दीये क्यों बहाते हैं?", "highlight": ["कार्तिक", "पूर्णिमा", "दीये"], "label": ""},
+  {"type": "source", "speaker": "dadaji", "emotion": "wise", "narration": "बिटिया, इसके पीछे भगवान के मत्स्य अवतार की कथा है, जो श्रीमद्भागवत में आती है।", "highlight": ["मत्स्य", "अवतार"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "calm", "narration": "बहुत पहले, राजा सत्यव्रत कृतमाला नदी में जल से तर्पण कर रहे थे।", "highlight": ["सत्यव्रत"], "label": "राजा सत्यव्रत"},
+  {"type": "story", "speaker": "narrator", "emotion": "surprised", "narration": "तभी उनकी अंजलि में, एक छोटी सी मछली आ गई!", "highlight": ["मछली"], "label": ""},
+  {"type": "story", "speaker": "god", "emotion": "fear", "narration": "राजन, मुझे बचा लीजिए, बड़े जल-जीव मुझे खा जाएँगे।", "highlight": ["बचा"], "label": ""},
+  {"type": "story", "speaker": "chinki", "emotion": "curious", "narration": "फिर राजा ने क्या किया दादाजी?", "highlight": [], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "happy", "narration": "राजा उसे घर ले आए, पर एक ही रात में वो बर्तन से बड़ी हो गई!", "highlight": ["बड़ी"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "surprised", "narration": "तालाब, फिर झील, आख़िर में समुद्र भी उसके लिए छोटा पड़ने लगा!", "highlight": ["समुद्र"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "wise", "narration": "राजा समझ गए, ये कोई साधारण मछली नहीं, स्वयं भगवान विष्णु हैं!", "highlight": ["विष्णु"], "label": ""},
+  {"type": "story", "speaker": "god", "emotion": "dramatic", "narration": "सात दिन में प्रलय आएगी। एक नाव आएगी, उसमें सप्तऋषि और सारे बीज लेकर बैठ जाना।", "highlight": ["प्रलय", "नाव"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "dramatic", "narration": "और सचमुच, भयंकर बारिश से पूरी धरती पानी में डूब गई।", "highlight": ["डूब"], "label": "महाप्रलय"},
+  {"type": "story", "speaker": "narrator", "emotion": "devotional", "narration": "तब सींग वाली सुनहरी मछली ने, नाव को प्रलय से पार लगाया।", "highlight": ["सुनहरी", "मछली"], "label": "मत्स्य अवतार"},
+  {"type": "story", "speaker": "chinki", "emotion": "surprised", "narration": "अरे वाह! तो भगवान मछली बनकर पानी में आए थे!", "highlight": ["मछली"], "label": ""},
+  {"type": "story", "speaker": "dadaji", "emotion": "wise", "narration": "हाँ! मान्यता है कि मत्स्य अवतार कार्तिक पूर्णिमा को हुआ, इसीलिए उस दिन जल में दीपदान करते हैं।", "highlight": ["दीपदान"], "label": ""},
+  {"type": "cta", "speaker": "dadaji", "emotion": "devotional", "narration": "आप भी कमेंट में लिखिए, जय श्री हरि! और फॉलो कीजिए।", "highlight": [], "label": ""}
+ ]
+}
