@@ -81,5 +81,30 @@
    "sages"
   ],
   "hook_style": "close-up of Chinki at ghat asking, diyas floating behind"
+ },
+ {
+  "id": "2026-11-22_0900",
+  "settings": [
+   "Rajasthan desert dunes",
+   "Pushkar lake",
+   "yajna by the lake",
+   "Savitri hill temple"
+  ],
+  "palette": [
+   "desert gold",
+   "angry crimson",
+   "desert night violet"
+  ],
+  "new_elements": [
+   "cDunes",
+   "cCamel"
+  ],
+  "characters": [
+   "brahma",
+   "savitri (lakshmi, magenta)",
+   "gayatri (lakshmi, gold)",
+   "devas"
+  ],
+  "hook_style": "Brahma on giant lotus above a lone temple, camel walking in"
  }
 ]

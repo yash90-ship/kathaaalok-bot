@@ -376,3 +376,24 @@ function cFish(x, y, s, t, horn = 1, col = K.gold) {              // golden fish
     ${cut("M-20 -120 Q40 -210 110 -110Z", K.saffron, { sw: 5 })}${horn ? cut("M-150 -85 Q-170 -230 -110 -300 Q-140 -200 -110 -95Z", "#fff3d6", { sw: 5 }) : ""}
     ${cut(circ(-170, -25, 22), "#fff", { sw: 4, noStitch: 1 })}<circle cx="-174" cy="-25" r="10" fill="${K.line}"/><path d="M-240 20 q20 10 40 0" stroke="${K.line}" stroke-width="5" fill="none"/></g>`;
 }
+
+/* ---------- added 2026-11-22: desert dunes, camel, bed of arrows, arrow ---------- */
+function cDunes(y, t, c1 = "#e8b86a", c2 = "#d79b4e") {
+  return cut(`M-60 ${H + 60} L-60 ${y + 60} Q260 ${y - 90} 520 ${y + 30} Q780 ${y + 120} ${W + 60} ${y - 20} L${W + 60} ${H + 60}Z`, c1) +
+    cut(`M-60 ${H + 60} L-60 ${y + 200} Q340 ${y + 80} 640 ${y + 190} Q880 ${y + 260} ${W + 60} ${y + 170} L${W + 60} ${H + 60}Z`, c2);
+}
+function cCamel(x, y, s, t, ph = 0, walk = 1) {                    // decorated Pushkar camel
+  const leg = (lx, a) => `<g transform="rotate(${(wob(t, .8, 14, ph + a) * walk).toFixed(1)} ${lx} -150)">${cut(`M${lx - 14} -150 L${lx - 10} 0 L${lx + 10} 0 L${lx + 14} -150Z`, "#c98d4a", { sw: 5, noStitch: 1 })}</g>`;
+  return `<g transform="${tr(x, y + Math.abs(wob(t, .8, 6, ph)) * walk, s)}">${leg(-90, 0)}${leg(-50, 2)}${leg(90, 1)}${leg(130, 3)}
+    ${cut("M-140 -150 Q-150 -260 -40 -290 Q20 -360 80 -290 Q170 -270 170 -150Z", "#d9a15c")}${cut("M-60 -300 Q20 -330 90 -295 L80 -250 L-50 -255Z", K.red, { sw: 5 })}
+    <path d="M-50 -255 L80 -250" stroke="${K.gold}" stroke-width="10" stroke-dasharray="14 10"/>
+    ${cut("M150 -200 Q220 -260 220 -360 L260 -370 Q275 -260 190 -150Z", "#d9a15c")}${cut("M215 -370 Q250 -410 300 -380 L300 -350 L250 -340Z", "#d9a15c")}
+    <circle cx="275" cy="-372" r="7" fill="${K.line}"/><path d="M190 -290 L235 -300" stroke="${K.saffron}" stroke-width="12"/></g>`;
+}
+function cArrow(x, y, s, ang, col = "#8a5a2b") {
+  return `<g transform="${tr(x, y, s, ang)}"><path d="M0 0 L0 -260" stroke="${col}" stroke-width="9"/>${cut("M-14 -250 L0 -290 L14 -250Z", "#c9c9c9", { sw: 4, noStitch: 1 })}${cut("M0 -10 L-16 20 L0 10 L16 20Z", K.red, { sw: 3, noStitch: 1 })}</g>`;
+}
+function cArrowBed(x, y, s, t) {                                   // bed of arrows (sharashayya)
+  let a = ""; for (let i = 0; i < 15; i++) a += cArrow(-420 + i * 60, 60, .55, -8 + (i % 3) * 8 + wob(t, .2, 1, i));
+  return `<g transform="${tr(x, y, s)}">${a}<path d="M-440 -80 L440 -80" stroke="${K.line}" stroke-width="4" stroke-dasharray="6 18"/></g>`;
+}
