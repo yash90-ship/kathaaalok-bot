@@ -58,6 +58,9 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           for d in jobs/*/; do
             id=$(basename "$d"); grep -qs '"delivered"' "queue/$id/meta.json" && continue
+            [ -f "data/delivered/$id" ] && continue
+            case "$id" in test_*) continue;; esac
+            [[ "${id:0:10}" < "$(TZ=Asia/Kolkata date +%F)" ]] && continue   # never re-render old days
             echo "=== $id"
             python -m drawn.make "$d"
             mkdir -p "queue/$id" && cp "$d"/reel.mp4 "$d"/cover.jpg "$d"/script.json "$d"/meta.json "queue/$id/"

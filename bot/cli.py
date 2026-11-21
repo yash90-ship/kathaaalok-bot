@@ -303,8 +303,17 @@ def cmd_deliver(a):
     for meta_path in sorted(glob.glob(str(ROOT_Q / "*" / "meta.json"))):
         d = os.path.dirname(meta_path)
         meta = load_json(meta_path, {})
-        if meta.get("delivered"):
+        rid = meta.get("id") or os.path.basename(d)
+        marker = DATA / "delivered" / rid
+        if meta.get("delivered") or marker.exists():
             continue
+        # never re-send old reels: only today's or future ones (test_* previews are done)
+        if rid.startswith("test_") or (rid[:10] < now().date().isoformat() and rid[:4].isdigit()):
+            continue
+        # claim it in git BEFORE sending, so a second run can't send it again
+        marker.parent.mkdir(parents=True, exist_ok=True)
+        marker.write_text(now().isoformat())
+        _git_sync(f"bot: sending {rid}")
         script = load_json(os.path.join(d, "script.json"), {})
         video = os.path.join(d, "reel.mp4")
         caption = full_caption(script)
