@@ -23,3 +23,5 @@ jobs/*/music.wav
 reels/*/music.wav
 queue/*/reel.mp4
 queue/*/cover.jpg
+jobs/*/img/
+drawn/img/

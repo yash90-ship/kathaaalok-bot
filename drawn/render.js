@@ -1,6 +1,11 @@
 // Render frames of drawn/index.html (with a reel's timeline.js + scenes.js) and pipe them into ffmpeg.
 // usage: node render.js <reelDir> <out.mp4> [fps]
 const { chromium } = require('playwright');
+function syncImages(reel, here) {   // cinematic reels: copy reel/img/* next to index.html
+  const fs = require('fs'), path = require('path'), src = path.join(reel, 'img'), dst = path.join(here, 'img');
+  fs.rmSync(dst, { recursive: true, force: true });
+  if (fs.existsSync(src)) { fs.mkdirSync(dst); for (const f of fs.readdirSync(src)) fs.copyFileSync(path.join(src, f), path.join(dst, f)); }
+}
 const { spawn } = require('child_process');
 const fs = require('fs'), path = require('path');
 (async () => {
@@ -8,6 +13,7 @@ const fs = require('fs'), path = require('path');
   const fps = +(fpsArg || 30);
   const here = __dirname;
   for (const f of ['timeline.js', 'scenes.js']) fs.copyFileSync(path.join(reel, f), path.join(here, f));
+  syncImages(reel, here);
   const tl = JSON.parse(fs.readFileSync(path.join(reel, 'timeline.json'), 'utf8'));
   const total = tl.total, n = Math.ceil(total * fps);
   const browser = await chromium.launch({ args: ['--allow-file-access-from-files'] });

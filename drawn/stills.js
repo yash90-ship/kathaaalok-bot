@@ -1,8 +1,14 @@
 // Quick look: render the middle frame of every scene into a contact sheet folder. usage: node stills.js <reelDir> <outDir>
-const { chromium } = require('playwright'); const fs = require('fs'), path = require('path');
+const { chromium } = require('playwright');
+function syncImages(reel, here) {   // cinematic reels: copy reel/img/* next to index.html
+  const fs = require('fs'), path = require('path'), src = path.join(reel, 'img'), dst = path.join(here, 'img');
+  fs.rmSync(dst, { recursive: true, force: true });
+  if (fs.existsSync(src)) { fs.mkdirSync(dst); for (const f of fs.readdirSync(src)) fs.copyFileSync(path.join(src, f), path.join(dst, f)); }
+} const fs = require('fs'), path = require('path');
 (async () => {
   const [reel, out] = process.argv.slice(2); fs.mkdirSync(out, { recursive: true });
   for (const f of ['timeline.js', 'scenes.js']) fs.copyFileSync(path.join(reel, f), path.join(__dirname, f));
+  syncImages(reel, __dirname);
   const b = await chromium.launch({ args: ['--allow-file-access-from-files'] });
   const p = await b.newPage({ viewport: { width: 1080, height: 1920 } });
   const errs = []; p.on('pageerror', e => errs.push(String(e))); p.on('console', m => m.type() === 'error' && errs.push(m.text()));

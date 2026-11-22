@@ -11,10 +11,10 @@ from .common import CFG, env, log
 STYLE = CFG["images"]["style"]
 
 
-def build_prompt(scene: dict, characters: dict) -> str:
+def build_prompt(scene: dict, characters: dict, style: str | None = None) -> str:
     chars = "; ".join(f"{k}: {v}" for k, v in (characters or {}).items()
                       if k.lower() in scene["image_prompt"].lower())
-    p = f"{scene['image_prompt']}. {('Characters: ' + chars + '.') if chars else ''} Style: {STYLE}"
+    p = f"{scene['image_prompt']}. {('Characters: ' + chars + '.') if chars else ''} Style: {style or STYLE}"
     return p[:1900]
 
 
@@ -87,8 +87,8 @@ def placeholder(path, text_seed: int = 0):
     img.filter(ImageFilter.GaussianBlur(2)).save(path, quality=92)
 
 
-def generate(scene: dict, characters: dict, path, seed: int):
-    prompt = build_prompt(scene, characters)
+def generate(scene: dict, characters: dict, path, seed: int, style: str | None = None):
+    prompt = build_prompt(scene, characters, style)
     providers = {"cloudflare": _cloudflare}  # Gemini images and Pollinations need a paid plan (see _gemini)
     order = [CFG["images"]["provider"]] + [p for p in providers if p != CFG["images"]["provider"]]
     for name in order:

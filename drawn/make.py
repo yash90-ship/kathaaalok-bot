@@ -88,6 +88,19 @@ def build(reel: str) -> str:
     with open(os.path.join(reel, "timeline.js"), "w", encoding="utf-8") as f:
         f.write("window.TIMELINE = " + json.dumps(timeline, ensure_ascii=False) + ";\n")
 
+    # 2b) cinematic style: realistic AI image per scene + auto scenes.js
+    if script.get("style") == "cinematic":
+        from bot import images
+        os.makedirs(os.path.join(reel, "img"), exist_ok=True)
+        for i, sc in enumerate(scenes):
+            out = os.path.join(reel, "img", f"img{i:02d}.jpg")
+            if not os.path.exists(out):
+                prov = images.generate({"image_prompt": sc.get("image_prompt") or sc["narration"]}, script.get("characters", {}),
+                                       out, seed=101 + i * 13, style=CFG["images"].get("cinematic_style"))
+                log(f"image {i + 1}/{len(scenes)} via {prov}")
+        with open(os.path.join(reel, "scenes.js"), "w", encoding="utf-8") as f:
+            f.write("window.SCENES = TIMELINE.scenes.map((s, i) => cine(i));\n")
+
     # 3) frames -> silent video
     silent = os.path.join(reel, "silent.mp4")
     log(f"rendering {t:.1f}s of animation")
