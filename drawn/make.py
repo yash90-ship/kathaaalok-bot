@@ -78,7 +78,7 @@ def build(reel: str) -> str:
         hl = [_norm(x) for h in s.get("highlight", []) for x in h.split()]
         for c in caps:
             c["hl"] = hl
-        tl_scenes.append({"start": round(t, 3), "dur": round(d, 3), "type": s.get("type", "story"), "emotion": s.get("emotion", "calm"),
+        tl_scenes.append({"start": round(t, 3), "dur": round(d, 3), "type": s.get("type", "story"),
                           "narration": s["narration"], "label": s.get("label"), "captions": caps})
         t += d
     timeline = {"total": round(t, 3), "scenes": tl_scenes, "handle": CFG["page"]["handle"],

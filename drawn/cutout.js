@@ -9,11 +9,7 @@ const K = {
 };
 /* outlined + stitched shape */
 function cut(d, fill, o = {}) {
-  const comic = (window.REEL_STYLE || "comic") === "comic";
-  const sw = (o.sw ?? 7) * (comic ? 1.45 : 1), dash = o.dash ?? "11 8";
-  if (comic)   // comic-ink look: heavy black ink outline + a soft inner highlight edge, no stitches
-    return `<path d="${d}" fill="${fill}" stroke="#0d0a0c" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round"/>` +
-      (o.noStitch ? "" : `<path d="${d}" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="${(sw * .35).toFixed(1)}" stroke-linejoin="round" transform="translate(-2 -2)"/>`);
+  const sw = o.sw ?? 7, dash = o.dash ?? "11 8";
   return `<path d="${d}" fill="${fill}" stroke="${K.line}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round"/>` +
     (o.noStitch ? "" : `<path d="${d}" fill="none" stroke="#fff" stroke-width="${o.ssw ?? 2.6}" stroke-dasharray="${dash}" stroke-linejoin="round" opacity=".95"/>`);
 }

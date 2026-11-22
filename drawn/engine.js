@@ -242,111 +242,42 @@ function scroll(x, y, s, open = 1) {
 }
 function flash(k) { return k > 0 ? `<rect x="-200" y="-200" width="${W + 400}" height="${H + 400}" fill="#fff6dc" opacity="${k.toFixed(3)}"/>` : ""; }
 
-/* ---------- frame composer (dynamic edit: emotion camera, fast transitions, grades, impact, kinetic text) ---------- */
-const XF = 0.32;
+/* ---------- frame composer ---------- */
+const XF = 0.3;
 const SPEED = 1.4;   // animation speed multiplier (motion, not timing)
-const STYLE = window.REEL_STYLE || "comic";
-
-function camFor(emotion, lt, d) {             // camera move driven by the line's emotion
-  const k = d ? clamp(lt / d) : 0;
-  let z = 1.04, dx = 0, dy = 0, rot = 0, sh = 0;
-  switch (emotion) {
-    case "dramatic": case "angry":
-      z = 1 + .24 * easeOut(seg(lt, 0, .35)) - .08 * seg(lt, .35, d); sh = 12 * (1 - seg(lt, 0, .9)) + 2.5; rot = wob(lt, 3, .6); break;
-    case "fear":
-      z = 1.05 + .16 * k; rot = -3 + wob(lt, .5, .5); sh = 2; break;
-    case "sad":
-      z = 1.16 - .13 * ease(k); dy = 20 * k; break;
-    case "happy": case "excited":
-      z = 1.05 + .035 * Math.abs(Math.sin(lt * 4.2)); dy = -6 * Math.abs(Math.sin(lt * 4.2)); break;
-    case "surprised":
-      z = 1 + .18 * easeBack(seg(lt, .05, .3)); sh = 6 * (1 - seg(lt, 0, .5)); break;
-    case "devotional":
-      z = 1.0 + .09 * ease(k); dy = -30 * k; break;
-    case "curious": case "wise":
-      z = 1.02 + .12 * ease(k); dx = 26 * (k - .5); break;
-    default:
-      z = 1.04 + .06 * k; dx = 22 * (k - .5);
-  }
-  if (sh) { dx += wob(lt, 13, sh); dy += wob(lt, 17, sh, 1); }
-  return { z, dx, dy, rot };
+function cam(svg, t, d, i) {                 // gentle camera move per scene
+  const k = d ? t / d : 0;
+  const z = 1.04 + (i % 2 ? .08 * k : .08 * (1 - k)), dx = (i % 3 - 1) * 30 * (k - .5);
+  return `<g transform="translate(${W / 2 + dx} ${H / 2}) scale(${z.toFixed(4)}) translate(${-W / 2} ${-H / 2})">${svg}</g>`;
 }
-const GRADE = {
-  dramatic: ["#ff4d1a", "soft-light", .42], angry: ["#ff2a1a", "soft-light", .45], fear: ["#1f3cff", "multiply", .2],
-  sad: ["#7a7a7a", "saturation", .65], devotional: ["#ffcf6e", "soft-light", .32], curious: ["#6b3ac8", "soft-light", .26],
-  wise: ["#ffb35a", "soft-light", .2], happy: ["#ffd84a", "soft-light", .25], excited: ["#ff8a2a", "soft-light", .28],
-};
-function speedLines(cx, cy, a, n = 48, col = "#fff") {
-  if (a <= .01) return "";
-  const R = rnd(99); let s = `<g opacity="${a.toFixed(2)}">`;
-  for (let i = 0; i < n; i++) {
-    const ang = R() * TAU, r1 = 380 + R() * 260, r2 = r1 + 500 + R() * 700, w = 4 + R() * 12;
-    s += `<path d="M${cx + Math.cos(ang - .006 * w) * r1} ${cy + Math.sin(ang - .006 * w) * r1} L${cx + Math.cos(ang) * r2} ${cy + Math.sin(ang) * r2} L${cx + Math.cos(ang + .006 * w) * r1} ${cy + Math.sin(ang + .006 * w) * r1}Z" fill="${col}"/>`;
-  }
-  return s + "</g>";
-}
-function styleLayer() {
-  if (STYLE !== "comic") return "";
-  return `<defs><pattern id="ht" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><circle cx="4.5" cy="4.5" r="1.7" fill="#000"/></pattern>
-    <radialGradient id="vg" cx="50%" cy="48%" r="70%"><stop offset=".62" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient></defs>
-    <rect width="${W}" height="${H}" fill="url(#ht)" opacity=".09" style="mix-blend-mode:multiply"/><rect width="${W}" height="${H}" fill="url(#vg)"/>`;
-}
-function drawScene(i, T, extra = "") {
-  const sc = TIMELINE.scenes[i], lt = T - sc.start, d = sc.dur, emo = sc.emotion || "calm";
+function drawScene(i, T) {
+  const sc = TIMELINE.scenes[i], lt = T - sc.start, d = sc.dur;
   _uid = i * 1000;
-  const c = camFor(emo, lt, d);
-  const g = GRADE[emo];
-  const grade = g ? `<rect x="-200" y="-200" width="${W + 400}" height="${H + 400}" fill="${g[0]}" opacity="${g[2]}" style="mix-blend-mode:${g[1]}"/>` : "";
-  const impact = (["dramatic", "angry", "surprised"].includes(emo) ? speedLines(W / 2, H / 2, .7 * (1 - seg(lt, 0, .55))) + flash(.75 * (1 - seg(lt, 0, .12))) : "");
-  return `<g transform="translate(${W / 2 + c.dx} ${H / 2 + c.dy}) rotate(${c.rot.toFixed(2)}) scale(${c.z.toFixed(4)}) translate(${-W / 2} ${-H / 2})${extra}">` +
-    SCENES[i](lt * SPEED, d * SPEED, clamp(lt / d)) + `</g>` + grade + impact;
-}
-function transition(i, T, a) {              // fast cuts instead of soft fades; type varies per scene
-  const kind = ["whip", "zoom", "flash", "whipup", "ink"][i % 5], e = ease(a);
-  const A = drawScene(i, T), B = drawScene(i + 1, T);
-  if (kind === "whip" || kind === "whipup") {
-    const ax = kind === "whip" ? [-W * e, 0, W * (1 - e), 0] : [0, -H * e, 0, H * (1 - e)];
-    const streak = `<g opacity="${(Math.sin(a * Math.PI) * .55).toFixed(2)}">${[...Array(26)].map((_, j) => kind === "whip"
-      ? `<rect x="0" y="${j * 75}" width="${W}" height="${6 + (j % 3) * 6}" fill="#fff"/>` : `<rect y="0" x="${j * 42}" height="${H}" width="${5 + (j % 3) * 5}" fill="#fff"/>`).join("")}</g>`;
-    return `<g transform="translate(${ax[0]} ${ax[1]})">${A}</g><g transform="translate(${ax[2]} ${ax[3]})">${B}</g>${streak}`;
-  }
-  if (kind === "zoom") {
-    return `<g opacity="${(1 - e).toFixed(3)}" transform="translate(${W / 2} ${H / 2}) scale(${(1 + 1.4 * e).toFixed(3)}) translate(${-W / 2} ${-H / 2})">${A}</g>` +
-      `<g opacity="${e.toFixed(3)}" transform="translate(${W / 2} ${H / 2}) scale(${(.55 + .45 * e).toFixed(3)}) translate(${-W / 2} ${-H / 2})">${B}</g>`;
-  }
-  if (kind === "ink") {                    // circular ink-blot reveal
-    const r = (Math.hypot(W, H) * .6 * e).toFixed(0), id = `ink${i}`;
-    return A + `<defs><clipPath id="${id}"><circle cx="${W / 2}" cy="${H * .55}" r="${r}"/></clipPath></defs><g clip-path="url(#${id})">${B}</g>` +
-      `<circle cx="${W / 2}" cy="${H * .55}" r="${r}" fill="none" stroke="#111" stroke-width="${(26 * (1 - e)).toFixed(1)}"/>`;
-  }
-  return (a < .5 ? A : B) + flash(1 - Math.abs(a - .5) * 2);   // flash cut
+  return cam(SCENES[i](lt * SPEED, d * SPEED, clamp(lt / d)), lt, d, i);
 }
 const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
-function capHTML(c, lt, hook = false) {   // kinetic: words slam in one by one, key words bigger + coloured
-  const words = c.text.split(/\s+/), n = words.length, span = Math.max(.25, Math.min((c.end - c.start) * .55, n * .16));
-  const html = words.map((w, j) => {
-    const k = w.replace(/[^\p{L}\p{M}\p{N}]/gu, ""), hl = (c.hl || []).includes(k);
-    const t0 = c.start + span * j / n, p = easeBack(seg(lt, t0, t0 + .16));
-    if (p <= 0) return `<span style="display:inline-block;margin:0 .13em;opacity:0">${esc(w)}</span>`;
-    const sc = (hl ? 1.18 : 1) * (1.7 - .7 * p), rot = (1 - p) * (j % 2 ? 8 : -8);
-    return `<span class="${hl ? "hl" : ""}" style="display:inline-block;margin:0 .13em;transform:scale(${sc.toFixed(3)}) rotate(${rot.toFixed(1)}deg);opacity:${clamp(p * 2).toFixed(2)}">${esc(w)}</span>`;
+function capHTML(c, lt) {
+  const pop = easeBack(seg(lt, c.start, c.start + .18));
+  const words = c.text.split(/\s+/).map(w => {
+    const k = w.replace(/[^\p{L}\p{M}\p{N}]/gu, "");
+    return `<span class="${c.hl.includes(k) ? "hl" : ""}">${esc(w)}</span>`;
   }).join(" ");
-  const shake = hook ? `translate(${wob(lt, 14, 7 * (1 - seg(lt, 0, .6))).toFixed(1)}px,${wob(lt, 11, 5 * (1 - seg(lt, 0, .6)), 1).toFixed(1)}px)` : "";
-  return `<div class="cap${hook ? " hook" : ""}" style="transform:${shake}">${html}</div>`;
+  return `<div class="cap" style="transform:scale(${(.8 + .2 * pop).toFixed(3)});opacity:${clamp(pop * 1.5).toFixed(2)}">${words}</div>`;
 }
 window.render = function (T) {
   const S = TIMELINE.scenes;
   let i = S.findIndex(s => T < s.start + s.dur); if (i < 0) i = S.length - 1;
+  let svg = drawScene(i, T);
   const sc = S[i];
-  let svg;
-  if (i < S.length - 1 && T > sc.start + sc.dur - XF) svg = transition(i, T, seg(T, sc.start + sc.dur - XF, sc.start + sc.dur));
-  else svg = drawScene(i, T);
-  const pop = STYLE === "comic" ? `<defs><filter id="pop" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="1.35"/>
-    <feComponentTransfer><feFuncR type="linear" slope="1.12" intercept="-.04"/><feFuncG type="linear" slope="1.12" intercept="-.04"/><feFuncB type="linear" slope="1.12" intercept="-.04"/></feComponentTransfer></filter></defs>` : "";
-  document.getElementById("v").innerHTML = pop + (pop ? `<g filter="url(#pop)">${svg}</g>` : svg) + styleLayer();
+  // crossfade into the next scene during the last XF seconds
+  if (i < S.length - 1 && T > sc.start + sc.dur - XF) {
+    const a = seg(T, sc.start + sc.dur - XF, sc.start + sc.dur);
+    svg += `<g opacity="${a.toFixed(3)}">${drawScene(i + 1, T)}</g>`;
+  }
+  document.getElementById("v").innerHTML = svg;
   // overlays
   const lt = T - sc.start; let ov = "";
-  if (sc.type === "hook") ov += `<div class="hookbg"></div>` + capHTML({ ...sc.captions[0], text: sc.narration, start: 0, end: sc.dur }, lt, true);
+  if (sc.type === "hook") ov += `<div class="hookbg"></div>` + capHTML({ ...sc.captions[0], text: sc.narration, start: 0 }, lt).replace('class="cap"', 'class="cap hook"');
   else if (sc.type === "cta") {
     const p = easeBack(seg(lt, .1, .6));
     ov += `<div class="cta" style="transform:translate(-50%,-50%) scale(${(.6 + .4 * p).toFixed(3)});opacity:${clamp(p * 2)}">
