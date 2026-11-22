@@ -1,0 +1,24 @@
+{
+ "title": "श्री कृष्ण की मृत्यु कैसे हुई? गांधारी का श्राप और जरा का बाण",
+ "hook": "श्री कृष्ण की मृत्यु कैसे हुई?",
+ "source_title": "महाभारत",
+ "source_sub": "मौसल पर्व • स्त्री पर्व",
+ "cta_text": "जय श्री कृष्ण",
+ "caption": "श्री कृष्ण की मृत्यु कैसे हुई? 😢 एक श्राप, एक मछली और एक शिकारी का बाण!\n🔎 श्री कृष्ण की मृत्यु कैसे हुई, गांधारी का श्राप, जरा शिकारी, यदुवंश का नाश, मौसल पर्व की कथा, द्वारका कैसे डूबी, कृष्ण के पैर में बाण,\n🔎 krishna ki mrityu kaise hui, how did krishna die, gandhari ka shrap, jara shikari, yaduvansh ka naash, mausala parva story, krishna death story in hindi,\n\nक्या आपको पता था श्रीकृष्ण के अंत की यह कथा? कमेंट में बताइए 👇\nऐसी कथाओं के लिए @kathaaalok को फॉलो करें",
+ "hashtags": ["#hindumythology", "#mahabharat", "#krishna", "#shrikrishna", "#kathaaalok"],
+ "scenes": [
+  {"type": "hook", "speaker": "narrator", "emotion": "curious", "narration": "श्री कृष्ण की मृत्यु कैसे हुई?", "highlight": ["मृत्यु"], "label": ""},
+  {"type": "source", "speaker": "narrator", "emotion": "calm", "narration": "महाभारत के मौसल पर्व में, इसकी दिल दहला देने वाली कथा है।", "highlight": ["मौसल"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "sad", "narration": "युद्ध के बाद, सौ पुत्रों के शोक में डूबी गांधारी ने कृष्ण को श्राप दिया।", "highlight": ["गांधारी", "श्राप"], "label": ""},
+  {"type": "story", "speaker": "female", "emotion": "angry", "narration": "छत्तीस वर्ष बाद, तुम्हारा यदुवंश भी आपस में लड़कर मिट जाएगा!", "highlight": ["छत्तीस", "यदुवंश"], "label": "गांधारी का श्राप"},
+  {"type": "story", "speaker": "narrator", "emotion": "surprised", "narration": "छत्तीस साल बाद, यदु कुमारों ने साम्ब को गर्भवती स्त्री बनाकर, ऋषियों से मज़ाक किया।", "highlight": ["साम्ब"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "angry", "narration": "ऋषि बोले, ये लोहे का मूसल जनेगा, जो तुम्हारे कुल का नाश करेगा!", "highlight": ["मूसल"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "dramatic", "narration": "मूसल को पीसकर समुद्र में फेंका गया, पर उसका एक टुकड़ा मछली निगल गई।", "highlight": ["मछली"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "dramatic", "narration": "उसी टुकड़े से, जरा नाम के शिकारी ने अपना बाण बनाया।", "highlight": ["जरा", "बाण"], "label": "जरा शिकारी"},
+  {"type": "story", "speaker": "narrator", "emotion": "sad", "narration": "यदुवंशी आपस में लड़कर खत्म हो गए, और कृष्ण वन में एक पेड़ के नीचे ध्यान में बैठ गए।", "highlight": ["ध्यान"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "fear", "narration": "जरा ने उनके पैर को हिरण समझा, और वही बाण चला दिया!", "highlight": ["हिरण", "बाण"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "devotional", "narration": "रोते शिकारी को कृष्ण ने क्षमा किया, और अपने धाम लौट गए।", "highlight": ["क्षमा"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "curious", "narration": "मान्यता है, जरा पिछले जन्म में बाली था, जिसे राम जी ने छिपकर मारा था।", "highlight": ["बाली"], "label": "कर्मों का हिसाब"},
+  {"type": "cta", "speaker": "narrator", "emotion": "devotional", "narration": "कर्म किसी को नहीं छोड़ते। कमेंट में लिखिए, जय श्री कृष्ण!", "highlight": [], "label": ""}
+ ]
+}

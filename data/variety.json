@@ -132,5 +132,58 @@
    "yudhishthira"
   ],
   "hook_style": "wide side shot of Bhishma lying on bed of arrows under setting sun"
+ },
+ {
+  "id": "2026-11-23_0900",
+  "settings": [
+   "foggy wilderness",
+   "night war camp with tents",
+   "burning camp",
+   "snowy mountain road"
+  ],
+  "palette": [
+   "night blue-violet",
+   "fire red",
+   "grey fog"
+  ],
+  "new_elements": [
+   "cTent",
+   "cGem",
+   "cTorch"
+  ],
+  "characters": [
+   "ashwatthama (man, dark)",
+   "krishna",
+   "arjuna",
+   "uttara"
+  ],
+  "hook_style": "lone wanderer close-up with glowing forehead wound"
+ },
+ {
+  "id": "2026-11-23_1820",
+  "settings": [
+   "forest peepal tree",
+   "Dwarka by the sea",
+   "battlefield dusk",
+   "hunter's hut"
+  ],
+  "palette": [
+   "forest green",
+   "dusk crimson",
+   "golden ascent"
+  ],
+  "new_elements": [
+   "cMusal",
+   "cDeer"
+  ],
+  "characters": [
+   "krishna",
+   "gandhari (blindfold)",
+   "sages",
+   "samba",
+   "jara (hunter)",
+   "rama & bali"
+  ],
+  "hook_style": "Krishna meditating under tree as an arrow drifts past"
  }
 ]
