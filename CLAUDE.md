@@ -21,6 +21,24 @@ Read and obey `GUIDELINES.md` (account safety, originality, music, religious con
 - If nothing can be made, push nothing — the free fallback maker covers the slot.
 
 
+
+## TOPIC STRATEGY (owner feedback: festival explainers were BORING — entertainment first)
+Real data so far: the Chinki+Dadaji conversation "पौधे की भी शादी होती है क्या?" got 3x the views of the
+narrated festival explainers (161–208 views). Pick topics people would STOP scrolling for:
+- 35% SHOCKING / UNTOLD stories: Karna's last wish, Ashwatthama still alive?, how Krishna died, Draupadi's
+  secret, Ravan's last words to Lakshman, Barbarik's head watching the war, Hanuman's son Makardhwaj…
+- 20% MYSTERIES: Jagannath flag against the wind, why no one has climbed Kailash, Ravan's 10 heads,
+  Ram Setu, Shiva's third eye, the temple that rises/sinks…
+- 25% DAILY-HABIT "WHY": why not cut nails at night, why ring the temple bell, why women don't break coconuts,
+  why we touch elders' feet, why no tulsi on Sunday… (always say "मान्यता है" — never guaranteed-luck claims)
+- 10% WHO-WAS-STRONGER / debates: Karna vs Arjun, why Hanuman didn't kill Ravan, Bhishma vs Parshuram…
+- 10% KALYUG + GITA FOR TODAY: what the Puranas say about Kalyug, Gita on anger/stress/exams/heartbreak.
+- Festivals ONLY with a shocking twist — never "X is celebrated because…". No textbook retellings.
+- Prefer conversation reels (kid asks the shocking question, grandparent answers) when it fits.
+- Hook: MAX 7 WORDS, one shocking/curious question, big on the first frame.
+- Length: 35–50 s (10–14 scenes), fast cuts, end on the reveal or a "Part 2" cliffhanger.
+- Never repeat a topic already made (check jobs/ and data/variety.json).
+
 ## VIRAL CHECKLIST (score every idea and script against this — reject weak ones)
 1. Timing: festival/vrat in the next 1–5 days, or a topic people are searching THIS week.
 2. Hook (first 2 s, also caption line 1 and first frame): a question people actually ask, a surprising
@@ -30,7 +48,7 @@ Read and obey `GUIDELINES.md` (account safety, originality, music, religious con
 5. Shareable: something families forward on WhatsApp — a practice they follow, a festival meaning, a lesson.
 6. Comment trigger: end with a devotional phrase to write ("जय श्री राम लिखिए") or a question about their home.
 7. Lesser-known but authentic angle on a famous story beats a generic retelling.
-8. Pacing: a new visual every 2–4 s, something moving in every scene, 55–75 s is the sweet spot.
+8. Pacing: a new visual every 2–3 s, something moving in every scene, 35–50 s is the sweet spot.
 9. Series: big stories → "Part 1" with a cliffhanger, Part 2 the next day.
 10. Learn: favour the topics/hooks that did best in data/history.json; avoid what flopped.
 
@@ -68,7 +86,7 @@ Dadaji + Chinki conversation. Every other slot = mythology story narrated by Ama
 {title, hook, source_title, source_sub, cta_text, caption, hashtags[3-5],
  scenes: [{type: hook|source|story|cta, speaker, emotion, narration, highlight[], label}]}
 ```
-- 12–18 scenes, ~60 s (big stories up to 90 s, never more). One short spoken sentence per scene.
+- 10–14 scenes, 35–50 s (never more than 60 s). One short spoken sentence per scene.
 - speaker: narrator | dadi | chintu | dadaji | chinki | god | female.
 - emotion (emotion director): calm, curious, happy, excited, dramatic, angry, fear, sad, devotional, wise, surprised.
   Music automatically follows these emotions.
