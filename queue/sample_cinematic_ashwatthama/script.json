@@ -1,0 +1,154 @@
+{
+ "style": "cinematic",
+ "title": "अश्वत्थामा आज भी ज़िंदा है?",
+ "hook": "अश्वत्थामा आज भी ज़िंदा है?",
+ "source_title": "महाभारत",
+ "source_sub": "सौप्तिक पर्व",
+ "characters": {
+  "Ashwatthama": "Ashwatthama: a tall fierce young warrior-brahmin in his twenties, long matted black hair, sharp eyes, bare-chested with a sacred thread, dark dhoti, a glowing blue-white gem embedded in the centre of his forehead"
+ },
+ "cta_text": "जय श्री कृष्ण",
+ "caption": "अश्वत्थामा आज भी ज़िंदा है? 😱\n🔎 अश्वत्थामा की कहानी, अश्वत्थामा का श्राप, अश्वत्थामा आज भी जीवित, महाभारत की अनसुनी कहानी, श्री कृष्ण का श्राप, अश्वत्थामा की मणि,\n🔎 ashwatthama ki kahani, ashwatthama zinda hai, ashwatthama ka shrap, mahabharat ki kahani, ashwatthama mani, krishna ka shrap,\n\nक्या आपने कभी अश्वत्थामा की कोई कहानी सुनी है? कमेंट में बताइए 👇\nऐसी कथाओं के लिए @kathaaalok को फॉलो करें",
+ "hashtags": [
+  "#ashwatthama",
+  "#mahabharat",
+  "#hindumythology",
+  "#krishna",
+  "#kathaaalok"
+ ],
+ "scenes": [
+  {
+   "type": "hook",
+   "speaker": "narrator",
+   "emotion": "curious",
+   "narration": "अश्वत्थामा आज भी ज़िंदा है?",
+   "highlight": [
+    "अश्वत्थामा",
+    "ज़िंदा"
+   ],
+   "label": null,
+   "image_prompt": "close-up portrait of Ashwatthama at night in a misty Himalayan forest, the gem on his forehead glowing, mysterious, moonlight, fog"
+  },
+  {
+   "type": "source",
+   "speaker": "narrator",
+   "emotion": "calm",
+   "narration": "यह कथा महाभारत के सौप्तिक पर्व में आती है।",
+   "highlight": [
+    "महाभारत"
+   ],
+   "label": null,
+   "image_prompt": "ancient palm-leaf manuscript of the Mahabharata lit by an oil lamp in a dark stone temple, golden light"
+  },
+  {
+   "type": "story",
+   "speaker": "narrator",
+   "emotion": "calm",
+   "narration": "अश्वत्थामा, गुरु द्रोणाचार्य के पुत्र थे, और जन्म से ही उनके माथे पर एक दिव्य मणि थी।",
+   "highlight": [
+    "द्रोणाचार्य",
+    "दिव्य मणि"
+   ],
+   "label": "अश्वत्थामा",
+   "image_prompt": "Ashwatthama as a proud young warrior standing on a hill at dawn, the divine gem shining on his forehead, epic"
+  },
+  {
+   "type": "story",
+   "speaker": "narrator",
+   "emotion": "sad",
+   "narration": "युद्ध में उनके पिता द्रोण को छल से मारा गया।",
+   "highlight": [
+    "छल"
+   ],
+   "label": null,
+   "image_prompt": "the great Kurukshetra battlefield at sunset, dust and smoke, broken chariots, an old sage-warrior fallen, mournful atmosphere"
+  },
+  {
+   "type": "story",
+   "speaker": "narrator",
+   "emotion": "angry",
+   "narration": "बदले की आग में, अश्वत्थामा रात के अंधेरे में पांडवों के शिविर में घुस गए।",
+   "highlight": [
+    "बदले की आग"
+   ],
+   "label": null,
+   "image_prompt": "Ashwatthama sneaking into an army camp at night with a raised sword, torches and tents, red fiery light, menacing"
+  },
+  {
+   "type": "story",
+   "speaker": "narrator",
+   "emotion": "dramatic",
+   "narration": "उन्होंने सोते हुए द्रौपदी के पाँचों पुत्रों का वध कर दिया।",
+   "highlight": [
+    "पाँचों पुत्रों"
+   ],
+   "label": null,
+   "image_prompt": "burning army tents at night, flames and smoke rising into a dark sky, silhouette of a warrior walking away, no blood"
+  },
+  {
+   "type": "story",
+   "speaker": "narrator",
+   "emotion": "dramatic",
+   "narration": "फिर उन्होंने ब्रह्मास्त्र चला दिया, जिससे पूरी सृष्टि खतरे में पड़ गई!",
+   "highlight": [
+    "ब्रह्मास्त्र"
+   ],
+   "label": null,
+   "image_prompt": "a blazing divine weapon of white fire tearing through a stormy sky over a battlefield, lightning, apocalyptic glow"
+  },
+  {
+   "type": "story",
+   "speaker": "narrator",
+   "emotion": "fear",
+   "narration": "तब श्री कृष्ण क्रोधित हो उठे।",
+   "highlight": [
+    "श्री कृष्ण"
+   ],
+   "label": "श्री कृष्ण",
+   "image_prompt": "Lord Krishna with blue skin, peacock feather crown and yellow silk, standing tall with a stern divine expression, golden aura, storm clouds behind"
+  },
+  {
+   "type": "story",
+   "speaker": "narrator",
+   "emotion": "dramatic",
+   "narration": "उन्होंने अश्वत्थामा के माथे से मणि निकलवा ली।",
+   "highlight": [
+    "मणि"
+   ],
+   "label": null,
+   "image_prompt": "close-up of the glowing blue-white gem being lifted away into the air in divine light, dark background, dramatic"
+  },
+  {
+   "type": "story",
+   "speaker": "narrator",
+   "emotion": "sad",
+   "narration": "और श्राप दिया: तुम तीन हज़ार वर्षों तक, घावों के साथ, अकेले भटकते रहोगे।",
+   "highlight": [
+    "तीन हज़ार वर्षों",
+    "भटकते"
+   ],
+   "label": null,
+   "image_prompt": "lonely cloaked wanderer walking through an endless snowy wasteland, head bowed, wound on forehead covered with cloth, cold blue light"
+  },
+  {
+   "type": "story",
+   "speaker": "narrator",
+   "emotion": "curious",
+   "narration": "मान्यता है कि अश्वत्थामा आज भी जंगलों और पहाड़ों में भटकते हैं।",
+   "highlight": [
+    "आज भी"
+   ],
+   "label": null,
+   "image_prompt": "mysterious hooded figure seen from behind in a dark misty forest of ancient trees, a faint glow near his head, eerie"
+  },
+  {
+   "type": "cta",
+   "speaker": "narrator",
+   "emotion": "devotional",
+   "narration": "क्या आपने कभी उनकी कोई कहानी सुनी है? कमेंट में लिखिए, जय श्री कृष्ण!",
+   "highlight": [],
+   "label": null,
+   "image_prompt": "serene Lord Krishna playing the flute on a riverbank at golden hour, peaceful divine light, lotus flowers"
+  }
+ ]
+}
