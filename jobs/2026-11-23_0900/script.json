@@ -1,0 +1,23 @@
+{
+ "title": "अश्वत्थामा आज भी ज़िंदा है? श्रीकृष्ण का भयानक श्राप",
+ "hook": "अश्वत्थामा आज भी ज़िंदा है?",
+ "source_title": "महाभारत",
+ "source_sub": "सौप्तिक पर्व • अश्वत्थामा को श्राप",
+ "cta_text": "जय श्री कृष्ण",
+ "caption": "अश्वत्थामा आज भी ज़िंदा है? 😨 श्रीकृष्ण का वो श्राप जो आज तक खत्म नहीं हुआ!\n🔎 अश्वत्थामा की कहानी, अश्वत्थामा आज भी जीवित है, अश्वत्थामा का श्राप, अश्वत्थामा की मणि, महाभारत की अनसुनी कहानी, श्रीकृष्ण का श्राप, चिरंजीवी अश्वत्थामा,\n🔎 ashwatthama alive today, ashwathama ki kahani, ashwatthama ka shrap, ashwatthama mani, krishna curse ashwatthama, mahabharat untold story, ashwatthama 3000 years,\n\nक्या आपने कभी अश्वत्थामा से जुड़ी कोई कहानी सुनी है? कमेंट में बताइए 👇\nऐसी कथाओं के लिए @kathaaalok को फॉलो करें",
+ "hashtags": ["#hindumythology", "#mahabharat", "#ashwatthama", "#krishna", "#kathaaalok"],
+ "scenes": [
+  {"type": "hook", "speaker": "narrator", "emotion": "curious", "narration": "अश्वत्थामा आज भी ज़िंदा है?", "highlight": ["अश्वत्थामा", "ज़िंदा"], "label": ""},
+  {"type": "source", "speaker": "narrator", "emotion": "calm", "narration": "महाभारत के सौप्तिक पर्व में, इसकी रोंगटे खड़े करने वाली कथा है।", "highlight": ["सौप्तिक"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "dramatic", "narration": "युद्ध की आख़िरी रात, अश्वत्थामा चुपके से पांडवों के शिविर में घुसा।", "highlight": ["रात", "शिविर"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "angry", "narration": "और उसने सोते हुए, द्रौपदी के पाँचों पुत्रों को मार डाला!", "highlight": ["पाँचों", "पुत्रों"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "dramatic", "narration": "पांडव पीछे पड़े, तो उसने सबसे भयानक अस्त्र, ब्रह्मशिर चला दिया!", "highlight": ["ब्रह्मशिर"], "label": "ब्रह्मशिर अस्त्र"},
+  {"type": "story", "speaker": "narrator", "emotion": "fear", "narration": "उसे लौटाना न आया, तो उसने अस्त्र उत्तरा के गर्भ की ओर मोड़ दिया!", "highlight": ["उत्तरा", "गर्भ"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "angry", "narration": "यह देखकर श्रीकृष्ण क्रोध से भर उठे।", "highlight": ["श्रीकृष्ण"], "label": ""},
+  {"type": "story", "speaker": "god", "emotion": "angry", "narration": "तीन हज़ार वर्ष तक तुम अकेले भटकोगे, और तुम्हारे घाव कभी नहीं भरेंगे!", "highlight": ["तीन", "हज़ार"], "label": "श्रीकृष्ण का श्राप"},
+  {"type": "story", "speaker": "narrator", "emotion": "dramatic", "narration": "उसके माथे की दिव्य मणि भी, उससे छीन ली गई।", "highlight": ["मणि"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "devotional", "narration": "और श्रीकृष्ण ने उत्तरा के बालक परीक्षित को, फिर से जीवन दे दिया।", "highlight": ["परीक्षित"], "label": ""},
+  {"type": "story", "speaker": "narrator", "emotion": "curious", "narration": "मान्यता है, अश्वत्थामा आज भी माथे के घाव के साथ धरती पर भटक रहा है।", "highlight": ["आज", "भटक"], "label": "चिरंजीवी अश्वत्थामा"},
+  {"type": "cta", "speaker": "narrator", "emotion": "devotional", "narration": "आपने उसकी कोई कहानी सुनी है? कमेंट में लिखिए, जय श्री कृष्ण!", "highlight": [], "label": ""}
+ ]
+}

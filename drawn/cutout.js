@@ -397,3 +397,22 @@ function cArrowBed(x, y, s, t) {                                   // bed of arr
   let a = ""; for (let i = 0; i < 15; i++) a += cArrow(-420 + i * 60, 60, .55, -8 + (i % 3) * 8 + wob(t, .2, 1, i));
   return `<g transform="${tr(x, y, s)}">${a}<path d="M-440 -80 L440 -80" stroke="${K.line}" stroke-width="4" stroke-dasharray="6 18"/></g>`;
 }
+
+/* ---------- added 2026-11-23: war tent, glowing gem, iron musal, deer, torch ---------- */
+function cTent(x, y, s, t, lit = 1) {
+  return `<g transform="${tr(x, y, s)}">${cut("M-220 0 L0 -260 L220 0Z", "#c9b27a")}${cut("M-60 0 L0 -180 L60 0Z", lit ? "#ffcf6e" : "#3a2a1a")}
+    <path d="M0 -260 L0 -330" stroke="${K.brown}" stroke-width="8"/>${cut(`M0 -330 L${50 + wob(t, 1, 8)} -315 L0 -300Z`, K.red, { sw: 4, noStitch: 1 })}</g>`;
+}
+function cGem(x, y, s, t) {
+  return glow(x, y, 90 * s, "#9ff0ff", .5 + .3 * Math.sin(t * 4)) + `<g transform="${tr(x, y, s, t * 30)}">${cut("M0 -40 L34 0 L0 40 L-34 0Z", "#6fe0ff", { sw: 4, noStitch: 1 })}<path d="M-34 0 L34 0 M0 -40 L0 40" stroke="#fff" stroke-width="3"/></g>`;
+}
+function cMusal(x, y, s, ang = 0) {
+  return `<g transform="${tr(x, y, s, ang)}">${cut("M-14 -200 L14 -200 L14 120 L-14 120Z", "#6b707a")}${cut(rrect(-40, -290, 80, 110, 20), "#8a8f99")}${[0, 1, 2].map(i => `<path d="M-40 ${-270 + i * 30} L40 ${-270 + i * 30}" stroke="${K.line}" stroke-width="4"/>`).join("")}</g>`;
+}
+function cDeer(x, y, s, t, ph = 0) {
+  return `<g transform="${tr(x, y + Math.abs(wob(t, .9, 8, ph)), s)}">${[-70, -40, 60, 90].map((lx, i) => `<path d="M${lx} -60 L${lx + wob(t, .9, 10, i)} 60" stroke="#8a5a2b" stroke-width="12" stroke-linecap="round"/>`).join("")}
+    ${cut("M-110 -60 Q-100 -140 20 -130 Q120 -130 120 -60Z", "#c98d4a")}${cut("M90 -110 Q120 -200 160 -210 L180 -180 Q150 -150 130 -90Z", "#c98d4a")}
+    <path d="M150 -205 l-20 -50 m10 25 l-20 -10 M170 -205 l20 -50 m-10 25 l20 -10" stroke="${K.brown}" stroke-width="6" fill="none"/><circle cx="165" cy="-190" r="5" fill="${K.line}"/>
+    ${[-60, -20, 30].map(cx => `<circle cx="${cx}" cy="-100" r="8" fill="#fff3d6"/>`).join("")}</g>`;
+}
+function cTorch(x, y, s, t, ph = 0) { return `<g transform="${tr(x, y, s)}"><path d="M0 0 L0 -140" stroke="${K.brown}" stroke-width="12"/>${flame(0, -150, .8, t, ph)}</g>`; }
