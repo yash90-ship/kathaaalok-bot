@@ -22,6 +22,16 @@ Read and obey `GUIDELINES.md` (account safety, originality, music, religious con
 
 
 
+
+## TOPIC BANK (MANDATORY — owner said self-picked topics were boring)
+- Pick EVERY reel's topic from `data/topic_bank.json`: first `favourite: true` items, then the rest in order.
+  Only `status: "todo"` items. After pushing, set that item's status to "done" (+ the job id) and push.
+- The hook in the bank is the reel's hook (you may shorten it). Tell the story's most dramatic version that is
+  true to the source; say "मान्यता है" where it's tradition rather than scripture.
+- A festival story is allowed only if it has a shocking twist AND scores higher than the next bank topic.
+- When fewer than 8 "todo" items remain, add new topics of the SAME kind (shocking, untold, mysteries,
+  debates, Kalyug, daily-habit why) at the end, never plain explainers.
+
 ## TOPIC STRATEGY (owner feedback: festival explainers were BORING — entertainment first)
 Real data so far: the Chinki+Dadaji conversation "पौधे की भी शादी होती है क्या?" got 3x the views of the
 narrated festival explainers (161–208 views). Pick topics people would STOP scrolling for:

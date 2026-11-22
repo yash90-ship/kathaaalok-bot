@@ -1,0 +1,242 @@
+[
+ {
+  "n": 1,
+  "hook": "अश्वत्थामा आज भी ज़िंदा है?",
+  "story": "Krishna's curse to wander for 3000 years (Mahabharata, Sauptika Parva)",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 2,
+  "hook": "श्री कृष्ण की मृत्यु कैसे हुई?",
+  "story": "Jara the hunter's arrow, Gandhari's curse (Mausala Parva)",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 3,
+  "hook": "बर्बरीक का कटा सिर पूरा युद्ध देखता रहा",
+  "story": "Barbarik / Khatu Shyam (Skanda Purana)",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 4,
+  "hook": "कर्ण ने कवच-कुंडल क्यों दान किए?",
+  "story": "Indra disguised as a brahmin (Mahabharata)",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 5,
+  "hook": "अर्जुन एक साल स्त्री क्यों बने?",
+  "story": "Urvashi's curse, Brihannala (Mahabharata, Virata Parva)",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 6,
+  "hook": "एकलव्य ने अंगूठा क्यों काटा?",
+  "story": "Guru Dronacharya's dakshina (Mahabharata)",
+  "type": "debate",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 7,
+  "hook": "द्रौपदी के पाँच पति क्यों थे?",
+  "story": "Shiva's boon in her previous birth (Mahabharata)",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 8,
+  "hook": "शिव ने ब्रह्मा का सिर क्यों काटा?",
+  "story": "Kaal Bhairav (Shiva Purana)",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 9,
+  "hook": "हनुमान जी का भी बेटा था?",
+  "story": "Makardhwaj (regional Ramayana traditions — say मान्यता)",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 10,
+  "hook": "राम जी ने देह कैसे त्यागी?",
+  "story": "Jal samadhi in the Sarayu (Valmiki Ramayana, Uttara Kanda)",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 11,
+  "hook": "भीम में 10,000 हाथियों का बल कैसे?",
+  "story": "Duryodhana poisons Bhima, Nag lok nectar (Mahabharata, Adi Parva)",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 12,
+  "hook": "गांधारी ने आँखों पर पट्टी क्यों बाँधी?",
+  "story": "Gandhari's choice (Mahabharata)",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 13,
+  "hook": "शनि देव की नज़र टेढ़ी क्यों?",
+  "story": "His wife's curse (Brahma Vaivarta Purana)",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 14,
+  "hook": "कलयुग किन 5 जगहों पर रहता है?",
+  "story": "Parikshit gives Kali five places (Bhagavata Purana)",
+  "type": "kalyug",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 15,
+  "hook": "कलयुग का अंत कैसे होगा?",
+  "story": "Kalki avatar (Vishnu Purana / Kalki Purana)",
+  "type": "kalyug",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 16,
+  "hook": "रावण के 10 सिर का रहस्य",
+  "story": "Ravana's tapasya; symbolism (say मान्यता where needed)",
+  "type": "mystery",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 17,
+  "hook": "कैलाश पर आज तक कोई क्यों नहीं चढ़ा?",
+  "story": "No recorded summit; religious belief (मान्यता)",
+  "type": "mystery",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 18,
+  "hook": "7 चिरंजीवी कौन हैं, जो आज भी ज़िंदा हैं?",
+  "story": "Ashwatthama, Bali, Vyasa, Hanuman, Vibhishana, Kripa, Parashurama",
+  "type": "mystery",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 19,
+  "hook": "हनुमान जी ने रावण को क्यों नहीं मारा?",
+  "story": "It was Rama's destiny / Ramayana",
+  "type": "debate",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 20,
+  "hook": "कर्ण या अर्जुन, असली महायोद्धा कौन?",
+  "story": "Comparison from the Mahabharata",
+  "type": "debate",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 21,
+  "hook": "भीष्म को किसने हराया? शिखंडी का रहस्य",
+  "story": "Amba's rebirth as Shikhandi (Mahabharata)",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 22,
+  "hook": "सीता जी धरती में क्यों समा गईं?",
+  "story": "Valmiki Ramayana, Uttara Kanda",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 23,
+  "hook": "रात को नाखून क्यों नहीं काटते?",
+  "story": "मान्यता + practical reason (no light in old times)",
+  "type": "habit",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 24,
+  "hook": "मंदिर में घंटी क्यों बजाते हैं?",
+  "story": "मान्यता: drives away negativity, focuses the mind",
+  "type": "habit",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 25,
+  "hook": "बड़ों के पैर क्यों छूते हैं?",
+  "story": "Tradition and meaning",
+  "type": "habit",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 26,
+  "hook": "गुस्सा आए तो गीता क्या कहती है?",
+  "story": "Bhagavad Gita 2.62-63",
+  "type": "gita",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 27,
+  "hook": "मरने के बाद आत्मा कहाँ जाती है?",
+  "story": "Garuda Purana — say मान्यता",
+  "type": "mystery",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 28,
+  "hook": "दुर्योधन की जाँघ ही क्यों तोड़ी गई?",
+  "story": "Gandhari's vision, Bhima's vow (Mahabharata)",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 29,
+  "hook": "नारद मुनि को श्राप क्यों मिला?",
+  "story": "Daksha's curse (Bhagavata Purana)",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ },
+ {
+  "n": 30,
+  "hook": "गणेश जी ने महाभारत कैसे लिखी?",
+  "story": "Vyasa's condition, broken tusk (Mahabharata, Adi Parva)",
+  "type": "shocking",
+  "status": "todo",
+  "favourite": false
+ }
+]
